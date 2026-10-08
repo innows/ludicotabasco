@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /ludico/
+
+# Si el archivo o directorio físico existe, se sirve directamente
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Todo lo demás pasa por index.php mediante el parámetro url
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]
