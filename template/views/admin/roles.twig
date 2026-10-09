@@ -1,0 +1,106 @@
+{% extends "admin/base.twig" %}
+
+{% block extraStyles %}
+	{#<link rel="stylesheet" href="assets/css/treechck.css"> #}
+{% endblock %}
+
+{% block body %}
+
+	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
+		<div class="me-auto d-lg-block">
+			<h3 class="text-primary font-w600">Roles</h3>
+		</div>
+		<button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modRoles">
+			<i class="fas fa-plus"></i>
+			Nuevo Rol
+		</button>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body px-3 pt-2 pb-0">
+					<div class="row p-3">
+
+						<div class="col-12">
+							<div class="table-responsive">
+								<table class="table" id="tabRoles" aria-describedby="guilty feet">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Rol</th>
+											<th scope="col">&nbsp;</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="modRoles" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog ">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Roles</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<form id="frmRoles">
+						<input type="hidden" name="rolID" id="rolID" value="0">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									<label for="rol">Nombre del rol</label>
+									<input type="text" class="form-control" id="rol" name="rol"/>
+								</div>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" id="btGuardar">
+						Guardar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modAccesos" tabindex="-1" aria-labelledby="modAccesos" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Agrega o elimina acceso</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<div class="row">
+						<div class="col-12">
+							<div class="row treechck"></div>
+						</div>
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" id="btAddRol">
+						Guardar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block extraScripts %}
+	 <script src="{{ adminAssetsUrl }}/js/frontend/roles.js?x={{ " now"|date("dmYHis") }}"></script>
+{% endblock %}

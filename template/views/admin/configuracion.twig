@@ -1,0 +1,109 @@
+{% extends "admin/base.twig" %}
+
+{% block extraStyles %}{% endblock %}
+
+{% block body %}
+
+
+	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
+		<div class="me-auto d-lg-block">
+			<h3 class="text-primary font-w600">Configuración</h3>
+		</div>
+
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body px-3 pt-2 pb-0">
+
+					<form method="POST" action="{{ ADMIN_URL }}/configuracion/guardar" class="admin-form">
+						<div class="row p-3">
+							<div class="col-12">
+								<div class="alert alert-info">
+									<h3>Información General</h3>
+								</div>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="form-label">Nombre del Sitio</label>
+								<input type="text" name="nombre_sitio" value="{{config['nombre_sitio'] ?? ''}}" class="form-control">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="form-label">Descripción</label>
+								<textarea class="form-control" name="descripcion" rows="3">{{ config['descripcion'] ?? '' }}</textarea>
+							</div>
+							<div class="col-12">
+								<div class="alert alert-info">
+									<h3>Contacto</h3>
+								</div>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="form-label">Dirección</label>
+								<input type="text" name="direccion" value="{{ config['direccion'] ?? '' }}" class="form-control">
+							</div>
+							<div class="col-md-6 mb-3">
+
+								<label class="form-label">Email</label>
+								<input type="email" name="email" value="{{ config['email'] ?? '' }}" class="form-control">
+							</div>
+							<div class="col-md-3 mb-3">
+								<label class="form-label">Teléfono Principal</label>
+								<input type="text" name="telefono" value="{{ config['telefono'] ?? '' }}" class="form-control">
+							</div>
+							<div class="col-md-3 mb-3">
+								<label class="form-label">Teléfono de Ventas
+									<code>Puede ser el mismo u otro</code>
+								</label>
+								<input type="text" name="telefono_ventas" value="{{ config['telefono_ventas'] ?? '' }}" class="form-control">
+							</div>
+							<div class="col-md-3 mb-3">
+								<label class="form-label">Número de WhatsApp</label>
+								<input type="text" name="no-whatsapp" value="{{ config['no_whatsapp'] ?? '' }}" class="form-control">
+							</div>
+							<div class="col-md-3 mb-3">
+								<label class="form-label">Link WhatsApp
+									<code>Ejem: https://wa.me/1234567890</code>
+								</label>
+								<input type="text" name="whatsapp" value="{{ config['whatsapp'] ?? '' }}" class="form-control">
+							</div>
+							<div class="col-12">
+								<div class="alert alert-info">
+									<h3>Redes Sociales</h3>
+								</div>
+							</div>
+
+							<div class="col-md-6 mb-3">
+								<label class="form-label">Facebook</label>
+								<input type="url" name="facebook" value="{{ config['facebook'] ?? '' }}" class="form-control">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="form-label">Twitter</label>
+								<input type="url" name="twitter" value="{{ config['twitter'] ?? '' }}" class="form-control">
+							</div>
+
+
+							<div class="col-md-6 mb-3">
+								<label class="form-label">Instagram</label>
+								<input type="url" name="instagram" value="{{ config['instagram'] ?? '' }}" class="form-control">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label class="form-label">Google Maps
+									<code>(iframe)</code>
+								</label>
+								<input type="url" name="google_maps" value="{{ config['google_maps'] ?? '' }}" class="form-control">
+							</div>
+
+
+							<div class="form-actions">
+								<button type="submit" class="btn btn-primary">Actualizar</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block extraScripts %}
+	 <script src="{{ adminAssetsUrl }}/js/frontend/configuracion.js?x={{ " now"|date("dmYHis") }}"></script>
+{% endblock %}

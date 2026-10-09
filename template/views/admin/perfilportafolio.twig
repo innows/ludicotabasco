@@ -1,0 +1,222 @@
+{% extends "admin/base.twig" %}
+
+{% block extraStyles %}
+	<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css">
+	<style>
+		.galeria-container {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+			gap: 15px;
+			margin-top: 20px;
+		}
+		.galeria-item {
+			position: relative;
+			border-radius: 8px;
+			overflow: hidden;
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+			text-align: center;
+		}
+		.galeria-item img {
+			width: 100%;
+			height: 150px;
+			object-fit: cover;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+
+	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
+		<div class="me-auto d-lg-block">
+			<h3 class="text-primary font-w600">Perfil del Portafolio</h3>
+		</div>
+		<a href="{{ ADMIN_URL }}/portafolio" class="btn btn-secondary">
+			<i class="fas fa-arrow-left"></i>
+			Volver
+		</a>
+		<input type="hidden" id="portafolioId" value="{{ portafolio.Portafolio_ID }}">
+	</div>
+
+	<div class="row">
+		<div
+			class="col-lg-8">
+			<!-- Datos del Portafolio -->
+			<div class="card mb-4">
+				<div class="card-header">
+					<h5 class="mb-0">Información General</h5>
+					<button type="button" class="btn btn-primary" id="btnEditarPortafolio" data-id="{{ portafolio.Portafolio_ID }}" data-bs-toggle="modal" data-bs-target="#modPortafolio">
+						<i class="fas fa-edit"></i>
+						Editar
+					</button>
+				</div>
+				<div class="card-body">
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label class="form-label">
+								<strong>Título:</strong>
+							</label>
+							<p>{{ portafolio.Titulo }}</p>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">
+								<strong>Cliente</strong>
+							</label>
+							<p>{{ portafolio.Nombre_Cliente }}</p>
+						</div>
+					</div>
+
+					<div class="row mb-3">
+						<div class="col-md-6">
+							<label class="form-label">
+								<strong>Fecha de Servicio:</strong>
+							</label>
+							<p>{{ portafolio.Fecha_Servicio }}</p>
+						</div>
+						<div class="col-md-6">
+							<label class="form-label">
+								<strong>Descripción:</strong>
+							</label>
+							<p class="text-justify">{{ portafolio.Descripcion|default('No especificada') }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div
+			class="col-lg-4">
+			<!-- Imagen Principal -->
+			<div class="card mb-4">
+				<div class="card-header">
+					<h5 class="mb-0">Imagen Principal</h5>
+				</div>
+				<div class="card-body">
+					{% if portafolio.img_portafolio %}
+						<img src="{{ ADMIN_URL }}/uploads/portafolio/{{ portafolio.img_portafolio }}" alt="{{ portafolio.Titulo }}" class="img-fluid rounded">
+					{% else %}
+						<div class="alert alert-info">No hay imagen principal</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card mb-4">
+				<div class="card-header">
+					<h5 class="mb-0">
+						<i class="fas fa-images"></i>
+						Galería de Imágenes ({{ galeria|length }})
+					</h5>
+					<button type="button" class="btn btn-primary" id="btnAbrirModalImagen" data-bs-toggle="modal" data-bs-target="#modGaleria">
+						<i class="fa fa-plus"></i>
+						Agregar Imagen
+					</button>
+
+				</div>
+				<div class="card-body">
+					{% if galeria %}
+						<div class="galeria-container">
+							{% for imagen in galeria %}
+								<div class="galeria-item">
+									<img src="{{ ADMIN_URL }}/uploads/portafolio/{{ imagen.Imagen }}" alt="Galería" class="img-fluid">
+									<p class="btn mt-3 btn-danger btnEliminarImagen" data-id="{{ imagen.Galeria_ID }}" title="Eliminar imagen" data-bs-target="tooltip">
+										<i class="fas fa-trash-alt"></i>
+									</p>
+								</div>
+
+							{% endfor %}
+						</div>
+					{% else %}
+						<div class="alert alert-info">
+							<i class="fas fa-info-circle"></i>
+							No hay imágenes en la galería, agregue imagenes para mostrar aquí.
+						</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="modGaleria" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Galería de Imágenes</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-12 mb-3">
+							<code>
+								Las imagenes deben de medir 440px x 440px y no deben exceder de 1GB cada una. Solo se permiten imágenes en formato JPG, PNG
+							</code>
+						</div>
+
+						<div class="col-md-12">
+							<div id="dropzoneArea" class="dropzone border rounded p-4 text-center">
+								<div class="dz-message mb-0">
+									Arrastra o haz clic aquí para subir la imagen
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="btnGuardarGaleria">Guardar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="modal fade" id="modPortafolio" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Portafolio</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="frmPortafolio" enctype="multipart/form-data">
+						<div class="row">
+							<input type="hidden" name="Portafolio_ID" id="Portafolio_ID">
+							<div class="col-md-6 mb-3">
+								<label for="titulo" class="form-label">Titulo</label>
+								<input type="text" class="form-control" id="titulo" name="titulo" required>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="descripcion" class="form-label">Descripción</label>
+								<input type="text" class="form-control" id="descripcion" name="descripcion">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="nombre_cliente" class="form-label">Cliente</label>
+								<input type="text" class="form-control" id="nombre_cliente" name="nombre_cliente">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="fecha_servicio" class="form-label">Fecha del servicio</label>
+								<input type="text" class="form-control" id="fecha_servicio" name="fecha_servicio">
+							</div>
+							<div class="col-md-12 mb-3">
+								<label for="img_portafolio" class="form-label">Imagen Principal
+									<code>Tamaño recomendado:800px x440px</code>
+								</label>
+								<input type="file" class="form-control" id="img_portafolio" name="img_portafolio" accept="image/*">
+							</div>
+
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="button" id="btGuardar">Guardar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+
+	{% block extraScripts %} <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+		 <script src="{{ adminAssetsUrl }}/js/frontend/perfilportafolio.js?{{ random() }}"></script>
+	{% endblock %}

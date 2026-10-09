@@ -1,0 +1,141 @@
+{% extends "admin/base.twig" %}
+
+{% block body %}
+	AQUI
+	{{BASE_URL}}
+	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
+		<div class="me-auto d-lg-block">
+			<h3 class="text-primary font-w600">Control de usuarios</h3>
+
+		</div>
+		<button class="btn  btn-primary" data-bs-toggle="modal" data-bs-target="#modUsuario">
+			<i class="fas fa-plus"></i>
+			Crear usuario
+		</button>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body px-3 pt-2 pb-0">
+					<div class="row p-3">
+						<div class="col-12">
+							<div class="table-responsive">
+								<table class="table" id="tabUsuarios" aria-describedby="guilty feet">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Nombre</th>
+											<th scope="col">Correo</th>
+											<th scope="col">Rol</th>
+											<th scope="col">Estado</th>
+											<th scope="col">Acciones</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="modUsuario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Usuario</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<form id="frmUsuarios">
+						<input type="hidden" id="usuarioID" name="usuarioID" value="0">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									<label for="nombre">Nombre</label>
+									<input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="nombre">
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="form-group">
+									<label for="correo">Correo</label>
+									<input type="email" class="form-control" id="correo" name="correo"/>
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="form-group">
+									<label for="rol">Rol</label>
+									<select class="form-select" id="rol" name="rol">
+										<option value="2">Editor</option>
+										<option value="1">Administrador</option>
+									</select>
+								</div>
+							</div>
+							<div class="col-6 divpass">
+								<div class="form-group">
+									<label for="passwrd">Contraseña</label>
+									<input type="password" class="form-control" id="passwrd" name="passwrd"/>
+								</div>
+							</div>
+							<div class="col-6 divpass">
+								<div class="form-group">
+									<label for="rpass">Confirmar contraseña</label>
+									<input type="password" class="form-control" id="rpass"/>
+								</div>
+							</div>
+
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-sm" id="btnGuardar">Guardar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modPass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Cambiar Password</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+
+					<form id="frmPass">
+						<div class="row">
+							<div class="col-12">
+								<div class="form-group">
+									<label for="newpass">Password</label>
+									<input type="password" class="form-control" id="newpass" name="newpass" aria-describedby="sabes">
+								</div>
+							</div>
+							<div class="col-12">
+								<div class="form-group">
+									<label for="renewpass">Confirmar password</label>
+									<input type="password" class="form-control" id="renewpass" name="renewpass" aria-describedby="sabes">
+								</div>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary btn-sm" id="btnCambiarPss">Guardar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}
+
+{% block extraScripts %}
+	 <script src="{{ adminAssetsUrl }}/js/frontend/usuarios.js?x={{ "now"|date("dmYHis") }}"></script>
+{% endblock %}

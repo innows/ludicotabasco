@@ -1,0 +1,206 @@
+{% extends "admin/base.twig" %}
+
+{% block extraStyles %}
+	<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css">
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
+		<div class="me-auto d-lg-block">
+			<h3 class="text-primary font-w600">Productos</h3>
+		</div>
+		<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modProductos">
+			<i class="fas fa-plus"></i>
+			Nuevo producto
+		</button>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body px-3 pt-2 pb-0">
+					<div class="row p-3">
+
+						<div class="col-12">
+							<div class="table-responsive">
+								<table class="table table-sm table-sm-responsive dataTable no-footer" id="tabProductos" aria-describedby="guilty feet">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>SKU</th>
+											<th width="600px">Nombre</th>
+											<th>Precio</th>
+											<th>Categoría</th>
+											<th>Estado</th>
+											<th>Stock</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modProductos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Producto</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-12">
+							<ul class="nav nav-tabs" id="myTab" role="tablist">
+								<li class="nav-item" role="presentation">
+									<button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Información General</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="serv-tab" data-bs-toggle="tab" data-bs-target="#serv" type="button" role="tab" aria-controls="serv" aria-selected="false">Servicios que incluye</button>
+								</li>
+								<li class="nav-item" role="presentation">
+									<button class="nav-link" id="galeria-tab" data-bs-toggle="tab" data-bs-target="#galeria" type="button" role="tab" aria-controls="galeria" aria-selected="false">Galeria</button>
+								</li>
+							</ul>
+							<div class="tab-content mt-5" id="myTabContent">
+								<div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+									<form method="POST" class="admin-form" id="frmProducto" enctype="multipart/form-data">
+										<input type="hidden" name="id" id="id">
+										<input type="hidden" name="slug" id="slug">
+										<div class="row">
+											<div class="col-md-6 mb-3">
+												<label class="checkbox-label">
+													<input class="form-check-input" type="checkbox" name="destacado" value="1">
+													Producto destacado
+												</label>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 mb-3">
+												<label for="sku" class="form-label">SKU</label>
+												<input class="form-control" type="text" id="sku" name="sku">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-md-6 mb-3">
+												<label for="nombre" class="form-label">Nombre *</label>
+												<input class="form-control" type="text" id="nombre" name="nombre" required>
+											</div>
+											<div class="col-md-6 mb-3">
+												<label for="categoria_id" class="form-label">Categoría *</label>
+												<select class="select2 form-control" id="categoria_id" name="categoria_id" required>
+													<option value="">Seleccionar...</option>
+													{% for cat in categorias %}
+														<option value="{{ cat.id }}">{{ cat.nombre }}</option>
+													{%- endfor %}
+												</select>
+
+											</div>
+											<div class="col-md-6 mb-3">
+												<label for="descripcion" class="form-label">Descripción</label>
+												<textarea class="form-control" id="descripcion" name="descripcion" rows="2"></textarea>
+											</div>
+
+											<div class="col-md-6 mb-3">
+												<label for="stock" class="form-label">Stock
+													<code>(Ingrese un número entero no negativo)</code>
+												</label>
+												<input class="form-control" type="number" id="stock" name="stock" min="0">
+											</div>
+
+											<div class="col-md-6 mb-3">
+												<label for="precio" class="form-label">Precio *</label>
+												<input class="form-control" type="text" id="precio" name="precio" required>
+											</div>
+
+
+											<div class="col-md-6 mb-3">
+												<label for="precio_oferta" class="form-label">Precio Oferta
+													<code>(*Puede dejarlo en blanco)</code>
+												</label>
+												<input class="form-control" type="text" id="precio_nuevo" name="precio_nuevo">
+											</div>
+											<div class="col-md-6 mb-3">
+												<label for="imagen" class="form-label">Imagen Principal
+													<code>(Formato PNG o JPEG Tamaño: 300x350px)</code>
+												</label>
+												<input class="form-control" type="file" id="imagen" name="imagen" accept="image/png, image/jpeg">
+											</div>
+											<div class="col-md-6 mb-3">
+												<label for="informacion-adicional" class="form-label">Información Adicional
+													<code>(Formato PNG o JPEG)</code>
+												</label>
+												<input class="form-control" type="file" id="informacion-adicional" name="informacion-adicional" accept="image/png, image/jpeg">
+											</div>
+										</div>
+
+
+									</div>
+
+
+									<div class="tab-pane fade" id="serv" role="tabpanel" aria-labelledby="serv-tab">
+										<div class="row">
+											<div class="col-md-6 mb-3">
+												<label for="precio" class="form-label">Servicio</label>
+												<select class="select2 form-control" id="servicio_id" name="servicio_id"></select>
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-12">
+												<table class="table" id="tabServicios" aria-describedby="guilty feet">
+													<thead>
+														<tr>
+															<th>Servicio</th>
+															<th>Acciones</th>
+														</tr>
+													</thead>
+													<tbody></tbody>
+												</table>
+											</div>
+										</div>
+
+									</div>
+
+									<div class="tab-pane fade" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
+										<div class="row">
+											<div class="col-md-12">
+												<code>Las imagenes deben de medir 450px x 450px para evitar distorciones en la página web, recomedacion sin fondo formato .PNG</code>
+											</div>
+										</div>
+										<div class="row mt-2">
+											<div class="col-md-12 mb-3">
+												<input type="file" class="form-control d-none" id="img_galeria" name="img_galeria" accept="image/*">
+												<div id="dropzoneArea" class="dropzone border rounded p-4 text-center">
+													<div class="dz-message mb-0">
+														Arrastra o haz clic aquí para subir la imagen
+													</div>
+												</div>
+											</div>
+										</div>
+
+									</div>
+								</div>
+
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-primary" type="button" id="btGuardar">
+								Guardar
+
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endblock %}
+		{% block extraScripts %} 
+		<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+		<script src="{{ adminAssetsUrl }}/js/frontend/administrarproductos.js?x={{ " now"|date("dmYHis") }}"></script>
+		{% endblock %}

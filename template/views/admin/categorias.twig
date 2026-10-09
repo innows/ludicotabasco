@@ -1,0 +1,95 @@
+{% extends "admin/base.twig" %}
+
+{% block extraStyles %}{% endblock %}
+
+{% block body %}
+
+
+	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
+		<div class="me-auto d-lg-block">
+			<h3 class="text-primary font-w600">Categorias</h3>
+		</div>
+		<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modCategorias">
+			<i class="fas fa-plus"></i>
+			Nueva categoria
+		</button>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body px-3 pt-2 pb-0">
+					<div class="row p-3">
+
+						<div class="col-12">
+							<div class="table-responsive">
+								<div id="categoriaMessage"></div>
+								<table class="table table-hover" id="tabCategorias" aria-describedby="guilty feet">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>Imagen</th>
+											<th>Nombre</th>
+											<th width="50%">Descripción</th>
+											<th>Acciones</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modCategorias" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Categoria</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="frmCategoria" enctype="multipart/form-data" autocomplete="off">
+						<input type="hidden" name="id" id="id">
+						<input type="hidden" name="slug" id="slug">
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="nombre">Nombre de la categoria</label>
+									<input type="text" class="form-control" id="nombre" name="nombre"/>
+								</div>
+							</div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="descripcion">Descripcion</label>
+									<input type="text" class="form-control" id="descripcion" name="descripcion"/>
+								</div>
+							</div>
+
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<label for="imagen">Imagen <code>(* la imagen debe ser de 410x260px)</code></label>
+									<input type="file" name="imagen" id="imagen" class="form-control">
+								</div>
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" id="btGuardar">Guardar
+					</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block extraScripts %}
+	 <script src="{{ adminAssetsUrl }}/js/frontend/categorias.js?x={{ " now"|date("dmYHis") }}"></script>
+{% endblock %}

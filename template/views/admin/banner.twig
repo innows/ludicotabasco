@@ -1,0 +1,96 @@
+{% extends "admin/base.twig" %}
+
+{% block extraStyles %}{% endblock %}
+
+{% block body %}
+
+
+	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
+		<div class="me-auto d-lg-block">
+			<h3 class="text-primary font-w600">Banners</h3>
+		</div>
+		<button id="btnNuevoBanner" class="btn btn-primary" type="button">
+			<i class="fas fa-plus"></i>
+			Nuevo banner
+		</button>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body px-3 pt-2 pb-0">
+					<div class="row p-3">
+
+						<div class="col-12">
+							<div class="table-responsive">
+								<table class="table" id="tabBanner" aria-describedby="guilty feet">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Imagen</th>
+											<th scope="col">Titulo</th>
+											<th scope="col">Subtitulo</th>
+											<th scope="col">Status</th>
+											<th scope="col">&nbsp;</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modBanners" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Banner</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="frmBanner" enctype="multipart/form-data">
+						<div class="row">
+							<input type="hidden" name="Banner_ID" id="Banner_ID">
+							<div class="col-md-6 mb-3">
+								<label for="titulo" class="form-label">Titulo</label>
+								<input type="text" class="form-control" id="titulo" name="titulo" required>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="subtitulo" class="form-label">Subtitulo</label>
+								<input type="text" class="form-control" id="subtitulo" name="subtitulo">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="titulo_boton" class="form-label">Titulo Boton</label>
+								<input type="text" class="form-control" id="titulo_boton" name="titulo_boton">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="titulo_boton" class="form-label">Url del Boton</label>
+								<input type="text" class="form-control" id="url_boton" name="url_boton">
+							</div>
+							<div class="col-md-12 mb-3">
+								<label for="imagen" class="form-label">Imagen</label>
+								<input type="file" class="form-control" id="imagen" name="imagen">
+								<div class="mt-2">
+									<img id="imagenPreview" src="" alt="Vista previa" class="img-fluid d-none" style="max-height: 180px;"/>
+								</div>
+								<input type="hidden" name="imagen_actual" id="imagen_actual">
+							</div>
+
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-primary" type="button" id="btGuardar">Guardar</button>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block extraScripts %}
+	 <script src="{{ adminAssetsUrl }}/js/frontend/banner.js?x={{ " now"|date("dmYHis") }}"></script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base.twig' %}
+{% block body %}
+	<div class="rts-faq-area rts-section-gap faq-bg-one bg_image">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<div class="faq-main-wrapper-content-inner-four">
+						<div class="title-style-four left">
+							<h2 class="title rts-text-anime-style-1">Construyamos soluciones
+							</h2>
+							<span class="pre">Comparte tus necesidades de suministro e instalación y recibe atención para evaluar las soluciones que mejor se adapten a tu proyecto.</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="faq-one-thumbnail-wrapper-right" data-animation="zoomOut" data-delay="0.2" data-duration="1.2">
+						<div class="thumbnail">
+							<img src="assets/images/banner/banner-contact.webp" alt="faq">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="rts-contact-area-in-page" data-animation="fadeInUp" data-delay="0.2">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-12 mb-5">
+					<div class="contact-form-p new">
+						<form class="form__content" method="post" action="mailer.php" id="contact-form">
+							<div class="row">
+								<div class="col-lg-12 mb-5">
+									<h4 class="title mb-0">Más que equipamiento, soluciones con proposito</h4>
+									<span>Completa el formulario a continuación para contactarnos</span>
+								</div>
+								<div class="col-lg-6">
+									<label for="name" class="form-label">Nombre Completo</label>
+									<input name="name" id="name" type="text" placeholder="Your Name">
+								</div>
+								<div class="col-lg-6">
+									<label for="empresa" class="form-label">Empresa</label>
+									<input name="empresa" id="empresa" type="text" placeholder="Your Company">
+								</div>
+								<div class="col-lg-6">
+									<label for="estado" class="form-label">Estado</label>
+									<select  aria-required="true" aria-invalid="false" name="idEstado"><option value="">Selecciona un estado</option><option value="Aguascalientes">Aguascalientes</option><option value="Baja California">Baja California</option><option value="Baja California Sur">Baja California Sur</option><option value="Campeche">Campeche</option><option value="Coahuila de Zaragoza">Coahuila de Zaragoza</option><option value="Colima">Colima</option><option value="Chiapas">Chiapas</option><option value="Chihuahua">Chihuahua</option><option value="Ciudad de México">Ciudad de México</option><option value="Durango">Durango</option><option value="Guanajuato">Guanajuato</option><option value="Guerrero">Guerrero</option><option value="Hidalgo">Hidalgo</option><option value="Jalisco">Jalisco</option><option value="México">México</option><option value="Michoacán de Ocampo">Michoacán de Ocampo</option><option value="Morelos">Morelos</option><option value="Nayarit">Nayarit</	option><Option value="Nuevo León">Nuevo León</Option><Option value="Oaxaca">Oaxaca</Option><Option value="Puebla">Puebla</Option><Option value="Querétaro">Querétaro</Option><Option value="Quintana Roo">Quintana Roo</Option><Option value="San Luis Potosí">San Luis Potosí</Option><Option value="Sinaloa">Sinaloa</Option><Option value="Sonora">Sonora</Option><Option value="Tabasco">Tabasco</Option><Option value="Tamaulipas">Tamaulipas</Option><Option value="Tlaxcala">Tlaxcala</Option><Option value="Veracruz de Ignacio de la Llave">Veracruz de Ignacio de la Llave</Option><Option value="Yucatán">Yucatán</Option><Option value="Zacatecas">Zacatecas</Option></select></span>
+
+								</div>
+								<div class="col-lg-6">
+									<label for="email" class="form-label">Correo electrónico</label>
+									<input type="email" name="email" id="email" placeholder="Johndoe@gmail.com">
+								</div>
+								<div class="col-lg-6">
+									<label for="phone" class="form-label">Teléfono</label>
+									<input type="text" name="phone" id="phone" placeholder="(999) 999-9999">
+								</div>
+								<div class="col-lg-6">
+									<label for="subject" class="form-label">Asunto</label>
+									<textarea name="message" id="message" placeholder="Message"></textarea>
+								</div>
+
+								<div class="col-lg-12">
+									<button class="rts-btn btn-three" type="submit">Enviar correo</button>
+								</div>
+							</div>
+						</form>
+						<div id="form-messages"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

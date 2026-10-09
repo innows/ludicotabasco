@@ -1,6 +1,9 @@
 Options -Indexes
 RewriteEngine On
 
+# La configuración, los controladores y las plantillas no son recursos públicos.
+RewriteRule ^(?:app|template|vendor)(?:/|$) - [F,L,NC]
+
 # Los archivos existentes (CSS, JS, imágenes, etc.) se sirven directamente.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

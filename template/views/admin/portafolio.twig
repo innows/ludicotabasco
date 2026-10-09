@@ -1,0 +1,107 @@
+{% extends "admin/base.twig" %}
+
+{% block extraStyles %}
+	<link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css">
+{% endblock %}
+
+{% block body %}
+
+
+	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
+		<div class="me-auto d-lg-block">
+			<h3 class="text-primary font-w600">Portafolio</h3>
+		</div>
+		<button id="btnNuevoPortafolio" class="btn btn-sm btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#modImagen">
+			<i class="fas fa-plus"></i>
+			Agregar imagen
+		</button>
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class="card">
+				<div class="card-body px-3 pt-2 pb-0">
+					<div class="row p-3">
+
+						<div class="col-12">
+							<div class="table-responsive">
+								<table class="table" id="tabPortafolio" aria-describedby="guilty feet">
+									<thead>
+										<tr>
+											<th scope="col">#</th>
+											<th scope="col">Imagen</th>
+											<th scope="col">Titulo</th>
+											<th scope="col">Descripción</th>
+											<th scope="col">Status</th>
+											<th scope="col">&nbsp;</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="modal fade" id="modImagen" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-xl">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalLabel">Imagen</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<form id="frmPortafolio" enctype="multipart/form-data">
+						<div class="row">
+							<input type="hidden" name="Portafolio_ID" id="Portafolio_ID">
+							<div class="col-md-6 mb-3">
+								<label for="titulo" class="form-label">Titulo</label>
+								<input type="text" class="form-control" id="titulo" name="titulo" required>
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="descripcion" class="form-label">Descripción</label>
+								<input type="text" class="form-control" id="descripcion" name="descripcion">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="nombre_cliente" class="form-label">Cliente</label>
+								<input type="text" class="form-control" id="nombre_cliente" name="nombre_cliente">
+							</div>
+							<div class="col-md-6 mb-3">
+								<label for="fecha_servicio" class="form-label">Fecha del servicio</label>
+								<input type="text" class="form-control" id="fecha_servicio" name="fecha_servicio">
+							</div>
+							<div class="col-md-12 mb-3">
+								<label for="img_portafolio" class="form-label">Imagen Principal
+									<code>Tamaño recomendado:800px x440px</code>
+								</label>
+								<input type="file" class="form-control" id="img_portafolio" name="img_portafolio" accept="image/*">
+							</div>
+							<div class="col-md-12 mb-3">
+								<label for="galeria" class="form-label">Galería de Imágenes</label>
+								<div id="dropzoneArea" class="dropzone border rounded p-4 text-center">
+									<div class="dz-message mb-0">
+										Arrastra o haz clic aquí para subir la imagen
+									</div>
+								</div>
+
+								<small class="form-text text-muted">
+									<code>Las imágenes serán redimensionadas a 440x440px y comprimidas para no exceder 1GB cada una. Puedes subir múltiples imágenes.</code>
+								</small>
+
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-primary" type="button" id="btGuardar">Guardar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+
+	{% block extraScripts %} <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+		 <script src="{{ adminAssetsUrl }}/js/frontend/portafolio.js?x={{ " now"|date("dmYHis") }}"></script>
+	{% endblock %}

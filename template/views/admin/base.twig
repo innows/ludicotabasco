@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+
+	<head>
+		<title>Administrador
+		</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="author" content="innows">
+		<meta name="title" content="innows">
+		<meta property="og:title" content=" Administrador">
+		<meta property="og:description" content="">
+		<meta property="og:image" content="">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		{% include "admin/modules/globalStyles.twig" %}
+
+		{% block extraStyles %}{% endblock %}
+
+	</head>
+
+	<body>
+		<div id="preloader">
+			<div class="sk-three-bounce">
+				<div class="sk-child sk-bounce1"></div>
+				<div class="sk-child sk-bounce2"></div>
+				<div class="sk-child sk-bounce3"></div>
+			</div>
+		</div>
+
+		<div id="main-wrapper">
+
+			<div class="nav-header">
+				<a href="{{ adminAssetsUrl }}/index" class="brand-logo">
+					ADMINISTRADOR
+				</a>
+
+				<div class="nav-control">
+					<div class="hamburger">
+						<span class="line"></span>
+						<span class="line"></span>
+						<span class="line"></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="header">
+				{% include "admin/modules/header.twig" %}
+			</div>
+
+			{% include "admin/modules/menu.twig" %}
+
+			<div class="content-body default-height">
+				<!-- row -->
+				<div class="container-fluid">
+				 {% block body %}{% endblock %}
+				</div>
+			</div>
+			<div class="footer">
+					<div class="copyright">
+						<p>Copyright ©
+							{{Sistema}}
+							{{now|date('Y')}}</p>
+					</div>
+			</div>
+		</div>
+			{% include "admin/modules/globalScripts.twig" %}
+
+			{% block extraScripts %}{% endblock %}
+
+		</body>
+	</html>
