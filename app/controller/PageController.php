@@ -58,8 +58,14 @@ final class PageController
             ],
             'admonproductos' => [
                 \Admin\Controllers\ProductoController::class => [
-                    'GET'  => ['index', 'list', 'obtener', 'perfil/id={id}'],
+                    'GET'  => ['index', 'list', 'obtener','perfil'],
                     'POST' => ['guardar', 'eliminar'],
+                ],
+            ],
+            'producto'=> [
+                \Admin\Controllers\ProductoController::class => [
+                    'GET'  => ['perfil'],
+                    'POST' => ['guardar'],
                 ],
             ],
             'configuracion' => [

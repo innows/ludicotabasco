@@ -286,56 +286,62 @@ class ProductoController
         $this->sendJson(['success' => true, 'message' => 'Producto eliminado correctamente']);
     }
 
-    public function perfil($id)
+    public function perfil($id = null)
     {
-        $idProducto = (int)$id;
+        // 1. Si el enrutador no inyecta el ID, lo capturamos directamente de la URL actual de forma segura
+        if (!$id) {
+            $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+            if (preg_match('/id=([0-9]+)/', $requestUri, $matches)) {
+                $id = $matches[1];
+            }
+        }
 
-        if (!$idProducto) {
+        $idProducto = (int) $id;
+
+      
+
+        if ($idProducto <= 0) {
             die('ID de producto inválido');
         }
 
-        // Obtener producto
+        // 2. Obtener producto usando Medoo
         $producto = $this->db->get('productos', '*', ['id' => $idProducto]);
-
 
         if (!$producto) {
             die('Producto no encontrado');
         }
-        // Obtener categoría
-        $categoria = $this->db->get('categorias', '*', ['id' => $producto['categoria_id']]) ?: [];
 
-        // Obtener categorías para el modal de edición
-        $categorias = $this->db->select('categorias', '*', ['estado' => '1']);
+        // 3. Obtener categoría principal (evitando null)
+        $categoria = $this->db->get('categorias', '*', ['id' => $producto['categoria_id'] ?? 0]) ?: [];
 
-        // Obtener servicios asociados
+        // 4. Obtener categorías activas para el modal de edición
+        $categorias = $this->db->select('categorias', '*', ['estado' => '1']) ?: [];
+
+        // 5. Obtener servicios asociados (Medoo maneja consultas directas de forma segura)
         $servicios = $this->db->query(
-            "SELECT s.Servicio_ID, s.Nombre_Servicio
+            "SELECT s.Servicio_ID, s.Nombre_Servicio 
              FROM servicios s
-             INNER JOIN servicios_productos sp ON s.Servicio_ID = sp.Servicio_ID
-             WHERE sp.Producto_ID =$idProducto AND sp.Activo = 1"
-        )->fetchAll() ?: [];
+             LEFT JOIN servicios_productos sp ON s.Servicio_ID = sp.Servicio_ID
+             WHERE sp.Producto_ID = :idProducto AND sp.Activo = 1",
+            [':idProducto' => $idProducto]
+        )->fetchAll(\PDO::FETCH_ASSOC) ?: [];
 
-        // Obtener galería
+        // 6. Obtener galería con Medoo
         $galeria = $this->db->select('galeriaProductos', '*', [
-            'Producto_ID' => (int)$idProducto,
-            'Activo' => 1
+            'Producto_ID' => $idProducto,
+            'Activo'      => 1
         ]) ?: [];
 
-        // Renderizar vista
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . 'admin/');
-        $twig = new \Twig\Environment($loader, [
-            'cache' => false,
-            'debug' => true,
-        ]);
-
-        echo $twig->render('perfil.twig', [
-            'Nombre' => $_SESSION['admin_name'] ?? 'Administrador',
-            'producto' => $producto,
-            'categoria' => $categoria,
+      
+        return [
+           
+            'producto'   => $producto,
+            'categoria'  => $categoria,
             'categorias' => $categorias,
-            'servicios' => $servicios,
-            'galeria' => $galeria
-        ]);
+            'servicios'  => $servicios,
+            'galeria'    => $galeria,
+           
+        ];
     }
 
     private function sendJson($data, $status = 200)
