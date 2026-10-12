@@ -62,23 +62,6 @@ class BannerController
         return null;
     }
 
-    public function index()
-    {
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views');
-        $twig = new \Twig\Environment($loader, [
-            'cache' => false,
-            'debug' => true,
-        ]);
-        $twig->addGlobal('ADMIN_URL', ADMIN_URL);
-
-        echo $twig->render('banner.twig', [
-            'Sistema' => 'SysPro CMS',
-            'Nombre' => $_SESSION['admin_name'] ?? 'Administrador',
-            'ADMIN_URL' => ADMIN_URL,
-            'BASE_URL' => BASE_URL,
-        ]);
-    }
-
     public function list()
     {
         $banners = $this->db->select('tbl_banner', '*', [
@@ -109,16 +92,21 @@ class BannerController
         $this->sendJson(['success' => true, 'data' => $banner]);
     }
 
+    private function sanitize($input)
+    {
+        return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
+    }
+
     public function guardar()
     {
         $data = $this->getRequestData();
         $id = isset($data['Banner_ID']) ? (int)$data['Banner_ID'] : 0;
 
         $saveData = [
-            'titulo' => sanitize($data['titulo'] ?? ''),
-            'subtitulo' => sanitize($data['subtitulo'] ?? ''),
-            'titulo_boton' => sanitize($data['titulo_boton'] ?? ''),
-            'url_boton' => sanitize($data['url_boton'] ?? ''),
+            'titulo' => $this->sanitize($data['titulo'] ?? ''),
+            'subtitulo' => $this->sanitize($data['subtitulo'] ?? ''),
+            'titulo_boton' => $this->sanitize($data['titulo_boton'] ?? ''),
+            'url_boton' => $this->sanitize($data['url_boton'] ?? ''),
             'activo' => 1, // Siempre activo al guardar
         ];
 

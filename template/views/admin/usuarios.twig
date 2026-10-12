@@ -1,8 +1,6 @@
 {% extends "admin/base.twig" %}
 
 {% block body %}
-	AQUI
-	{{BASE_URL}}
 	<div class="form-head d-flex mb-3 mb-md-5 align-items-start flex-wrap justify-content-between">
 		<div class="me-auto d-lg-block">
 			<h3 class="text-primary font-w600">Control de usuarios</h3>
@@ -70,7 +68,7 @@
 							<div class="col-12">
 								<div class="form-group">
 									<label for="rol">Rol</label>
-									<select class="form-select" id="rol" name="rol">
+									<select class="selectpicker" id="rol" name="rol">
 										<option value="2">Editor</option>
 										<option value="1">Administrador</option>
 									</select>

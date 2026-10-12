@@ -41,24 +41,6 @@ class UsuariosController
     }
 
     /**
-     * Mostrar vista de usuarios
-     */
-    public function index()
-    {
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views');
-        $twig = new \Twig\Environment($loader, [
-            'cache' => false,
-            'debug' => true,
-        ]);
-        $twig->addGlobal('ADMIN_URL', ADMIN_URL);
-
-        echo $twig->render('usuarios.twig', [
-            'Sistema' => 'SysPro CMS',
-            'Nombre' => $_SESSION['admin_name'] ?? 'Administrador'
-        ]);
-    }
-
-    /**
      * Obtener lista de usuarios (para la tabla)
      */
     public function list()
@@ -116,7 +98,7 @@ class UsuariosController
                 'Correo' => $usuario['email'],
                 'Telefono' => '',
                 'rol' => $usuario['rol'],
-                'Activo' => ($usuario['estado'] === 'activo') ? 1 : 0,
+                'estado' => ($usuario['estado']),
                 'fecha_creacion' => $usuario['fecha_creacion']
             ];
         }, $usuarios);
@@ -287,7 +269,7 @@ class UsuariosController
         $data = $this->getRequestData();
 
         $usuarioID = (int)($data['usuarioID'] ?? 0);
-        $activo = isset($data['1']) ? 0 : 1; // Si viene 1, se desactiva (0), si no viene, se activa (1)
+        $activo = $data['activo'];
 
         if ($usuarioID <= 0) {
             $this->sendJson(['success' => false, 'error' => true, 'message' => 'ID de usuario inválido'], 422);
@@ -313,8 +295,9 @@ class UsuariosController
 
         // Actualizar estado
         $this->db->update('administradores', [
-            'estado' => $activo ? '1' : '0'
+            'estado' => $activo
         ], ['id' => $usuarioID]);
+
 
         $this->sendJson(['success' => true, 'error' => false, 'message' => 'Usuario ' . ($activo ? 'activado' : 'desactivado') . ' correctamente']);
     }

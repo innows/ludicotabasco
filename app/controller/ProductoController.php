@@ -16,60 +16,17 @@ class ProductoController
         $this->db = $db;
     }
 
+    //funcion para traer categorias y subcategorias para la vista de productos
     public function index()
     {
-        // Obtener página actual
-        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $page = max(1, $page);
-
-        // Contar total
-        $total = $this->db->count('productos', ['estado[!]' => '0']);
-
-        // Calcular paginación
-        $perPage = 20;
-        $totalPages = ceil($total / $perPage);
-        $offset = ($page - 1) * $perPage;
+        $categorias = $this->db->select('categorias', '*', ['estado' => '1']);
+        $subcategorias = $this->db->select('subcategorias', '*', ['estado' => '1']);
 
 
-        $productos = $this->db->query("SELECT p.*, c.nombre AS categoria FROM productos p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.estado != '0' ORDER BY p.fecha_creacion DESC LIMIT $offset, $perPage")->fetchAll();
-
-        // Obtener categorías para el select
-        $categorias = $this->db->select('categorias', '*', [
-            'estado' => '1'
-        ]);
-
-        // Obtener servicios activos para el formulario de producto
-        $servicios = $this->db->select('servicios', ['Servicio_ID', 'Nombre_Servicio'], [
-            'Activo' => 1,
-            'ORDER' => ['Servicio_ID' => 'ASC']
-        ]);
-        $servicios = array_map(function ($servicio) {
-            return [
-                'Servicio_ID' => $servicio['Servicio_ID'],
-                'Nombre_Servicio' => $servicio['Nombre_Servicio'],
-            ];
-        }, $servicios);
-
-        // Renderizar vista
-
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views');
-        $twig = new \Twig\Environment($loader, [
-            'cache' => false,
-            'debug' => true,
-        ]);
-        $twig->addGlobal('ADMIN_URL', ADMIN_URL);
-
-
-        echo $twig->render('administrarproductos.twig', [
-            'Sistema' => 'SysPro CMS',
-            'Nombre' => $_SESSION['admin_name'] ?? 'Administrador',
-            'productos' => $productos,
+        return [
             'categorias' => $categorias,
-            'servicios' => $servicios,
-            'total' => $total,
-            'page' => $page,
-            'totalPages' => $totalPages
-        ]);
+            'subcategorias' => $subcategorias
+        ];
     }
 
     public function list()
@@ -95,6 +52,8 @@ class ProductoController
     {
         // Obtener categorías
         $categorias = $this->db->select('categorias', '*', ['estado' => '1']);
+        // Obtener subcategorías
+        $subcategorias = $this->db->select('subcategorias', '*', ['estado' => '1']);
 
         // Procesar formulario
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -108,7 +67,7 @@ class ProductoController
                     $this->sendJson(['success' => false, 'message' => $message], 422);
                 } else {
                     $_SESSION['message'] = ['type' => 'error', 'text' => $message];
-                    header('Location: ' . ADMIN_URL . '/admonproductos');
+                    header('Location: ' . '/admonproductos');
                     exit;
                 }
             }
@@ -152,7 +111,7 @@ class ProductoController
                     $this->sendJson(['success' => false, 'message' => $message], 500);
                 } else {
                     $_SESSION['message'] = ['type' => 'error', 'text' => $message];
-                    header('Location: ' . ADMIN_URL . '/admonproductos');
+                    header('Location: ' . '/admonproductos');
                     exit;
                 }
             }
@@ -249,7 +208,7 @@ class ProductoController
                 $this->sendJson(['success' => true, 'message' => $message]);
             } else {
                 $_SESSION['message'] = ['type' => 'success', 'text' => $message];
-                header('Location: ' . ADMIN_URL . '/admonproductos');
+                header('Location: ' .  '/admonproductos');
                 exit;
             }
         }
@@ -363,17 +322,14 @@ class ProductoController
         ]) ?: [];
 
         // Renderizar vista
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views');
+        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . 'admin/');
         $twig = new \Twig\Environment($loader, [
             'cache' => false,
             'debug' => true,
         ]);
-        $twig->addGlobal('ADMIN_URL', ADMIN_URL);
 
-        echo $twig->render('perfilproducto.twig', [
-            'Sistema' => 'SysPro CMS',
+        echo $twig->render('perfil.twig', [
             'Nombre' => $_SESSION['admin_name'] ?? 'Administrador',
-            'ADMIN_URL' => ADMIN_URL,
             'producto' => $producto,
             'categoria' => $categoria,
             'categorias' => $categorias,

@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Admin\Controllers\CategoriaController;
+use Admin\Controllers\SubCategoriaController;
 use App\Controller\AuthController;
 use app\config\DbSingleton;
 use Twig\Environment;
@@ -11,6 +12,7 @@ use Twig\Environment;
 final class PageController
 {
     private const SESSION_TIMEOUT = 1800;
+    private const DEFAULT_ACTION = 'index';
 
     /** Carpeta de controladores (fallback si la clase no se carga por autoload). Ajusta a tu ruta real. */
     private const CONTROLLERS_DIR = __DIR__ . '/';
@@ -21,8 +23,9 @@ final class PageController
         'banner',
         'administrarproductos',
         'categorias',
+        'subcategorias',
         'portafolio',
-        'perfilproducto',
+        'perfil',
         'perfilportafolio',
         'configuracion',
         'usuarios',
@@ -47,25 +50,32 @@ final class PageController
                     'POST' => ['guardar', 'eliminar'],
                 ],
             ],
-            'admonproductos' => [
-                \Admin\Controllers\ProductoController::class => [
+            'subcategorias' => [
+                SubCategoriaController::class => [
                     'GET'  => ['list', 'obtener'],
                     'POST' => ['guardar', 'eliminar'],
-              ],  
+                ],
+            ],
+            'admonproductos' => [
+                \Admin\Controllers\ProductoController::class => [
+                    'GET'  => ['index', 'list', 'obtener', 'perfil/id={id}'],
+                    'POST' => ['guardar', 'eliminar'],
+                ],
             ],
             'configuracion' => [
                 \Admin\Controllers\ConfigController::class => [
-                    'GET'  => ['list', 'obtener'],
+                    'GET'  => ['index'],
                     'POST' => ['guardar'],
                 ],
             ],
             'usuarios' => [
                 \Admin\Controllers\UsuariosController::class => [
-                    'GET'  => ['LstUsuarios', 'obtener'],
-                    'POST' => ['guardar', 'eliminar'],
+                    'GET'  => ['LstUsuarios', 'GetUser'],
+                    'POST' => ['Crear', 'guardar', 'eliminar'],
+                    'PUT' => ['Actualizar', 'Desactivar'],
                 ],
             ],
-            
+
         ],
         'public' => [
             // 'contacto' => [ContactoController::class => ['POST' => ['enviar']]],
@@ -258,12 +268,20 @@ final class PageController
     private function dispatchController(string $scope, string $page, ?string $action): bool
     {
         $module = self::CONTROLLERS[$scope][$page] ?? null;
-        if ($module === null || $action === null || $action === '') {
+        if ($module === null) {
             return false;
         }
 
-        $class  = array_key_first($module);
-        $routes = $module[$class];
+        $class    = array_key_first($module);
+        $routes   = $module[$class];
+        $implicit = $action === null || $action === '';
+        $action   = $implicit ? self::DEFAULT_ACTION : $action;
+
+        // Sin acción en la URL y sin 'index' declarado: sigue el flujo normal (vista)
+        if ($implicit && !in_array($action, array_merge(...array_values($routes)), true)) {
+            return false;
+        }
+
         $method = $this->httpMethod();
 
         if (!in_array($action, $routes[$method] ?? [], true)) {
@@ -285,13 +303,28 @@ final class PageController
         $this->loadController($class);
 
         try {
-            (new $class(DbSingleton::getInstance()->getDatabase()))->$action();
+            $result = (new $class(DbSingleton::getInstance()->getDatabase()))->$action();
+            $this->respond($scope, $page, $result);
         } catch (\Throwable $e) {
             error_log(sprintf('%s::%s error: %s', $class, $action, $e->getMessage()));
             $this->abort($scope, 500, 'Error interno del servidor.');
         }
 
         return true;
+    }
+
+    /** Convención: array => renderiza la vista del módulo; string => redirect; null => el controlador ya respondió. */
+    private function respond(string $scope, string $page, mixed $result): void
+    {
+        if (is_string($result)) {
+            $this->redirect($result);
+        }
+
+        if (is_array($result)) {
+            $scope === 'admin'
+                ? $this->renderAdmin($page, $result)
+                : $this->render($page . '.twig', $result);
+        }
     }
 
     private function loadController(string $class): void
@@ -301,7 +334,7 @@ final class PageController
         }
 
         $file = self::CONTROLLERS_DIR . '/' . substr(strrchr('\\' . $class, '\\'), 1) . '.php';
-     
+
         require_once $file;
     }
 

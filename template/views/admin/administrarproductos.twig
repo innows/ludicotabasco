@@ -62,9 +62,7 @@
 								<li class="nav-item" role="presentation">
 									<button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">Información General</button>
 								</li>
-								<li class="nav-item" role="presentation">
-									<button class="nav-link" id="serv-tab" data-bs-toggle="tab" data-bs-target="#serv" type="button" role="tab" aria-controls="serv" aria-selected="false">Servicios que incluye</button>
-								</li>
+
 								<li class="nav-item" role="presentation">
 									<button class="nav-link" id="galeria-tab" data-bs-toggle="tab" data-bs-target="#galeria" type="button" role="tab" aria-controls="galeria" aria-selected="false">Galeria</button>
 								</li>
@@ -99,6 +97,16 @@
 													<option value="">Seleccionar...</option>
 													{% for cat in categorias %}
 														<option value="{{ cat.id }}">{{ cat.nombre }}</option>
+													{%- endfor %}
+												</select>
+
+											</div>
+											<div class="col-md-6 mb-3">
+												<label for="subcategoria_id" class="form-label">Subcategoría *</label>
+												<select class="select2 form-control" id="subcategoria_id" name="subcategoria_id" required>
+													<option value="">Seleccionar...</option>
+													{% for subcat in subcategorias %}
+														<option value="{{ subcat.Subcategoria_ID }}">{{ subcat.Subcategoria}}</option>
 													{%- endfor %}
 												</select>
 
@@ -145,29 +153,6 @@
 									</div>
 
 
-									<div class="tab-pane fade" id="serv" role="tabpanel" aria-labelledby="serv-tab">
-										<div class="row">
-											<div class="col-md-6 mb-3">
-												<label for="precio" class="form-label">Servicio</label>
-												<select class="select2 form-control" id="servicio_id" name="servicio_id"></select>
-											</div>
-										</div>
-										<div class="row">
-											<div class="col-12">
-												<table class="table" id="tabServicios" aria-describedby="guilty feet">
-													<thead>
-														<tr>
-															<th>Servicio</th>
-															<th>Acciones</th>
-														</tr>
-													</thead>
-													<tbody></tbody>
-												</table>
-											</div>
-										</div>
-
-									</div>
-
 									<div class="tab-pane fade" id="galeria" role="tabpanel" aria-labelledby="galeria-tab">
 										<div class="row">
 											<div class="col-md-12">
@@ -200,7 +185,6 @@
 				</div>
 			</div>
 		{% endblock %}
-		{% block extraScripts %} 
-		<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-		<script src="{{ adminAssetsUrl }}/js/frontend/administrarproductos.js?x={{ " now"|date("dmYHis") }}"></script>
+		{% block extraScripts %} <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+			 <script src="{{ adminAssetsUrl }}/js/frontend/administrarproductos.js?x={{ " now"|date("dmYHis") }}"></script>
 		{% endblock %}

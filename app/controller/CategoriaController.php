@@ -29,7 +29,7 @@ class CategoriaController
         echo json_encode($data);
         exit;
     }
-   private function sanitize($input)
+    private function sanitize($input)
     {
         return htmlspecialchars(strip_tags(trim($input)), ENT_QUOTES, 'UTF-8');
     }
@@ -85,7 +85,7 @@ class CategoriaController
     {
         $categorias = $this->db->select('categorias', '*', [
             'estado' => 1,
-            'ORDER' => ['orden' => 'ASC']
+            'ORDER' => ['orden' => 'DESC', 'fecha_actualizacion' => 'DESC']
         ]);
 
         $categorias = array_map(function ($categoria) {

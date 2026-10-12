@@ -16,52 +16,46 @@ class ConfigController
         $this->db = $db;
     }
 
-    public function index()
+    private const FIELDS = [
+        'nombre_sitio',
+        'descripcion',
+        'email',
+        'telefono',
+        'telefono_ventas',
+        'whatsapp',
+        'direccion',
+        'horario',
+        'facebook',
+        'twitter',
+        'instagram',
+        'google_maps',
+    ];
+
+    public function index(): array|string
     {
         $config = $this->db->get('configuracion', '*', ['id' => 1]);
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $data = [
-                'nombre_sitio' => $_POST['nombre_sitio'] ?? '',
-                'descripcion' => $_POST['descripcion'] ?? '',
-                'email' => $_POST['email'] ?? '',
-                'telefono' => $_POST['telefono'] ?? '',
-                'telefono_ventas' => $_POST['telefono_ventas'] ?? '',
-                'whatsapp' => $_POST['whatsapp'] ?? '',
-                'direccion' => $_POST['direccion'] ?? '',
-                'horario' => $_POST['horario'] ?? '',
-                'facebook' => $_POST['facebook'] ?? '',
-                'twitter' => $_POST['twitter'] ?? '',
-                'instagram' => $_POST['instagram'] ?? '',
-                'google_maps' => $_POST['google_maps'] ?? '',
-                'fecha_actualizacion' => date('Y-m-d H:i:s')
-            ];
+        if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+            $data = [];
+            foreach (self::FIELDS as $field) {
+                $data[$field] = trim((string) ($_POST[$field] ?? ''));
+            }
+            $data['fecha_actualizacion'] = date('Y-m-d H:i:s');
 
             if ($config) {
                 $this->db->update('configuracion', $data, ['id' => 1]);
             } else {
-                $data['id'] = 1;
-                $this->db->insert('configuracion', $data);
+                $this->db->insert('configuracion', $data + ['id' => 1]);
             }
 
             $_SESSION['message'] = ['type' => 'success', 'text' => 'Configuración guardada'];
-            header('Location: ' . ADMIN_URL . '/configuracion');
-            exit;
+            return 'admin/configuracion'; // el router arma la URL con baseUrl
         }
 
-        $loader = new \Twig\Loader\FilesystemLoader(__DIR__ . '/../views');
-        $twig = new \Twig\Environment($loader, [
-            'cache' => false,
-            'debug' => true,
-        ]);
-        $twig->addGlobal('ADMIN_URL', ADMIN_URL);
-        echo $twig->render('configuracion.twig', [
-            'Sistema' => 'SysPro CMS',
-            'Nombre' => $_SESSION['admin_name'] ?? 'Administrador',
-            'config' => $config,
-            'ADMIN_URL' => ADMIN_URL,
-            'BASE_URL' => BASE_URL,
-        ]);
+        $message = $_SESSION['message'] ?? null;
+        unset($_SESSION['message']); // flash: se muestra una sola vez
+
+        return ['config' => $config, 'message' => $message];
     }
 
     public function guardar()
