@@ -30,7 +30,7 @@
 		<div class="me-auto d-lg-block">
 			<h3 class="text-primary font-w600">Perfil del Producto</h3>
 		</div>
-		<a href="{{ ADMIN_URL }}/admonproductos" class="btn btn-secondary">
+		<a href="{{ adminUrl }}/administrarproductos" class="btn btn-secondary">
 			<i class="fas fa-arrow-left"></i>
 			Volver
 		</a>
@@ -38,9 +38,7 @@
 	</div>
 
 	<div class="row">
-		<div
-			class="col-lg-8">
-			<!-- Datos del Producto -->
+		<div class="col-lg-8">
 			<div class="card mb-4">
 				<div class="card-header">
 					<h5 class="mb-0">Información General</h5>
@@ -88,11 +86,17 @@
 					</div>
 
 					<div class="row mb-3">
-						<div class="col-md-6">
+						<div class="col-md-3">
 							<label class="form-label">
 								<strong>Categoría:</strong>
 							</label>
 							<p>{{ categoria.nombre|default('No especificada') }}</p>
+						</div>
+						<div class="col-md-3">
+							<label class="form-label">
+								<strong>Subcategoría:</strong>
+							</label>
+							<p>{{ idsubcategoria.Subcategoria|default('No especificada') }}</p>
 						</div>
 						<div class="col-md-6">
 							<label class="form-label">
@@ -120,7 +124,7 @@
 							<label class="form-label">
 								<strong>Información adicional:</strong>
 							</label>
-							<img src="{{ ADMIN_URL }}/uploads/productos/{{ producto.informacion_adicional|default('default.png') }}" alt="Información adicional" class="img-fluid" width="300" height="350">
+							<img src="/../uploads/productos/{{ producto.informacion_adicional|default('default.png') }}" alt="Información adicional" class="img-fluid" width="300" height="350">
 						</div>
 					</div>
 					<div class="row">
@@ -141,16 +145,15 @@
 			</div>
 		</div>
 
-		<div
-			class="col-lg-4">
-			<!-- Imagen Principal -->
+		<div class="col-lg-4">
+
 			<div class="card mb-4">
 				<div class="card-header">
 					<h5 class="mb-0">Imagen Principal</h5>
 				</div>
 				<div class="card-body">
 					{% if producto.imagen %}
-						<img src="{{ ADMIN_URL }}/uploads/productos/{{ producto.imagen }}" alt="{{ producto.nombre }}" class="img-fluid rounded">
+						<img src="/../uploads/productos/{{ producto.imagen }}" alt="{{ producto.nombre }}" class="img-fluid rounded">
 					{% else %}
 						<div class="alert alert-info">No hay imagen principal</div>
 					{% endif %}
@@ -158,42 +161,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- Servicios Asociados -->
-	<div class="row">
-		<div class="col-12">
-			<div class="card mb-4">
-				<div class="card-header">
-					<h5 class="mb-0">
-						<i class="fas fa-cogs"></i>
-						Servicios Asociados
-					</h5>
-					<button type="button" class="btn btn-primary" id="btnAbrirModalServicio" data-bs-toggle="modal" data-bs-target="#modServicios">
-						<i class="fa fa-plus"></i>
-						Agregar Servicio
-					</button>
-				</div>
-				<div class="card-body">
-					<div class="row">
-
-						<table class="table" id="tabServicios" aria-describedby="guilty feet">
-							<thead>
-								<tr>
-									<th>Servicio</th>
-									<th>Acciones</th>
-								</tr>
-							</thead>
-							<tbody id="tbodyServicios"></tbody>
-						</table>
-
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
-
-	<!-- Galería de Imágenes -->
 
 	<div class="row">
 		<div class="col-12">
@@ -214,7 +181,7 @@
 						<div class="galeria-container">
 							{% for imagen in galeria %}
 								<div class="galeria-item">
-									<img src="{{ ADMIN_URL }}/uploads/productos/{{ imagen.Img_Galeria }}" alt="Galería" class="img-fluid">
+									<img src="{{ baseUrl }}uploads/productos/{{ imagen.Img_Galeria }}" alt="Galería" class="img-fluid">
 									<p class="btn  mt-3 btn-danger btnEliminarImagen" data-id="{{ imagen.Galeria_ID }}" title="Eliminar imagen" data-bs-target="tooltip">
 										<i class="fas fa-trash-alt"></i>
 									</p>
@@ -262,46 +229,6 @@
 					<button type="button" class="btn btn-primary" id="btnGuardarGaleria">Guardar</button>
 				</div>
 			</div>
-		</div>
-	</div>
-
-	<div class="modal fade" id="modServicios" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="exampleModalLabel">Servicios que incluye el producto</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<form id="formAgregarServicio">
-							<div class="col-md-8 mb-3">
-								<label for="precio" class="form-label">Servicio
-									<code>Si no existe, escriba uno nuevo y seleccione</code>
-								</label>
-								<select class="select2 form-control" id="servicio_id" name="servicio_id"></select>
-							</div>
-						</div>
-						<div class="row">
-							<div class="col-12">
-								<table class="table" id="tabServiciosDisponibles" aria-describedby="guilty feet">
-									<thead>
-										<tr>
-											<th>Servicio</th>
-											<th>Acciones</th>
-										</tr>
-									</thead>
-									<tbody id="tbodyServiciosModal"></tbody>
-								</table>
-							</div>
-						</div>
-					</form>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-primary" id="btnGuardarServicio">Guardar</button>
-				</div>
-			</div>
-
 		</div>
 	</div>
 
@@ -357,7 +284,7 @@
 										<div class="row">
 											<div class="col-md-6 mb-3">
 												<label for="categoria_id" class="form-label">Categoría</label>
-												<select class="form-select select" id="categoria_id" name="categoria_id">
+												<select class="select" id="categoria_id" name="categoria_id">
 													<option value="">Seleccionar categoría</option>
 													{% for cat in categorias %}
 														<option value="{{ cat.id }}" {% if producto.categoria_id == cat.id %} selected {% endif %}>{{ cat.nombre }}</option>
@@ -365,8 +292,17 @@
 												</select>
 											</div>
 											<div class="col-md-6 mb-3">
+												<label for="subcategoria_id" class="form-label">Subcategoría</label>
+												<select class="select" id="subcategoria_id" name="subcategoria_id">
+													<option value="">Seleccionar subcategoría</option>
+													{% for subcat in subcategorias %}
+														<option value="{{ subcat.Subcategoria_ID }}" {% if producto.subcategoria_id == subcat.Subcategoria_ID %} selected {% endif %}>{{ subcat.Subcategoria }}</option>
+													{% endfor %}
+												</select>
+											</div>
+											<div class="col-md-6 mb-3">
 												<label for="estado" class="form-label">Estado</label>
-												<select class="form-select select" id="estado" name="estado">
+												<select class="select" id="estado" name="estado">
 													<option value="1" {% if producto.estado == '1' %} selected {% endif %}>Activo</option>
 													<option value="0" {% if producto.estado == '0' %} selected {% endif %}>Inactivo</option>
 												</select>

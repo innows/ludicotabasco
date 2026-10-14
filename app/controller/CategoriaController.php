@@ -16,12 +16,6 @@ class CategoriaController
         $this->db = $db;
     }
 
-
-    private function isAjaxRequest()
-    {
-        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    }
-
     private function sendJson($data, $status = 200)
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -39,7 +33,7 @@ class CategoriaController
             return null;
         }
 
-        $uploadDir = __DIR__ . '/../uploads/categorias/';
+        $uploadDir = __DIR__ . '../../../uploads/categorias/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
@@ -89,7 +83,7 @@ class CategoriaController
         ]);
 
         $categorias = array_map(function ($categoria) {
-            $categoria['imagen_url'] = !empty($categoria['imagen']) ? 'uploads/categorias/' . $categoria['imagen'] : null;
+            $categoria['imagen_url'] = !empty($categoria['imagen']) ? '../../../uploads/categorias/' . $categoria['imagen'] : null;
             return $categoria;
         }, $categorias);
 
@@ -108,7 +102,7 @@ class CategoriaController
             $this->sendJson(['success' => false, 'message' => 'Categoría no encontrada'], 404);
         }
 
-        $categoria['imagen_url'] = !empty($categoria['imagen']) ? 'uploads/categorias/' . $categoria['imagen'] : null;
+        $categoria['imagen_url'] = !empty($categoria['imagen']) ? '../../../uploads/categorias/' . $categoria['imagen'] : null;
         $this->sendJson(['success' => true, 'data' => $categoria]);
     }
 

@@ -16,44 +16,40 @@ class ProductoController
         $this->db = $db;
     }
 
-    //funcion para traer categorias y subcategorias para la vista de productos
-    public function index()
-    {
-        $categorias = $this->db->select('categorias', '*', ['estado' => '1']);
-        $subcategorias = $this->db->select('subcategorias', '*', ['estado' => '1']);
-
-
-        return [
-            'categorias' => $categorias,
-            'subcategorias' => $subcategorias
-        ];
-    }
 
     public function list()
     {
-        $productos = $this->db->query("SELECT p.*, c.nombre AS categoria FROM productos p LEFT JOIN categorias c ON p.categoria_id = c.id  ORDER BY p.fecha_creacion DESC")->fetchAll();
+        $productos = $this->db->query(
+            "SELECT p.*, c.nombre AS categoria, s.Subcategoria AS subcategoria
+     FROM productos p 
+     LEFT JOIN categorias c ON p.categoria_id = c.id
+     LEFT JOIN subcategorias s ON p.subcategoria_id = s.Subcategoria_ID
+     ORDER BY p.fecha_creacion DESC"
+        )->fetchAll(\PDO::FETCH_ASSOC);
 
-        $data = array_map(function ($producto) {
+
+        $dataProductos = array_map(function ($producto) {
             return [
-                'id' => $producto['id'],
-                'sku' => $producto['sku'],
-                'nombre' => $producto['nombre'],
-                'precio' => $producto['precio'],
+                'id'        => $producto['id'],
+                'sku'       => $producto['sku'],
+                'nombre'    => $producto['nombre'],
+                'precio'    => $producto['precio'],
                 'categoria' => $producto['categoria'],
-                'estado' => $producto['estado'],
-                'stock' => $producto['stock']
+                'estado'    => $producto['estado'],
+                'stock'     => $producto['stock']
             ];
         }, $productos);
 
-        $this->sendJson(['success' => true, 'data' => $data]);
+
+        $this->sendJson([
+            'success'       => true,
+            'data'          => $dataProductos,
+            'totalRecords'  => count($dataProductos)
+        ]);
     }
 
     public function nuevo()
     {
-        // Obtener categorías
-        $categorias = $this->db->select('categorias', '*', ['estado' => '1']);
-        // Obtener subcategorías
-        $subcategorias = $this->db->select('subcategorias', '*', ['estado' => '1']);
 
         // Procesar formulario
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -111,7 +107,7 @@ class ProductoController
                     $this->sendJson(['success' => false, 'message' => $message], 500);
                 } else {
                     $_SESSION['message'] = ['type' => 'error', 'text' => $message];
-                    header('Location: ' . '/admonproductos');
+                    header('Location: ' . '/administrarproductos');
                     exit;
                 }
             }
@@ -208,7 +204,7 @@ class ProductoController
                 $this->sendJson(['success' => true, 'message' => $message]);
             } else {
                 $_SESSION['message'] = ['type' => 'success', 'text' => $message];
-                header('Location: ' .  '/admonproductos');
+                header('Location: ' .  '../administrarproductos');
                 exit;
             }
         }
@@ -238,6 +234,7 @@ class ProductoController
             'sku' => trim($_POST['sku'] ?? ''),
             'stock' => (int)($_POST['stock'] ?? 0),
             'categoria_id' => (int)($_POST['categoria_id'] ?? 0),
+            'subcategoria_id' => (int)($_POST['subcategoria_id'] ?? 0),
             'destacado' => isset($_POST['destacado']) ? 1 : 0,
             'estado' => $_POST['estado'] ?? '1',
             'fecha_actualizacion' => date('Y-m-d H:i:s')
@@ -288,7 +285,6 @@ class ProductoController
 
     public function perfil($id = null)
     {
-        // 1. Si el enrutador no inyecta el ID, lo capturamos directamente de la URL actual de forma segura
         if (!$id) {
             $requestUri = $_SERVER['REQUEST_URI'] ?? '';
             if (preg_match('/id=([0-9]+)/', $requestUri, $matches)) {
@@ -298,26 +294,28 @@ class ProductoController
 
         $idProducto = (int) $id;
 
-      
+
 
         if ($idProducto <= 0) {
-            die('ID de producto inválido');
+            header('Location: ' .  '../404');
+            exit;
         }
 
-        // 2. Obtener producto usando Medoo
+
         $producto = $this->db->get('productos', '*', ['id' => $idProducto]);
 
         if (!$producto) {
-            die('Producto no encontrado');
+            header('Location: ' .  '../404');
+            exit;
         }
 
-        // 3. Obtener categoría principal (evitando null)
-        $categoria = $this->db->get('categorias', '*', ['id' => $producto['categoria_id'] ?? 0]) ?: [];
 
-        // 4. Obtener categorías activas para el modal de edición
+        $categoria = $this->db->get('categorias', '*', ['id' => $producto['categoria_id'] ?? 0]) ?: [];
+        $idsubcategoria = $this->db->get('subcategorias', '*', ['Subcategoria_ID' => $producto['subcategoria_id'] ?? 0]) ?: [];
+
         $categorias = $this->db->select('categorias', '*', ['estado' => '1']) ?: [];
 
-        // 5. Obtener servicios asociados (Medoo maneja consultas directas de forma segura)
+
         $servicios = $this->db->query(
             "SELECT s.Servicio_ID, s.Nombre_Servicio 
              FROM servicios s
@@ -326,21 +324,23 @@ class ProductoController
             [':idProducto' => $idProducto]
         )->fetchAll(\PDO::FETCH_ASSOC) ?: [];
 
-        // 6. Obtener galería con Medoo
+
         $galeria = $this->db->select('galeriaProductos', '*', [
             'Producto_ID' => $idProducto,
             'Activo'      => 1
         ]) ?: [];
 
-      
+
         return [
-           
+
             'producto'   => $producto,
             'categoria'  => $categoria,
             'categorias' => $categorias,
+            'idsubcategoria' => $idsubcategoria,
+            'subcategorias' => $this->db->select('subcategorias', '*', ['estado' => '1']) ?: [],
             'servicios'  => $servicios,
             'galeria'    => $galeria,
-           
+
         ];
     }
 
@@ -367,7 +367,7 @@ class ProductoController
             return null;
         }
 
-        $uploadDir = __DIR__ . '/../uploads/' . $subfolder . '/';
+        $uploadDir = __DIR__ . '../../../uploads/' . $subfolder . '/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
@@ -613,5 +613,56 @@ class ProductoController
 
         $this->db->update('servicios_productos', ['Activo' => 0], ['ServProducto_ID' => $asociacion['ServProducto_ID']]);
         $this->sendJson(['success' => true, 'message' => 'Servicio eliminado del producto']);
+    }
+
+    /**
+     * Resuelve un slug público de producto.
+     * Devuelve null cuando el slug no pertenece al catálogo.
+     */
+    public function perfilSlug(string $slug): ?array
+    {
+
+        if (!$slug) {
+            $requestUri = $_SERVER['REQUEST_URI'] ?? '';
+            if (preg_match('/productos\/([a-zA-Z0-9\-]+)/', $requestUri, $matches)) {
+                $slug = $matches[1];
+            }
+        }
+
+        if (!$slug) {
+            return null;
+        }
+
+        $producto = $this->db->get('productos', '*', [
+            'slug' => $slug,
+            'estado' => '1',
+        ]);
+
+        if (!$producto) {
+            return null;
+        }
+
+        $categoria = $this->db->get('categorias', ['nombre', 'slug'], [
+            'id' => $producto['categoria_id'] ?? 0,
+            'estado' => '1',
+        ]) ?: null;
+
+        $subcategoria = $this->db->get('subcategorias', ['Subcategoria', 'slug_subcategoria'], [
+            'Subcategoria_ID' => $producto['subcategoria_id'] ?? 0,
+            'estado' => '1',
+        ]) ?: null;
+
+        $galeria = $this->db->select('galeriaProductos', 'Img_Galeria', [
+            'Producto_ID' => $producto['id'],
+            'Activo' => 1,
+            'ORDER' => ['Galeria_ID' => 'ASC'],
+        ]) ?: [];
+    
+        return [
+            'producto' => $producto,
+            'categoria' => $categoria,
+            'subcategoria' => $subcategoria,
+            'galeria' => $galeria,
+        ];
     }
 }

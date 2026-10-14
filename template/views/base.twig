@@ -1,17 +1,21 @@
-<html lang="en">
+<html lang="es" translate="no">
 
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<base href="{{ baseUrl }}">
-		<meta name="description" content="ludico A modern and responsive HTML template for consulting businesses. Perfect for finance, corporate, and agency websites. SEO-friendly, fast-loading, and easy to customize. Create a professional online presence today!">
+		<meta name="description" content="Conoce nuestras soluciones en acción y descubre cómo el equipamiento recreativo, deportivo y urbano contribuye a crear espacios funcionales, atractivos y diseñados para las personas.">
 		<link rel="shortcut icon" type="image/x-icon" href="assets/images/fav.png">
 		<title>Ludico | Suministro e instalación de mobiliario y equipamiento recreativo deportivo y urbano</title>
 		<meta name="keywords" content="ludico, consultoría, negocios, finanzas, corporativo, agencia, sitio web, SEO, rápido, personalizable">
 		<meta name="author" content="Ludico">
 		<meta name="robots" content="index, follow">
 		<meta name="theme-color" content="#ffffff">
-		<meta name="cache" content="no-cache">
+		<link rel="icon" type="image/png" href="assets/images/favicon/favicon-96x96.png" sizes="96x96" />
+		<link rel="icon" type="image/svg+xml" href="assets/images/favicon/favicon.svg" />
+		<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" />
+		<link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png" />
+		<link rel="manifest" href="assets/images/favicon/site.webmanifest" />
 		{% include "modules/globalStyles.twig" %}
 	</head>
 	<body class="color-ludico">
@@ -35,9 +39,9 @@
 								</div>
 								<div class="left">
 									<div class="mail">
-										<a href="mailto:ludicoficial@gmail.com">
+										<a href="mailto:{{ config.email|default('') }}">
 											<i class="fal fa-envelope"></i>
-											ludicoficial@gmail.com</a>
+											{{ config.email|default('') }}</a>
 									</div>
 
 								</div>
@@ -111,25 +115,37 @@
 							<a href="index" class="logo_footer">
 								<img src="assets/images/icon-logo.png" alt="Logo-image" width="150px">
 							</a>
-							<p class="disc">Suministro e instalación de mobiliario y equipamiento recreativo deportivo y urbano
+							<p class="disc text-justify">Suministro e instalación de mobiliario y equipamiento recreativo deportivo y urbano
 							</p>
 							<ul class="social-three-wrapper">
+							{% if config.facebook %}
 								<li>
-									<a href="#">
+									<a href="{{ config.facebook|default('#') }}" target="_blank" rel="noopener noreferrer">
 										<i class="fab fa-facebook-f"></i>
 									</a>
 								</li>
-
+							{% endif %}
+							{% if config.twitter %}
 								<li>
-									<a href="#">
-										<i class="fab fa-tiktok"></i>
+									<a href="{{ config.twitter|default('#') }}" target="_blank" rel="noopener noreferrer">
+										<i class="fab fa-twitter"></i>
 									</a>
 								</li>
+							{% endif %}
+							{% if config.instagram %}
 								<li>
-									<a href="#">
+									<a href="{{ config.instagram|default('#') }}" target="_blank" rel="noopener noreferrer">
 										<i class="fab fa-instagram"></i>
 									</a>
 								</li>
+							{% endif %}
+							{% if config.tiktok %}
+								<li>
+									<a href="{{ config.tiktok|default('#') }}" target="_blank" rel="noopener noreferrer">
+										<i class="fab fa-tiktok"></i>
+									</a>
+								</li>
+							{% endif %}
 
 							</ul>
 						</div>
@@ -153,9 +169,10 @@
 												</ul>
 												<div class="info">
 													<span>Teléfono</span>
-													<a href="#">(+256) 2145.2156</a>
+													<a href="tel:{{ config.telefono|default('') }}">{{ config.telefono|default('') }}</a>
 												</div>
 											</div>
+											{% if config.email %}
 											<div class="single">
 												<ul class="icon">
 													<li>
@@ -164,9 +181,20 @@
 												</ul>
 												<div class="info">
 													<span>Correo Electrónico</span>
-													<a href="mailto:ludicoficial@gmail.com">ludicoficial@gmail.com</a>
+													<a href="mailto:{{ config.email|default('') }}">{{ config.email|default('') }}</a>
 												</div>
 											</div>
+											{% endif %}
+										   {% if config.direccion %}<div class="single">
+                                            <ul class="icon">
+                                                <li><i class="fas fa-map-marker-alt"></i></li>
+                                            </ul>
+                                            <div class="info">
+                                                <span>Dirección</span>
+                                                <a href="#">{{ config.direccion|default('') }}</a>
+                                            </div>
+                                        </div>
+										{% endif %}
 
 										</div>
 									</div>

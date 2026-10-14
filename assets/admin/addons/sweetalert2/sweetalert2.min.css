@@ -348,7 +348,7 @@
   border-width: 0.25em;
   border-style: solid;
   border-radius: 100%;
-  border-color: #20c997rgba(0, 0, 0, 0) #20c997rgba(0, 0, 0, 0);
+  border-color: #20c997 rgba(0, 0, 0, 0) #20c997 rgba(0, 0, 0, 0);
 }
 .swal2-styled {
   margin: 0.3125em;
@@ -364,38 +364,34 @@
   border: 0;
   border-radius: 0.25em;
   background: initial;
-  background-color: #064422;
+  background-color: #232b96 !important;
   color: #fff;
   font-size: 1em;
 }
 .swal2-styled.swal2-confirm:focus {
-  box-shadow: 0 0 0 3px rgba(112, 102, 224, 0.5);
+  box-shadow: none;
 }
 .swal2-styled.swal2-deny {
   border: 0;
   border-radius: 0.25em;
   background: initial;
-  background-color: #dc3741;
+  background-color: #dc3741 !important;
   color: #fff;
   font-size: 1em;
 }
 .swal2-styled.swal2-deny:focus {
-  box-shadow: 0 0 0 3px rgba(220, 55, 65, 0.5);
+  box-shadow: none;
 }
 .swal2-styled.swal2-cancel {
   border: 0;
   border-radius: 0.25em;
   background: initial;
-  background-color: #6e7881;
+  background-color: #dc3741 !important;
   color: #fff;
   font-size: 1em;
 }
-.swal2-styled.swal2-cancel:focus {
-  box-shadow: 0 0 0 3px rgba(110, 120, 129, 0.5);
-}
-.swal2-styled.swal2-default-outline:focus {
-  box-shadow: 0 0 0 3px rgba(100, 150, 200, 0.5);
-}
+
+
 .swal2-styled:focus {
   outline: none;
 }
@@ -783,13 +779,13 @@
   width: 2em;
   height: 2em;
   border-radius: 2em;
-  background: #064422;
+  background: #232b96;
   color: #fff;
   line-height: 2em;
   text-align: center;
 }
 .swal2-progress-steps .swal2-progress-step.swal2-active-progress-step {
-  background: #064422;
+  background: #232b96;
 }
 .swal2-progress-steps
   .swal2-progress-step.swal2-active-progress-step
@@ -808,7 +804,7 @@
   width: 2.5em;
   height: 0.4em;
   margin: 0 -1px;
-  background: #064422;
+  background: #232b96;
 }
 [class^="swal2"] {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

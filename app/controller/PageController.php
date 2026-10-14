@@ -11,6 +11,7 @@ use Twig\Environment;
 /** Enrutador HTTP para el sitio público y el panel de administración. */
 final class PageController
 {
+    protected $db;
     private const SESSION_TIMEOUT = 1800;
     private const DEFAULT_ACTION = 'index';
 
@@ -58,16 +59,11 @@ final class PageController
             ],
             'admonproductos' => [
                 \Admin\Controllers\ProductoController::class => [
-                    'GET'  => ['index', 'list', 'obtener','perfil'],
-                    'POST' => ['guardar', 'eliminar'],
+                    'GET'  => ['index', 'list', 'obtener', 'perfil'],
+                    'POST' => ['nuevo', 'editar', 'guardar', 'eliminar', 'uploadGalleryImage', 'deleteGalleryImage'],
                 ],
             ],
-            'producto'=> [
-                \Admin\Controllers\ProductoController::class => [
-                    'GET'  => ['perfil'],
-                    'POST' => ['guardar'],
-                ],
-            ],
+
             'configuracion' => [
                 \Admin\Controllers\ConfigController::class => [
                     'GET'  => ['index'],
@@ -84,7 +80,10 @@ final class PageController
 
         ],
         'public' => [
-            // 'contacto' => [ContactoController::class => ['POST' => ['enviar']]],
+            'home' => [
+                \Admin\Controllers\HomeController::class => ['GET' => ['index']],
+            ],
+            //'contacto' => [ContactoController::class => ['POST' => ['enviar']]],
         ],
     ];
 
@@ -92,7 +91,61 @@ final class PageController
         private readonly Environment $twig,
         private readonly string $viewsPath,
         private readonly string $baseUrl,
-    ) {}
+    ) {
+
+        $this->cargarMenuGlobal();
+    }
+
+    /** Carga el menú global para todas las vistas públicas. */
+    private function cargarMenuGlobal(): void
+    {
+        $db = DbSingleton::getInstance()->getDatabase();
+        $categorias = $db->select('categorias', '*', [
+            'estado' => '1',
+            'ORDER' => ['orden' => 'ASC'],
+            'LIMIT' => 4
+        ]);
+
+        $subcategoriasRaw = $db->query(
+            "SELECT DISTINCT
+                s.*,
+                s.Subcategoria_ID 
+            FROM
+                subcategorias s
+                INNER JOIN productos p ON p.subcategoria_id = s.Subcategoria_ID
+            WHERE
+                s.estado = '1' AND p.estado = '1'"
+        )->fetchAll(\PDO::FETCH_ASSOC);
+
+        $subcategoriasPorCategoria = [];
+        foreach ($subcategoriasRaw as $sub) {
+            $subcategoriasPorCategoria[$sub['categoria_id']][] = [
+                'id'     => $sub['Subcategoria_ID'],
+                'nombre' => $sub['Subcategoria'],
+                'slug'   => $sub['slug_subcategoria'] ?? $sub['id']
+            ];
+        }
+
+        $menuData = [];
+        foreach ($categorias as $cat) {
+            $catId = $cat['id'];
+            $subs = $subcategoriasPorCategoria[$catId] ?? [];
+
+            $menuData[] = [
+                'id'            => $cat['id'],
+                'nombre'        => $cat['nombre'],
+                'slug'          => $cat['slug'] ?? $cat['id'],
+                'has_sub'       => !empty($subs),
+                'subcategorias' => $subs
+            ];
+        }
+
+        // Se inyecta globalmente en Twig con la variable 'menu_categorias'
+        $this->twig->addGlobal('menu_categorias', $menuData);
+    }
+
+    /** Datos disponibles en todas las vistas del sitio público durante la petición actual. */
+    private ?array $publicSharedContext = null;
 
     /* ------------------------------------------------------------------ *
      * Entrada
@@ -249,22 +302,75 @@ final class PageController
             return;
         }
 
+        // 1. Ficha pública de producto: /productos/<slug>.
+        if ($page === 'productos') {
+            $slug = $segments[1] ?? '';
+
+            if (count($segments) !== 2 || !preg_match('/^[a-zA-Z0-9_-]+$/', $slug)) {
+                $this->abort('public', 404, 'Recurso no encontrado.');
+                return;
+            }
+
+            $class = \Admin\Controllers\ProductoController::class;
+            $this->loadController($class);
+
+            try {
+                $producto = (new $class(DbSingleton::getInstance()->getDatabase()))->perfilSlug($slug);
+            } catch (\Throwable $e) {
+                error_log('Error al resolver el producto: ' . $e->getMessage());
+                $this->abort('public', 500, 'Error interno del servidor.');
+                return;
+            }
+
+            if ($producto === null) {
+                $this->abort('public', 404, 'Producto no encontrado.');
+                return;
+            }
+
+            $this->renderPublic('productos.twig', $producto);
+            return;
+        }
+
+        // 2. Rutas públicas explícitas, como la página de inicio.
         if ($this->dispatchController('public', $page, $segments[1] ?? null)) {
             return;
         }
 
-        if (!$this->viewExists($page . '.twig')) {
-            $this->abort('public', 404, 'Recurso no encontrado.');
+        // 3. Las rutas fijas tienen prioridad sobre un slug dinámico.
+        if ($this->viewExists($page . '.twig')) {
+            $this->renderPublic($page . '.twig', [
+                'params' => array_slice($segments, 1),
+                'get' => $_GET,
+            ]);
             return;
         }
 
-        $this->render($page . '.twig', ['params' => array_slice($segments, 1), 'get' => $_GET]);
+        // 4. Un slug de catálogo ocupa sólo el primer segmento de la URL.
+        if (count($segments) === 1) {
+            $class = \Admin\Controllers\HomeController::class;
+            $this->loadController($class);
+
+            try {
+                $catalogo = (new $class(DbSingleton::getInstance()->getDatabase()))
+                    ->catalogoPorSlug($page);
+            } catch (\Throwable $e) {
+                error_log('Error al resolver el catálogo: ' . $e->getMessage());
+                $this->abort('public', 500, 'Error interno del servidor.');
+                return;
+            }
+
+            if ($catalogo !== null) {
+                $this->renderPublic('catalogo.twig', $catalogo);
+                return;
+            }
+        }
+
+        $this->abort('public', 404, 'Recurso no encontrado.');
     }
 
     /* ------------------------------------------------------------------ *
      * Despacho genérico a controladores (compartido admin / public)
      * ------------------------------------------------------------------ */
-
     /**
      * Resuelve /<page>/<action> contra CONTROLLERS[$scope][$page].
      *
@@ -329,7 +435,7 @@ final class PageController
         if (is_array($result)) {
             $scope === 'admin'
                 ? $this->renderAdmin($page, $result)
-                : $this->render($page . '.twig', $result);
+                : $this->renderPublic($page . '.twig', $result);
         }
     }
 
@@ -356,6 +462,30 @@ final class PageController
         ], $status);
     }
 
+    /** Renderiza una vista pública junto con la configuración común del sitio. */
+    private function renderPublic(string $view, array $context = [], int $status = 200): void
+    {
+        $this->render($view, array_replace($this->publicSharedContext(), $context), $status);
+    }
+
+    /**
+     * La configuración se consulta una sola vez por petición y se reutiliza en
+     * base.twig y en cualquier vista pública que la extienda.
+     */
+    private function publicSharedContext(): array
+    {
+        if ($this->publicSharedContext !== null) {
+            return $this->publicSharedContext;
+        }
+
+        $class = \Admin\Controllers\HomeController::class;
+        $this->loadController($class);
+
+        return $this->publicSharedContext = (new $class(
+            DbSingleton::getInstance()->getDatabase()
+        ))->ContactoPage();
+    }
+
     private function render(string $view, array $context = [], int $status = 200): void
     {
         http_response_code($status);
@@ -372,7 +502,7 @@ final class PageController
         if ($status === 404) {
             $scope === 'admin'
                 ? $this->renderAdmin('404', [], 404)
-                : $this->render('404.twig', [], 404);
+                : $this->renderPublic('404.twig', [], 404);
             return;
         }
 

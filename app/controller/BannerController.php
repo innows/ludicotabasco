@@ -46,7 +46,7 @@ class BannerController
             return null;
         }
 
-        $uploadDir = __DIR__ . '/../uploads/banners/';
+        $uploadDir = __DIR__ . '../../../uploads/banners/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
@@ -69,7 +69,7 @@ class BannerController
         ]);
 
         $banners = array_map(function ($banner) {
-            $banner['imagen_url'] = !empty($banner['imagen']) ? 'uploads/banners/' . $banner['imagen'] : null;
+            $banner['imagen_url'] = !empty($banner['imagen']) ? '../../../uploads/banners/' . $banner['imagen'] : null;
             return $banner;
         }, $banners);
 
@@ -88,7 +88,7 @@ class BannerController
             $this->sendJson(['success' => false, 'message' => 'Banner no encontrado'], 404);
         }
 
-        $banner['imagen_url'] = !empty($banner['imagen']) ? 'uploads/banners/' . $banner['imagen'] : null;
+        $banner['imagen_url'] = !empty($banner['imagen']) ? '../../../uploads/banners/' . $banner['imagen'] : null;
         $this->sendJson(['success' => true, 'data' => $banner]);
     }
 

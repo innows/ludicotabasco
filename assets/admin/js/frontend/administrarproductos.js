@@ -6,6 +6,9 @@ const endpoints = {
   servicios: "/servicios/list",
   productos: "admonproductos/list",
   eliminar: "admonproductos/eliminar",
+  categorias: "../admin/categorias/list",
+  subcategorias: "../admin/subcategorias/list",
+  newproducto:"../admin/admonproductos/nuevo",
 };
 
 $("#tabProductos").DataTable({
@@ -55,7 +58,7 @@ $("#tabProductos").DataTable({
       data: null,
       render: function (data) {
         return `
-                <a href="admonproductos/perfil/${data.id}" class="btn-icon" title="Ver perfil" data-bs-toggle="tooltip">
+                <a href="admonproductos/perfil/id=${data.id}" class="btn-icon" title="Ver perfil" data-bs-toggle="tooltip">
                     <span class="btn btn-sm btn-primary"> <i class="fas fa-edit"></i></span>
                 </a>
                 <a type="button" class="btn-icon btn-delete btn_eliminar" title="Eliminar" data-id="${data.id}" data-bs-toggle="tooltip">
@@ -67,11 +70,48 @@ $("#tabProductos").DataTable({
   ],
 });
 
+
 $("#categoria_id").select2({
   dropdownParent: $("#modProductos"), // ID del modal
   placeholder: "Seleccionar categoría",
   allowClear: true,
   width: "100%",
+  ajax: {
+    url: endpoints.categorias,
+    dataType: "json",
+    delay: 250,
+    processResults: function (data) {
+        return {
+        results: data.data.map(function (cat) {
+          return {
+            id: cat.id,
+            text: cat.nombre,
+          };
+        }),
+      };
+    },
+  },
+});
+$("#subcategoria_id").select2({
+  dropdownParent: $("#modProductos"), // ID del modal
+  placeholder: "Seleccionar subcategoría",
+  allowClear: true,
+  width: "100%",
+  ajax: {
+    url: endpoints.subcategorias,
+    dataType: "json",
+    delay: 250,
+    processResults: function (data) {
+        return {
+        results: data.data.map(function (cat) {
+          return {
+            id: cat.Subcategoria_ID,
+            text: cat.Subcategoria,
+          };
+        }),
+      };
+    },
+  },
 });
 
 $("#servicio_id").select2({
@@ -314,7 +354,7 @@ function guardarProducto() {
 
   // Enviar
   $.ajax({
-    url: "/admonproductos/nuevo",
+    url: "../admin/admonproductos/nuevo",
     type: "POST",
     data: formData,
     contentType: false,
@@ -375,6 +415,5 @@ $(document).ready(function () {
     guardarProducto();
   });
 
-  // Cargar lista de productos al abrir la página
-  //cargarProductos();
+
 });

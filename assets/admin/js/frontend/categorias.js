@@ -56,7 +56,7 @@ $(function () {
 
     const rows = categories.map(function (category) {
       const image = category.imagen_url
-        ? `<img src="../app/${category.imagen_url}" alt="${category.nombre}" class="img-fluid" style="max-width: 80px;" />`
+        ? `<img src="../${category.imagen_url}" alt="${category.nombre}" class="img-fluid" style="max-width: 80px;" />`
         : '<span class="text-muted">Sin imagen</span>';
       return `
                 <tr>

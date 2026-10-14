@@ -16,12 +16,6 @@ class SubCategoriaController
         $this->db = $db;
     }
 
-
-    private function isAjaxRequest()
-    {
-        return !empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
-    }
-
     private function sendJson($data, $status = 200)
     {
         header('Content-Type: application/json; charset=utf-8');
@@ -39,7 +33,7 @@ class SubCategoriaController
             return null;
         }
 
-        $uploadDir = __DIR__ . '/../uploads/subcategorias/';
+        $uploadDir = __DIR__ . '../../../uploads/subcategorias/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
         }
@@ -89,7 +83,7 @@ class SubCategoriaController
         ]);
 
         $subcategorias = array_map(function ($subcategoria) {
-            $subcategoria['imagen_url'] = !empty($subcategoria['imagen']) ? 'uploads/subcategorias/' . $subcategoria['imagen'] : null;
+            $subcategoria['imagen_url'] = !empty($subcategoria['imagen']) ? '../../../uploads/subcategorias/' . $subcategoria['imagen'] : null;
             return $subcategoria;
         }, $subcategorias);
 
@@ -108,7 +102,7 @@ class SubCategoriaController
             $this->sendJson(['success' => false, 'message' => 'Subcategoría no encontrada'], 404);
         }
 
-        $subcategoria['imagen_url'] = !empty($subcategoria['imagen']) ? 'uploads/subcategorias/' . $subcategoria['imagen'] : null;
+        $subcategoria['imagen_url'] = !empty($subcategoria['imagen']) ? '../../../uploads/subcategorias/' . $subcategoria['imagen'] : null;
         $this->sendJson(['success' => true, 'data' => $subcategoria]);
     }
 

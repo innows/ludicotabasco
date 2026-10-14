@@ -680,6 +680,28 @@
         });
       });
       $(document).ready(function () {
+        const contenedorGaleria = document.getElementById("galeria-container");
+        let imagenesUrls = [];
+        if (contenedorGaleria && contenedorGaleria.dataset.imagenes) {
+          try {
+            imagenesUrls = JSON.parse(contenedorGaleria.dataset.imagenes);
+          } catch (e) {
+            console.error("Error al parsear las imágenes de la galería", e);
+          }
+        }
+        const palabrasNumeros = [
+          "one",
+          "two",
+          "three",
+          "four",
+          "five",
+          "six",
+          "seven",
+          "eight",
+          "nine",
+          "ten",
+        ];
+
         var swiper = new Swiper(".swiper-container-h1", {
           direction: "horizontal",
           effect: "slide",
@@ -703,9 +725,16 @@
             prevEl: ".swiper-button-prev",
           },
           pagination: {
-            el: ".swiper-pagination",
-            type: "bullets",
-            clickable: "true",
+           el: ".swiper-pagination",
+        type: "bullets",
+        clickable: true,
+        renderBullet: function (index, className) {
+            const claseTexto = palabrasNumeros[index] || 'bullet-extra';
+            const urlImg = imagenesUrls[index] || '';
+            
+            return '<span role="button" class="' + className + ' " style="background-image: url(\'' + urlImg + '\') !important;" aria-label="Go to slide ' + (index + 1) + '"></span>';
+             
+            },
           },
         });
       });

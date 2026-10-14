@@ -153,6 +153,7 @@ h6,
 .h6 {
   word-break: break-word;
   font-family: "Gilroy-Heavy", serif;
+  font-weight: normal !important;
   line-height: 1.4074;
   color: inherit;
 }
@@ -819,7 +820,7 @@ td {
 }
 
 th {
-  font-weight: 500;
+   font-weight: normal;
   text-transform: uppercase;
 }
 
@@ -911,7 +912,7 @@ blockquote small {
 
 blockquote strong,
 blockquote b {
-  font-weight: 700;
+  font-weight: normal;
 }
 
 /* ========= Forms Styles ========= */
@@ -958,7 +959,7 @@ input[type="tel"],
 select,
 textarea {
   font-size: var(--font-size-b2);
-  font-weight: 400;
+  font-weight: normal;
   height: auto;
   line-height: 28px;
   background: transparent;
@@ -1202,7 +1203,7 @@ input[type="radio"] ~ label {
   position: relative;
   font-size: 14px;
   color: var(--color-body);
-  font-weight: 400;
+  font-weight: normal;
   padding-left: 5px;
   cursor: pointer;
 }
@@ -1233,7 +1234,7 @@ input[type="radio"] ~ label::after {
   margin-bottom: 6px;
   font-size: 14px;
   line-height: 22px;
-  font-weight: 500;
+  font-weight: normal;
 }
 .form-group input {
   border: 0 none;
@@ -5812,7 +5813,7 @@ Copyright (c) 2015 Daniel Eden
   color: #fff;
 }
 .header-two .header-top .content .left-header-top p a {
-  font-weight: 500;
+  font-weight: normal;
 }
 .header-two .header-top .content .left-header-top p a i {
   transition: 0.3s;
@@ -5854,7 +5855,7 @@ Copyright (c) 2015 Daniel Eden
 }
 .header-two .header-top .content .right-header-top .ht-social span {
   color: #1c2539;
-  font-weight: 400;
+  font-weight: normal;
 }
 .header-two .header-top .content .right-header-top .ht-social ul {
   list-style: none;
@@ -6074,7 +6075,7 @@ Copyright (c) 2015 Daniel Eden
   padding: 10px 0;
   padding-left: 50px;
   font-size: 16px;
-  font-weight: 400;
+  font-weight: normal;
   color: #5d666f;
   display: flex;
   align-items: center;
@@ -6113,7 +6114,7 @@ Copyright (c) 2015 Daniel Eden
 .header-five .header-top-right .email a {
   color: #1c2539;
   transition: 0.3s;
-  font-weight: 500;
+  font-weight: normal;
 }
 .header-five .header-top-right .email a:hover {
   color: var(--color-primary);
@@ -6129,7 +6130,7 @@ Copyright (c) 2015 Daniel Eden
 .header-five .header-top-right .call a {
   color: #1c2539;
   transition: 0.3s;
-  font-weight: 500;
+  font-weight: normal;
 }
 .header-five .header-top-right .call a:hover {
   color: var(--color-primary);
@@ -6288,7 +6289,7 @@ Copyright (c) 2015 Daniel Eden
   .right
   p
   a {
-  font-weight: 600;
+  font-weight: normal;
   color: var(--color-primary) !important;
 }
 .top-transparent-header
@@ -6305,7 +6306,7 @@ Copyright (c) 2015 Daniel Eden
   .header-top-one-wrapper
   .left
   a {
-  font-weight: 600;
+  font-weight: normal;
 }
 .top-transparent-header
   .header-top-area-wrapper
@@ -9893,7 +9894,7 @@ header.header--sticky.sticky .nav-area ul li.main-nav {
 }
 
 .partner-breadcrumb {
-  background-image: url(../images/banner/23.webp);
+  background-image: url(../images/banner/bg-catalogo.webp);
   height: 477px;
 }
 @media only screen and (max-width: 575px) {
@@ -14606,6 +14607,8 @@ section.main-wrapper-sticky .sticky-statement.narrow .left-side img {
 }
 .single-service-hr .thumbnail img{
   border-radius: 10px;
+  height: 265px;
+  width: 371px;
 }
 .single-service-hr .rts-btn {
   margin: auto;
@@ -27107,12 +27110,11 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
 .rts-single-shop-area .inner-content .pricing-area-wrapper {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
 }
 .rts-single-shop-area .inner-content .pricing-area-wrapper p {
   margin: 0;
   font-size: 20px;
-  font-weight: 700;
   color: var(--color-primary);
 }
 .rts-single-shop-area .inner-content .pricing-area-wrapper .rts-btn {
@@ -27181,11 +27183,10 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   position: relative;
 }
 .ms-single-product__content .ms-single-product_title {
-  font-size: 28px;
-  margin-bottom: 2rem;
+  font-size: 48px;
+
 }
 .ms-single-product__content .price bdi {
-  font-weight: 700;
   letter-spacing: -1pt;
   color: var(--color-primary);
 }
@@ -27197,7 +27198,6 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
 }
 .ms-single-product__content .stock.in-stock {
   color: #2eb740;
-  font-weight: 700;
   margin-top: 10px;
   font-size: 18px;
 }
@@ -38391,4 +38391,7 @@ header.header-transparent.in-full-screen .action-area .menu-btn {
     font-family: var(--font-primary);
     font-size: 16px;
     margin-bottom: 12px;
+}
+.slider-inner img {
+    border-radius: 16px;
 }

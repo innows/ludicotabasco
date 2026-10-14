@@ -28,6 +28,7 @@ class ConfigController
         'facebook',
         'twitter',
         'instagram',
+        'tiktok',
         'google_maps',
     ];
 
@@ -79,6 +80,7 @@ class ConfigController
             'facebook' => $_POST['facebook'] ?? '',
             'twitter' => $_POST['twitter'] ?? '',
             'instagram' => $_POST['instagram'] ?? '',
+            'tiktok' => $_POST['tiktok'] ?? '',
             'google_maps' => $_POST['google_maps'] ?? '',
             'fecha_actualizacion' => date('Y-m-d H:i:s')
         ];

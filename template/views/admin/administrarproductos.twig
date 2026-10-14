@@ -95,9 +95,7 @@
 												<label for="categoria_id" class="form-label">Categoría *</label>
 												<select class="select2 form-control" id="categoria_id" name="categoria_id" required>
 													<option value="">Seleccionar...</option>
-													{% for cat in categorias %}
-														<option value="{{ cat.id }}">{{ cat.nombre }}</option>
-													{%- endfor %}
+												
 												</select>
 
 											</div>
@@ -105,9 +103,7 @@
 												<label for="subcategoria_id" class="form-label">Subcategoría *</label>
 												<select class="select2 form-control" id="subcategoria_id" name="subcategoria_id" required>
 													<option value="">Seleccionar...</option>
-													{% for subcat in subcategorias %}
-														<option value="{{ subcat.Subcategoria_ID }}">{{ subcat.Subcategoria}}</option>
-													{%- endfor %}
+													
 												</select>
 
 											</div>

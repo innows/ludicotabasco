@@ -248,31 +248,32 @@
                                    Contamos con una amplia gama de productos para equipamiento infantil, superficies y mobiliario urbano, diseñados para crear espacios seguros y funcionales.
                                 </span>
                             </div>
-                            <a href="#" class="rts-btn btn-primary btn-border">Conoce más</a>
+                          
                         </div>
                     </div>
                 </div>
 
                 <div class="row g-5 mt--40">
+				{% for categoria in categorias %}
                     <div class="col-xl-4 col-lg-6 col-sm-12" data-animation="fadeInUp" data-delay="0.1"
                         data-duration="1.2">
                         <div class="single-service-hr bg_color-dark-1 ">
                             <a href="#" class="thumbnail">
-                                <img src="assets/images/juegos-infantiles-para-parques.webp" alt="service">
+                                <img src="uploads/categorias/{{ categoria.imagen|default('assets/images/default-service.webp') }}" alt="{{ categoria.nombre }}">
                             </a>
                             <div class="inner">
 
-                                <a href="#">
-                                    <h3 class="title">Juegos Infantiles</h3>
+                                <a href="{{categoria.slug}}">
+                                    <h3 class="title">{{ categoria.nombre }}</h3>
                                 </a>
                                 <p class="disc">
-                                    Equipamiento infantil para parques, escuelas, desarrollos habitacionales, hoteles y espacios recreativos.
+                                    {{ categoria.descripcion }}	
                                 </p>
-                                <a href="#" class="rts-btn btn-secondary">Ver más</a>
+                                <a href="{{categoria.slug}}" class="rts-btn btn-secondary">Ver más</a>
                             </div>
                         </div>
                     </div>
-                 
+                 {% endfor %}
                 </div>
             </div>
         </div>
@@ -309,8 +310,8 @@
 								<div class="information">
 									<span>Contactános
 									</span>
-									<a href="#">
-										<h6 class="title">+256 56778.5678</h6>
+									<a href="tel:{{ config.telefono|default('') }}">
+										<h6 class="title">{{ config.telefono|default('') }}</h6>
 									</a>
 								</div>
 							</div>
@@ -397,7 +398,7 @@
                             </p>
                         </div>
                     </div>
-                    <!-- single wirking process End -->
+                  
                 </div>
             </div>
         </div>
@@ -417,7 +418,7 @@
 							<div class="icon">
 								<i class="fa-solid fa-phone-flip"></i>
 							</div>
-							<a href="#">+215 2153.2159</a>
+							<a href="tel:{{ config.telefono|default('') }}">{{ config.telefono|default('') }}</a>
 						</div>
 					</div>
 				</div>

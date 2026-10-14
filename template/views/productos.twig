@@ -1,0 +1,264 @@
+{% extends 'base.twig' %}
+
+{% block body %}
+	{% set imagen_principal = producto.imagen ? 'uploads/productos/' ~ producto.imagen : 'assets/images/default-product.webp' %}
+	{# Definimos el array de fallback si galeria está vacío #}
+{% set imagenesGaleria = galeria is not empty ? galeria : [{'Img_Galeria': imagen_principal}] %}
+
+{# Guardamos las URLs separadas por comas (o JSON) en un atributo data del contenedor del swiper #}
+{% set urlsArray = [] %}
+{% for img in imagenesGaleria %}
+    {% set rutaImg = img.Img_Galeria is defined ? img.Img_Galeria : img %}
+    {% set urlsArray = urlsArray|merge(["https://ludicodemexico.com.mx/uploads/productos/" ~ rutaImg]) %}
+{% endfor %}
+	<div class="rts-sop-details-area rts-section-gapTop">
+		<div class="container">
+			<nav aria-label="Migas de pan" class="mb--30">
+				<a href="{{ baseUrl }}">Inicio</a>
+				{% if categoria %}
+					<span class="mx-2">/</span>
+					<a href="{{ baseUrl }}{{ categoria.slug }}">{{ categoria.nombre }}</a>
+				{% endif %}
+				{% if subcategoria %}
+					<span class="mx-2">/</span>
+					<a href="{{ baseUrl }}{{ subcategoria.slug_subcategoria }}">{{ subcategoria.Subcategoria }}</a>
+				{% endif %}
+				<span class="mx-2">/</span>
+				<span aria-current="page">{{ producto.nombre }}</span>
+			</nav>
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<div class="banner-horizental" id="galeria-container" data-imagenes='{{ urlsArray|json_encode|raw }}'>
+						<div class="swiper swiper-container-h1">
+							<div class="swiper-wrapper">
+								
+								{% for img in imagenesGaleria %}
+									<div class="swiper-slide">
+										<div class="slider-inner">
+											{% set rutaImg = img.Img_Galeria is defined ? img.Img_Galeria : img %}
+											<img src="https://ludicodemexico.com.mx/uploads/productos/{{ rutaImg }}" alt="{{ producto.nombre }}">
+										</div>
+									</div>
+								{% endfor %}
+							</div>
+						</div>
+						<div class="slider-pagination-area-shop-details">
+							<div class="swiper-pagination swiper-pagination-horizontal"></div>
+						</div>
+						
+
+					</div>
+				</div>
+				<div class="col-lg-6 mt_md--180 mt_sm--180">
+					<div class="ms-single-product__content">
+						<h1 class="ms-single-product_title">{{ producto.nombre }}</h1>
+						<p class="sku_wrapper">
+							{{producto.sku ? 'SKU: ' ~ producto.sku : ''}}
+						</p>
+						<div class="woocommerce-product-details__short-description">
+							<p class="mb-5">{{ producto.descripcion|default('')|slice(0, 150) ~ (producto.descripcion|length > 150 ? '...' : '') | nl2br }}</p>
+						</div>
+						<div class="quantity-area">
+							<div class="cart-edit">
+								<div class="quantity-edit">
+									<button class="button">
+										<i class="fal fa-minus minus"></i>
+									</button>
+									<input type="text" class="input" value="3">
+									<button class="button plus">+<i class="fal fa-plus plus"></i>
+									</button>
+								</div>
+							</div>
+							<a href="cart.html" class="rts-btn btn-primary">Agregar al carrito</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12 tab-area-shop rts-section-gap">
+				<ul class="nav nav-tabs pt--100 pt_md--50 pt_sm--50" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Descripción</button>
+					</li>
+
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
+							Información adicional</button>
+					</li>
+				</ul>
+
+				<div class="tab-content">
+					<div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+						<p>{{ producto.descripcion|default('')|nl2br }}</p>
+
+					</div>
+
+					<div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+						<div class="ms-section-title">
+							<h3 class="ms-heading-title">
+								Información adicional</h3>
+							<table class="woocommerce-product-attributes shop_attributes">
+								<tbody>
+									<tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_size">
+										<th class="woocommerce-product-attributes-item__label">Size</th>
+										<td class="woocommerce-product-attributes-item__value">
+											<p>39, 40, 41, 42, 43, 44</p>
+										</td>
+									</tr>
+									<tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_collection">
+										<th class="woocommerce-product-attributes-item__label">
+											Collection</th>
+										<td class="woocommerce-product-attributes-item__value">
+											<p>Most Sport Pro</p>
+										</td>
+									</tr>
+									<tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_upper-material">
+										<th class="woocommerce-product-attributes-item__label">Upper Material</th>
+										<td class="woocommerce-product-attributes-item__value">
+											<p>Leather</p>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="rts-related-shop-area rts-section-gapBottom" dir="ltr">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="title-style-five center mb--40">
+
+					<h2 class="title">Productos relacionados</h2>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="swiper-related-shop-area">
+					<div class="swiper mySwiper-related-shop">
+						<div class="swiper-wrapper">
+							<div class="swiper-slide">
+								<div class="rts-single-shop-area">
+									<a href="#" class="thumbnail">
+										<img src="assets/images/shop/01.webp" alt="shop">
+									</a>
+									<div class="inner-content">
+										
+										<a href="#">
+											<h4 class="title">Music Headphones</h4>
+										</a>
+										<div class="pricing-area-wrapper">
+											<p class="price"></p>
+											<button class="rts-btn btn-primary">
+												<i class="fa-regular fa-cart-shopping"></i>
+												Add To
+																																				                                                    Cart</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="rts-single-shop-area">
+									<a href="#" class="thumbnail">
+										<img src="assets/images/shop/02.webp" alt="shop">
+									</a>
+									<div class="inner-content">
+										
+										<a href="#">
+											<h4 class="title">Hand holding photo camera</h4>
+										</a>
+										<div class="pricing-area-wrapper">
+											<p class="price"></p>
+											<button class="rts-btn btn-primary">
+												<i class="fa-regular fa-cart-shopping"></i>
+												Add To
+																																				                                                    Cart</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="rts-single-shop-area">
+									<a href="#" class="thumbnail">
+										<img src="assets/images/shop/03.webp" alt="shop">
+									</a>
+									<div class="inner-content">
+										
+										<a href="#">
+											<h4 class="title">Levitating cosmetic cream</h4>
+										</a>
+										<div class="pricing-area-wrapper">
+											<p class="price"></p>
+											<button class="rts-btn btn-primary">
+												<i class="fa-regular fa-cart-shopping"></i>
+												Add To
+																																				                                                    Cart</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="swiper-slide">
+								<div class="rts-single-shop-area">
+									<a href="#" class="thumbnail">
+										<img src="assets/images/shop/04.webp" alt="shop">
+									</a>
+									<div class="inner-content">
+										
+										<a href="#">
+											<h4 class="title">Music Headphones</h4>
+										</a>
+										<div class="pricing-area-wrapper">
+											<p class="price"></p>
+											<button class="rts-btn btn-primary">
+												<i class="fa-regular fa-cart-shopping"></i>
+												Add To
+																																				                                                    Cart</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="rts-cta-area-one rts-section-gapBottom">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="cta-main-area-wrapper-one bg_image">
+					<div class="left-areas">
+
+						<h3 class="title">¿Buscas algo diferente?</h3>
+						<span class="pre text-none">Solicita una propuesta personalizada.Te ayudamos a encontrar el equipamiento ideal de acuerdo con las necesidades y características de tu proyecto.</span>
+					</div>
+					<div class="right-area">
+						<div class="inpur-area-main">
+							<a href="{{config.whatsapp}}" target="_blank" class="rts-btn btn-primary">Contacta ahora</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>{% endblock %}
+{% block extraScripts %}
+	<script type="text/javascript">
+    window.galeriaUrls = [
+        {% for imgs in imagenesGaleria %}
+            {% set rutaImg = imgs.Img_Galeria is defined ? imgs.Img_Galeria : imgs %}
+            "https://ludicodemexico.com.mx/uploads/productos/{{ rutaImg }}",
+        {% endfor %}
+    ];
+</script>
+{% endblock %}
