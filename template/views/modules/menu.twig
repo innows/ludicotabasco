@@ -14,7 +14,7 @@
                 <ul class="submenu parent-nav">
                     {% for sub in cat.subcategorias %}
                         <li>
-                            <a href="{{ baseUrl }}{{ sub.slug }}">{{ sub.nombre }}</a>
+                            <a href="{{ baseUrl }}{{ cat.slug }}/{{ sub.slugSubcategoria }}">{{ sub.nombre }}</a>
                         </li>
                     {% endfor %}
                 </ul>

@@ -11,11 +11,11 @@
 		<meta name="author" content="Ludico">
 		<meta name="robots" content="index, follow">
 		<meta name="theme-color" content="#ffffff">
-		<link rel="icon" type="image/png" href="assets/images/favicon/favicon-96x96.png" sizes="96x96" />
-		<link rel="icon" type="image/svg+xml" href="assets/images/favicon/favicon.svg" />
-		<link rel="shortcut icon" href="assets/images/favicon/favicon.ico" />
-		<link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png" />
-		<link rel="manifest" href="assets/images/favicon/site.webmanifest" />
+		<link rel="icon" type="image/png" href="assets/images/favicon/favicon-96x96.png" sizes="96x96"/>
+		<link rel="icon" type="image/svg+xml" href="assets/images/favicon/favicon.svg"/>
+		<link rel="shortcut icon" href="assets/images/favicon/favicon.ico"/>
+		<link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png"/>
+		<link rel="manifest" href="assets/images/favicon/site.webmanifest"/>
 		{% include "modules/globalStyles.twig" %}
 	</head>
 	<body class="color-ludico">
@@ -71,41 +71,41 @@
 		</header>
 
 		{% block body %}{% endblock %}
- <div class="rts-trusted-client rts-section-gapBottom">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="title-area-client-client text-center">
-                        <p class="client-title">Clientes que nos respaldan</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt--65">
-                <div class="col-lg-12">
-                    <div class="client-three-wrapper">
-                        <div class="single">
-                            <img src="assets/images/brand/01.webp" alt="Business_client">
-                        </div>
-                        <div class="single">
-                            <img src="assets/images/brand/02.webp" alt="Business_client">
-                        </div>
-                        <div class="single">
-                            <img src="assets/images/brand/03.webp" alt="Business_client">
-                        </div>
-                        <div class="single">
-                            <img src="assets/images/brand/04.webp" alt="Business_client">
-                        </div>
-                        <div class="single">
-                            <img src="assets/images/brand/05.webp" alt="Business_client">
-                        </div>
-                        <div class="single">
-                            <img src="assets/images/brand/06.webp" alt="Business_client">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+		<div class="rts-trusted-client rts-section-gapBottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-12">
+						<div class="title-area-client-client text-center">
+							<p class="client-title">Clientes que nos respaldan</p>
+						</div>
+					</div>
+				</div>
+				<div class="row mt--65">
+					<div class="col-lg-12">
+						<div class="client-three-wrapper">
+							<div class="single">
+								<img src="assets/images/brand/01.webp" alt="Business_client">
+							</div>
+							<div class="single">
+								<img src="assets/images/brand/02.webp" alt="Business_client">
+							</div>
+							<div class="single">
+								<img src="assets/images/brand/03.webp" alt="Business_client">
+							</div>
+							<div class="single">
+								<img src="assets/images/brand/04.webp" alt="Business_client">
+							</div>
+							<div class="single">
+								<img src="assets/images/brand/05.webp" alt="Business_client">
+							</div>
+							<div class="single">
+								<img src="assets/images/brand/06.webp" alt="Business_client">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
 
 		<div class="rts-footer-area in-green-demo with-hr-demo footer-three rts-section-gapTop footer-bg-2">
 			<div class="container pb--100 pb_sm--40">
@@ -118,34 +118,34 @@
 							<p class="disc text-justify">Suministro e instalación de mobiliario y equipamiento recreativo deportivo y urbano
 							</p>
 							<ul class="social-three-wrapper">
-							{% if config.facebook %}
-								<li>
-									<a href="{{ config.facebook|default('#') }}" target="_blank" rel="noopener noreferrer">
-										<i class="fab fa-facebook-f"></i>
-									</a>
-								</li>
-							{% endif %}
-							{% if config.twitter %}
-								<li>
-									<a href="{{ config.twitter|default('#') }}" target="_blank" rel="noopener noreferrer">
-										<i class="fab fa-twitter"></i>
-									</a>
-								</li>
-							{% endif %}
-							{% if config.instagram %}
-								<li>
-									<a href="{{ config.instagram|default('#') }}" target="_blank" rel="noopener noreferrer">
-										<i class="fab fa-instagram"></i>
-									</a>
-								</li>
-							{% endif %}
-							{% if config.tiktok %}
-								<li>
-									<a href="{{ config.tiktok|default('#') }}" target="_blank" rel="noopener noreferrer">
-										<i class="fab fa-tiktok"></i>
-									</a>
-								</li>
-							{% endif %}
+								{% if config.facebook %}
+									<li>
+										<a href="{{ config.facebook|default('#') }}" target="_blank" rel="noopener noreferrer">
+											<i class="fab fa-facebook-f"></i>
+										</a>
+									</li>
+								{% endif %}
+								{% if config.twitter %}
+									<li>
+										<a href="{{ config.twitter|default('#') }}" target="_blank" rel="noopener noreferrer">
+											<i class="fab fa-twitter"></i>
+										</a>
+									</li>
+								{% endif %}
+								{% if config.instagram %}
+									<li>
+										<a href="{{ config.instagram|default('#') }}" target="_blank" rel="noopener noreferrer">
+											<i class="fab fa-instagram"></i>
+										</a>
+									</li>
+								{% endif %}
+								{% if config.tiktok %}
+									<li>
+										<a href="{{ config.tiktok|default('#') }}" target="_blank" rel="noopener noreferrer">
+											<i class="fab fa-tiktok"></i>
+										</a>
+									</li>
+								{% endif %}
 
 							</ul>
 						</div>
@@ -173,28 +173,31 @@
 												</div>
 											</div>
 											{% if config.email %}
-											<div class="single">
-												<ul class="icon">
-													<li>
-														<i class="far fa-envelope"></i>
-													</li>
-												</ul>
-												<div class="info">
-													<span>Correo Electrónico</span>
-													<a href="mailto:{{ config.email|default('') }}">{{ config.email|default('') }}</a>
+												<div class="single">
+													<ul class="icon">
+														<li>
+															<i class="far fa-envelope"></i>
+														</li>
+													</ul>
+													<div class="info">
+														<span>Correo Electrónico</span>
+														<a href="mailto:{{ config.email|default('') }}">{{ config.email|default('') }}</a>
+													</div>
 												</div>
-											</div>
 											{% endif %}
-										   {% if config.direccion %}<div class="single">
-                                            <ul class="icon">
-                                                <li><i class="fas fa-map-marker-alt"></i></li>
-                                            </ul>
-                                            <div class="info">
-                                                <span>Dirección</span>
-                                                <a href="#">{{ config.direccion|default('') }}</a>
-                                            </div>
-                                        </div>
-										{% endif %}
+											{% if config.direccion %}
+												<div class="single">
+													<ul class="icon">
+														<li>
+															<i class="fas fa-map-marker-alt"></i>
+														</li>
+													</ul>
+													<div class="info">
+														<span>Dirección</span>
+														<a href="#">{{ config.direccion|default('') }}</a>
+													</div>
+												</div>
+											{% endif %}
 
 										</div>
 									</div>
@@ -215,7 +218,7 @@
 									</div>
 								</div>
 							</div>
-							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -238,324 +241,41 @@
 				<i class="far fa-times"></i>
 			</button>
 			<div class="rts-sidebar-menu-desktop">
-				<a class="logo-1" href="index"><img class="logo" src="assets/images/icon-logo.png" alt="finbiz_logo"></a>
-				<div class="body d-none d-xl-block">
-					<p class="disc">
-						We must explain to you how all seds this mistakens idea denouncing pleasures and praising account.
-																																																																																																																								                All seds this mistakens idea denouncing pleasures.
-					</p>
-					<div class="get-in-touch">
-						<div class="h6 title">Get In Touch</div>
-						<div class="wrapper">
-							<div class="single">
-								<i class="fas fa-phone-alt"></i>
-								<a href="#">+8801234566789</a>
-							</div>
+				<a class="logo-1" href="index"><img class="logo" src="assets/images/logo.png" alt="ludico"></a>
 
-							<div class="single">
-								<i class="fas fa-envelope"></i>
-								<a href="#">example@gmail.com</a>
-							</div>
-						</div>
-						<div class="social-wrapper-two menu">
-							<a href="#" aria-label="Facebook">
-								<i class="fab fa-facebook-f"></i>
-							</a>
-							<a href="#" aria-label="instagram">
-								<i class="fab fa-instagram"></i>
-							</a>
-							<a href="#" aria-label="tiktok">
-								<i class="fa-brands fa-tiktok"></i>
-							</a>
-
-						</div>
-					</div>
-				</div>
 			</div>
 			<!-- mobile menu area start -->
 			<div class="mobile-menu d-block d-xl-none">
 				<nav class="nav-main mainmenu-nav mt--30">
 					<ul class="mainmenu metismenu" id="mobile-menu-active">
 						<li class="main">
-							<a href="#" class="main" aria-expanded="false">Inicio</a>
+							<a href="{{ baseUrl }}index" class="main" aria-expanded="false">Inicio</a>
 
 						</li>
-						<li class="has-droupdown">
-							<a href="#" class="main" aria-expanded="false">Onepage</a>
-							<ul class="submenu mm-collapse" style="height: 0px;">
-								<li>
-									<a href="onepage-one.html">Business One</a>
-								</li>
-								<li>
-									<a href="onepage-two.html">Business Two</a>
-								</li>
-								<li>
-									<a href="onepage-three.html">Business Three</a>
-								</li>
-								<li>
-									<a href="onepage-four.html">Business Four</a>
-								</li>
-								<li>
-									<a href="onepage-five.html">Finance Demo</a>
-								</li>
-								<li>
-									<a href="onepage-six.html">Marketing agency</a>
-								</li>
-								<li>
-									<a href="onepage-seven.html">Business agency</a>
-								</li>
-								<li>
-									<a href="onepage-eight.html">Business Management</a>
-								</li>
-								<li>
-									<a href="onepage-nine.html">Insurance Home</a>
-								</li>
-								<li>
-									<a href="onepage-ten.html">Business Website</a>
-								</li>
-								<li>
-									<a href="onepage-eleven.html">Business Parallax</a>
-								</li>
-								<li>
-									<a href="onepage-twelve.html">Business Video</a>
-								</li>
-								<li>
-									<a href="onepage-thirteen.html">Accountent One</a>
-								</li>
-								<li>
-									<a href="onepage-fourteen.html">Accountent Two</a>
-								</li>
-								<li>
-									<a href="onepage-fifteen.html">HR Website</a>
-								</li>
-								<li>
-									<a href="onepage-sixteen.html">Business Coach</a>
-								</li>
-								<li>
-									<a href="onepage-eighteen.html">Technology Demo</a>
-								</li>
-								<li>
-									<a href="onepage-nineteen.html">Business Investment</a>
-								</li>
-								<li>
-									<a href="onepage-twenty.html">Business Partner</a>
-								</li>
-								<li>
-									<a href="onepage-twenty-one.html">Business Intelligence</a>
-								</li>
-								<li>
-									<a href="onepage-twenty-two.html">Event Conference</a>
-								</li>
-								<li>
-									<a href="onepage-twenty-three.html">SaaS Consulting</a>
-								</li>
-								<li>
-									<a href="onepage-twenty-four.html">Marketing Coach</a>
-								</li>
-							</ul>
-						</li>
-						<li class="has-droupdown">
-							<a href="#" class="main" aria-expanded="false">Pages</a>
-							<ul class="submenu mm-collapse" style="height: 0px;">
-								<li>
-									<a href="about.html">About
-																																																																																																																																																																																																								                                Company</a>
-								</li>
-								<li>
-									<a href="service.html">Service</a>
-								</li>
-								<li>
-									<a href="service-details.html">Service
-																																																																																																																																																																																																								                                Details</a>
-								</li>
-								<li>
-									<a href="service-details-2.html">Service
-																																																																																																																																																																																																								                                Details 2</a>
-								</li>
-								<li>
-									<a href="project.html">Project</a>
-								</li>
-								<li>
-									<a href="team.html">Team</a>
-								</li>
-								<li>
-									<a href="team-details.html">Team
-																																																																																																																																																																																																								                                Details</a>
-								</li>
-								<li>
-									<a href="pricing.html">Pricing</a>
-								</li>
-								<li>
-									<a href="appoinment.html">Appoinment</a>
-								</li>
-								<li>
-									<a href="history.html">Our
-																																																																																																																																																																																																								                                History</a>
-								</li>
-								<li>
-									<a href="blog-list.html">Blog
-																																																																																																																																																																																																								                                List</a>
-								</li>
-								<li>
-									<a href="blog-grid.html">Blog
-																																																																																																																																																																																																								                                List</a>
-								</li>
-								<li>
-									<a href="blog-details.html">Blog
-																																																																																																																																																																																																								                                Details</a>
-								</li>
-								<li>
-									<a href="blog-details-2.html">Blog
-																																																																																																																																																																																																								                                Details 02</a>
-								</li>
-								<li>
-									<a href="faq.html">Faq's</a>
-								</li>
-								<li>
-									<a href="career.html">Career</a>
-								</li>
-								<li>
-									<a href="our-mission.html">Our
-																																																																																																																																																																																																								                                Mission</a>
-								</li>
-								<li>
-									<a href="partners.html">Partners</a>
-								</li>
-							</ul>
-						</li>
-						<li class="has-droupdown">
-							<a href="#" class="main" aria-expanded="false">Services</a>
-							<ul class="submenu mm-collapse" style="height: 0px;">
-								<li>
-									<a class="mobile-menu-link" href="service.html">Service</a>
-								</li>
-								<li>
-									<a class="mobile-menu-link" href="service-details.html">Service Details</a>
-								</li>
-								<li>
-									<a class="mobile-menu-link" href="service-details-2.html">Service Details 2</a>
-								</li>
-								<li>
-									<a class="mobile-menu-link" href="service-details-3.html">Service Details 3</a>
-								</li>
-								<li>
-									<a class="mobile-menu-link" href="service-details-4.html">Service Details 4</a>
-								</li>
-								<li>
-									<a class="mobile-menu-link" href="service-details-5.html">Service Details 5</a>
-								</li>
 
-							</ul>
-						</li>
-						<li class="has-droupdown">
-							<a href="#" class="main" aria-expanded="false">Projects</a>
-							<ul class="submenu mm-collapse">
-								<li>
-									<a href="project.html">Project</a>
+						{% for cat in menu_categorias %}
+							{% if not cat.has_sub %}
+								<li class="main" class="main" aria-expanded="false">
+									<a href="{{ baseUrl }}{{ cat.slug }}">{{ cat.nombre }}</a>
 								</li>
-								<li>
-									<a href="project-slider.html">Project
-																																																																																																																																																																																																								                                Slider</a>
+							{% else %}
+								<li class="has-droupdown">
+									<a href="#" class="main" aria-expanded="false">{{ cat.nombre }}</a>
+									<ul class="submenu mm-collapse">
+										{% for sub in cat.subcategorias %}
+											<li>
+												<a href="{{ baseUrl }}{{ cat.slug }}/{{ sub.slugSubcategoria }}">{{ sub.nombre }}</a>
+											</li>
+										{% endfor %}
+									</ul>
 								</li>
-								<li>
-									<a href="project-slider-2.html">Project
-																																																																																																																																																																																																								                                Slider 2</a>
-								</li>
-								<li>
-									<a href="project-card-slider.html">Project
-																																																																																																																																																																																																								                                Card Slider</a>
-								</li>
-								<li>
-									<a href="project-bg-dark.html">Project
-																																																																																																																																																																																																								                                Bg Dark</a>
-								</li>
-								<li>
-									<a href="project-grid.html">Project
-																																																																																																																																																																																																								                                Grid</a>
-								</li>
-								<li>
-									<a href="project-grid-col-2.html">Project
-																																																																																																																																																																																																								                                Grid Col 2</a>
-								</li>
-								<li>
-									<a href="project-slider-grid.html">Grid Slider</a>
-								</li>
-								<li>
-									<a href="project-slider-overflow.html">Project Overflow</a>
-								</li>
-								<li>
-									<a href="project-grid-col-3.html">Project Grid Col 3</a>
-								</li>
-								<li>
-									<a href="project-bg-dark.html">Project
-																																																																																																																																																																																																								                                Hide Content</a>
-								</li>
-
-
-								<li>
-									<a href="project-slider-2.html">Project
-																																																																																																																																																																																																								                                Hide
-																																																																																																																																																																																																								                                Content wide</a>
-								</li>
-								<li>
-									<a href="project-grid.html">Project
-																																																																																																																																																																																																								                                Card Hover</a>
-								</li>
-								<li>
-									<a href="project-slider-2.html">Project
-																																																																																																																																																																																																								                                Slider Image
-																																																																																																																																																																																																								                                Zoom</a>
-								</li>
-							</ul>
-						</li>
-						<li class="has-droupdown">
-							<a href="#" class="main" aria-expanded="false">Shop Pages</a>
-							<ul class="submenu mm-collapse">
-								<li>
-									<a href="shop.html">Shop</a>
-								</li>
-								<li>
-									<a href="shop-single.html">Shop
-																																																																																																																																																																																																								                                Details</a>
-								</li>
-								<li>
-									<a href="account.html">Account</a>
-								</li>
-							</ul>
-						</li>
-						<li class="has-droupdown">
-							<a href="#" class="main" aria-expanded="false">Blog</a>
-							<ul class="submenu mm-collapse">
-								<li>
-									<a href="blog-grid.html">Blog Grid</a>
-								</li>
-								<li>
-									<a href="blog-list.html">Blog List</a>
-								</li>
-								<li>
-									<a href="blog-details.html">Blog Details</a>
-								</li>
-								<li>
-									<a href="blog-details-2.html">Blog Details 2</a>
-								</li>
-							</ul>
-						</li>
-						<li>
-							<a href="contact.html" class="main" aria-expanded="false">Contact Us</a>
-						</li>
+							{% endif %}
+						{% endfor %}
 					</ul>
 				</nav>
 
-				<div class="social-wrapper-one">
-					<ul>
-						<li><a href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a></li>
-						<li><a href="#" aria-label="twitter"><i class="fa-brands fa-twitter"></i></a></li>
-						<li><a href="#" aria-label="youtube"><i class="fa-brands fa-youtube"></i></a></li>
-						<li><a href="#" aria-label="linkedin"><i class="fa-brands fa-linkedin-in"></i></a></li>
-					</ul>
-				</div>
 			</div>
-			<!-- mobile menu area end -->
+
 		</div>
 		<div class="search-input-area">
 			<div class="container">

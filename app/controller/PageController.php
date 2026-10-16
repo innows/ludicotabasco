@@ -108,22 +108,27 @@ final class PageController
 
         $subcategoriasRaw = $db->query(
             "SELECT DISTINCT
-                s.*,
-                s.Subcategoria_ID 
-            FROM
-                subcategorias s
-                INNER JOIN productos p ON p.subcategoria_id = s.Subcategoria_ID
-            WHERE
-                s.estado = '1' AND p.estado = '1'"
+        p.categoria_id,
+        s.Subcategoria_ID,
+        s.Subcategoria,
+        s.slug_subcategoria
+    FROM
+        subcategorias s
+        INNER JOIN productos p ON p.subcategoria_id = s.Subcategoria_ID
+    WHERE
+        s.estado = '1' AND p.estado = '1'"
         )->fetchAll(\PDO::FETCH_ASSOC);
 
         $subcategoriasPorCategoria = [];
         foreach ($subcategoriasRaw as $sub) {
-            $subcategoriasPorCategoria[$sub['categoria_id']][] = [
-                'id'     => $sub['Subcategoria_ID'],
-                'nombre' => $sub['Subcategoria'],
-                'slug'   => $sub['slug_subcategoria'] ?? $sub['id']
-            ];
+            if (!empty($sub['categoria_id'])) {
+                $subcategoriasPorCategoria[$sub['categoria_id']][] = [
+                    'id'     => $sub['Subcategoria_ID'],
+                    'nombre' => $sub['Subcategoria'],
+                    'slugcat' => $sub['slug'],
+                    'slugSubcategoria'   => $sub['slug_subcategoria'] ?? $sub['Subcategoria_ID']
+                ];
+            }
         }
 
         $menuData = [];
@@ -291,8 +296,95 @@ final class PageController
     /* ------------------------------------------------------------------ *
      * Sitio público
      * ------------------------------------------------------------------ */
-
     private function dispatchPublic(array $segments): void
+    {
+        $segmentCount = count($segments);
+        $page = $segments[0] ?? 'home';
+        $page = $page === 'index' ? 'home' : $page;
+
+        // Validación general de formato seguro para el primer segmento
+        if (!preg_match('/^[a-zA-Z0-9_-]+$/', $page)) {
+            $this->abort('public', 404, 'Recurso no encontrado.');
+            return;
+        }
+
+        // 1. Ficha pública de producto: /productos/<slug> (Estricto a 2 segmentos)
+        if ($page === 'productos') {
+            $slug = $segments[1] ?? '';
+
+            if ($segmentCount !== 2 || !preg_match('/^[a-zA-Z0-9_-]+$/', $slug)) {
+                $this->abort('public', 404, 'Recurso no encontrado.');
+                return;
+            }
+
+            $class = \Admin\Controllers\ProductoController::class;
+            $this->loadController($class);
+
+            try {
+                $producto = (new $class(DbSingleton::getInstance()->getDatabase()))->perfilSlug($slug);
+            } catch (\Throwable $e) {
+                error_log('Error al resolver el producto: ' . $e->getMessage());
+                $this->abort('public', 500, 'Error interno del servidor.');
+                return;
+            }
+
+            if ($producto === null) {
+                $this->abort('public', 404, 'Producto no encontrado.');
+                return;
+            }
+
+            $this->renderPublic('productos.twig', $producto);
+            return;
+        }
+
+        // 2. Rutas públicas explícitas (controladores específicos)
+        if ($this->dispatchController('public', $page, $segments[1] ?? null)) {
+            return;
+        }
+
+        // 3. Las rutas fijas de vistas tienen prioridad
+        if ($segmentCount === 1 && $this->viewExists($page . '.twig')) {
+            $this->renderPublic($page . '.twig', [
+                'params' => array_slice($segments, 1),
+                'get' => $_GET,
+            ]);
+            return;
+        }
+
+        // 4. Catálogo dinámico: Soporta 1 segmento (Categoría) o 2 segmentos (Categoría / Subcategoría)
+        if ($segmentCount === 1 || $segmentCount === 2) {
+            $slugCategoria = $segments[0];
+            $slugSubcategoria = $segments[1] ?? null;
+
+            // Validar formato del segundo segmento si existe
+            if ($slugSubcategoria !== null && !preg_match('/^[a-zA-Z0-9_-]+$/', $slugSubcategoria)) {
+                $this->abort('public', 404, 'Recurso no encontrado.');
+                return;
+            }
+
+            $class = \Admin\Controllers\HomeController::class;
+            $this->loadController($class);
+
+            try {
+                $homeController = new $class(DbSingleton::getInstance()->getDatabase());
+
+               $catalogo = $homeController->catalogoPorSlugJerarquico($slugCategoria, $slugSubcategoria);
+            } catch (\Throwable $e) {
+                error_log('Error al resolver el catálogo: ' . $e->getMessage());
+                $this->abort('public', 500, 'Error interno del servidor.');
+                return;
+            }
+
+            if ($catalogo !== null) {
+                $this->renderPublic('catalogo.twig', $catalogo);
+                return;
+            }
+        }
+
+        $this->abort('public', 404, 'Recurso no encontrado.');
+    }
+
+/*    private function dispatchPublic(array $segments): void
     {
         $page = $segments[0] ?? 'home';
         $page = $page === 'index' ? 'home' : $page;
@@ -367,7 +459,7 @@ final class PageController
 
         $this->abort('public', 404, 'Recurso no encontrado.');
     }
-
+*/
     /* ------------------------------------------------------------------ *
      * Despacho genérico a controladores (compartido admin / public)
      * ------------------------------------------------------------------ */

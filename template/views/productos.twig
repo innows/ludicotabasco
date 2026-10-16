@@ -2,15 +2,13 @@
 
 {% block body %}
 	{% set imagen_principal = producto.imagen ? 'uploads/productos/' ~ producto.imagen : 'assets/images/default-product.webp' %}
-	{# Definimos el array de fallback si galeria está vacío #}
-{% set imagenesGaleria = galeria is not empty ? galeria : [{'Img_Galeria': imagen_principal}] %}
+	{% set imagenesGaleria = galeria is not empty ? galeria : [{'Img_Galeria': imagen_principal}] %}
 
-{# Guardamos las URLs separadas por comas (o JSON) en un atributo data del contenedor del swiper #}
-{% set urlsArray = [] %}
-{% for img in imagenesGaleria %}
-    {% set rutaImg = img.Img_Galeria is defined ? img.Img_Galeria : img %}
-    {% set urlsArray = urlsArray|merge(["https://ludicodemexico.com.mx/uploads/productos/" ~ rutaImg]) %}
-{% endfor %}
+	{% set urlsArray = [] %}
+	{% for img in imagenesGaleria %}
+		{% set rutaImg = img.Img_Galeria is defined ? img.Img_Galeria : img %}
+		{% set urlsArray = urlsArray|merge(["https://ludicodemexico.com.mx/uploads/productos/" ~ rutaImg]) %}
+	{% endfor %}
 	<div class="rts-sop-details-area rts-section-gapTop">
 		<div class="container">
 			<nav aria-label="Migas de pan" class="mb--30">
@@ -31,7 +29,7 @@
 					<div class="banner-horizental" id="galeria-container" data-imagenes='{{ urlsArray|json_encode|raw }}'>
 						<div class="swiper swiper-container-h1">
 							<div class="swiper-wrapper">
-								
+
 								{% for img in imagenesGaleria %}
 									<div class="swiper-slide">
 										<div class="slider-inner">
@@ -45,7 +43,7 @@
 						<div class="slider-pagination-area-shop-details">
 							<div class="swiper-pagination swiper-pagination-horizontal"></div>
 						</div>
-						
+
 
 					</div>
 				</div>
@@ -130,6 +128,7 @@
 	</div>
 </div>
 
+<!-- SECCIÓN DE PRODUCTOS RELACIONADOS Si hay productos relacionados -->
 <div class="rts-related-shop-area rts-section-gapBottom" dir="ltr">
 	<div class="container">
 		<div class="row">
@@ -151,7 +150,7 @@
 										<img src="assets/images/shop/01.webp" alt="shop">
 									</a>
 									<div class="inner-content">
-										
+
 										<a href="#">
 											<h4 class="title">Music Headphones</h4>
 										</a>
@@ -160,7 +159,7 @@
 											<button class="rts-btn btn-primary">
 												<i class="fa-regular fa-cart-shopping"></i>
 												Add To
-																																				                                                    Cart</button>
+																																																                                                    Cart</button>
 										</div>
 									</div>
 								</div>
@@ -171,7 +170,7 @@
 										<img src="assets/images/shop/02.webp" alt="shop">
 									</a>
 									<div class="inner-content">
-										
+
 										<a href="#">
 											<h4 class="title">Hand holding photo camera</h4>
 										</a>
@@ -180,7 +179,7 @@
 											<button class="rts-btn btn-primary">
 												<i class="fa-regular fa-cart-shopping"></i>
 												Add To
-																																				                                                    Cart</button>
+																																																                                                    Cart</button>
 										</div>
 									</div>
 								</div>
@@ -191,7 +190,7 @@
 										<img src="assets/images/shop/03.webp" alt="shop">
 									</a>
 									<div class="inner-content">
-										
+
 										<a href="#">
 											<h4 class="title">Levitating cosmetic cream</h4>
 										</a>
@@ -200,7 +199,7 @@
 											<button class="rts-btn btn-primary">
 												<i class="fa-regular fa-cart-shopping"></i>
 												Add To
-																																				                                                    Cart</button>
+																																																                                                    Cart</button>
 										</div>
 									</div>
 								</div>
@@ -211,7 +210,7 @@
 										<img src="assets/images/shop/04.webp" alt="shop">
 									</a>
 									<div class="inner-content">
-										
+
 										<a href="#">
 											<h4 class="title">Music Headphones</h4>
 										</a>
@@ -220,7 +219,7 @@
 											<button class="rts-btn btn-primary">
 												<i class="fa-regular fa-cart-shopping"></i>
 												Add To
-																																				                                                    Cart</button>
+																																																                                                    Cart</button>
 										</div>
 									</div>
 								</div>
@@ -251,14 +250,12 @@
 			</div>
 		</div>
 	</div>
-</div>{% endblock %}
-{% block extraScripts %}
-	<script type="text/javascript">
+</div>{% endblock %}{% block extraScripts %}
+ <script type="text/javascript">
     window.galeriaUrls = [
         {% for imgs in imagenesGaleria %}
             {% set rutaImg = imgs.Img_Galeria is defined ? imgs.Img_Galeria : imgs %}
             "https://ludicodemexico.com.mx/uploads/productos/{{ rutaImg }}",
         {% endfor %}
     ];
-</script>
-{% endblock %}
+</script>{% endblock %}

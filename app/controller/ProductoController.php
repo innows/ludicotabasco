@@ -657,12 +657,22 @@ class ProductoController
             'Activo' => 1,
             'ORDER' => ['Galeria_ID' => 'ASC'],
         ]) ?: [];
+
+        $productosRelacionados = $this->db->select('productos', '*', [
+            'categoria_id'    => $producto['categoria_id'],
+            'subcategoria_id' => $producto['subcategoria_id'],
+            'estado'          => '1',
+            'id[!]'           => $producto['id'],
+            'ORDER'           => ['fecha_creacion' => 'DESC'],
+            'LIMIT'           => 8,
+        ]) ?: [];
     
         return [
             'producto' => $producto,
             'categoria' => $categoria,
             'subcategoria' => $subcategoria,
             'galeria' => $galeria,
+            'productosRelacionados' => $productosRelacionados,
         ];
     }
 }
