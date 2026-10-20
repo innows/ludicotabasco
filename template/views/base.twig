@@ -244,7 +244,6 @@
 				<a class="logo-1" href="index"><img class="logo" src="assets/images/logo.png" alt="ludico"></a>
 
 			</div>
-			<!-- mobile menu area start -->
 			<div class="mobile-menu d-block d-xl-none">
 				<nav class="nav-main mainmenu-nav mt--30">
 					<ul class="mainmenu metismenu" id="mobile-menu-active">
@@ -293,12 +292,47 @@
 			</div>
 		</div>
 		<div id="anywhere-home" class=""></div>
+
 		<div class="progress-wrap">
 			<svg class="progress-circle svg-content" width="100%" height="100%" viewbox="-1 -1 102 102">
-				<path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear 0s; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
+				<path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" style="transition: stroke-dashoffset 10ms linear; stroke-dasharray: 307.919, 307.919; stroke-dashoffset: 307.919;"></path>
 			</svg>
 		</div>
+		<div class="offcanvas-overlay"></div>
+		<div class="fix">
+			<div class="sidebar-action sidebar-cart">
+				<button class="close-sidebar">
+					<i class="fa-solid fa-xmark"></i>
+				</button>
+				<h4 class="sidebar-action-title">Detalles de Cotización</h4>
+				<div class="sidebar-action-list" aria-live="polite">
+					{# Los productos se insertan desde assets/js/cart.js. #}
+					{# <div class="sidebar-list-item"><!-- Example of a product in the cart -->
+						<div class="product-image pos-rel">
+							<img src="https://sysprosancristobal.com/administrador/uploads/productos/productos_6a124b77e07226.82717589.jpg" alt="DAHUA FULLCOLORKIT-A - Kit de 4 Canales Full Color de 2 Megapixeles con Audio/ DVR Cooper-I WizSense/ Con IA/ 4 Cámaras Full color de 2 Megapixeles con Microfono Integrado">
+						</div>
+						<div class="product-desc">
+							<div class="product-name">
+								<a href="">DAHUA FULLCOLORKIT-A </a>
+							</div>
+							<div class="product-pricing">
+								<span class="item-number">1 x
+								</span>
+							</div>
+						</div>
+						<button class="remove-cart-item remove-item" data-index="0">
+							<i class="fa fa-times"></i>
+						</button>
+					</div><!--terminar ejemplo de producto en el carrito --> #}
+				</div>
 
+				<div class="sidebar-action-btn" id="cartActionBtn" style="display: none;">
+					<a href="#" class="border-btn text-center" id="goToCart">Enviar cotización</a>
+				</div>
+				<p class="text-center" id="cartEmptyMsg">Tu cotización está vacía</p>
+
+			</div>
+		</div>
 		{% include "modules/globalScripts.twig" %}
 
 		{% block extraScripts %}{% endblock %}

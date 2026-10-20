@@ -1,31 +1,36 @@
 <div class="nav-area">
 	<ul>
 		<li class="main-nav project-a-after">
-        <a href="{{ baseUrl }}index">Inicio</a>
-   		 </li>
-	{% for cat in menu_categorias %}
-        {% if not cat.has_sub %}
-            <li class="main-nav project-a-after">
-                <a href="{{ baseUrl }}{{ cat.slug }}">{{ cat.nombre }}</a>
-            </li>
-        {% else %}
-            <li class="main-nav has-dropdown project-a-after">
-                <a href="#">{{ cat.nombre }}</a>
-                <ul class="submenu parent-nav">
-                    {% for sub in cat.subcategorias %}
-                        <li>
-                            <a href="{{ baseUrl }}{{ cat.slug }}/{{ sub.slugSubcategoria }}">{{ sub.nombre }}</a>
-                        </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endif %}
-    {% endfor %}
+			<a href="{{ baseUrl }}index">Inicio</a>
+		</li>
+		{% for cat in menu_categorias %}
+			{% if not cat.has_sub %}
+				<li class="main-nav project-a-after">
+					<a href="{{ baseUrl }}{{ cat.slug }}">{{ cat.nombre }}</a>
+				</li>
+			{% else %}
+				<li class="main-nav has-dropdown project-a-after">
+					<a href="#">{{ cat.nombre }}</a>
+					<ul class="submenu parent-nav">
+						{% for sub in cat.subcategorias %}
+							<li>
+								<a href="{{ baseUrl }}{{ cat.slug }}/{{ sub.slugSubcategoria }}">{{ sub.nombre }}</a>
+							</li>
+						{% endfor %}
+					</ul>
+				</li>
+			{% endif %}
+		{% endfor %}
 
 	</ul>
 </div>
 <div class="button-area">
-	
+	<div class="cantProd">
+		<span class="cart-count">0</span>
+	</div>
+	<a href="#" class="cart" id="cart">
+		<i class="fas fa-shopping-basket"></i>
+	</a>
 	<a href="{{ config.whatsapp|default('#') }}" class="rts-btn btn-primary ml--20 ml_sm--5 header-one-btn quote-btn" target="_blank" rel="noopener noreferrer">Cotizar por WA</a>
 	<button id="menu-btn" aria-label="Menu" class="menu-btn menu ml--20 ml_sm--5">
 		<img class="menu-light" src="assets/images/icons/01.svg" alt="Menu-icon">

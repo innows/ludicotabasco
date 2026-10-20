@@ -1,113 +1,122 @@
 {% extends 'base.twig' %}
 
 {% block body %}
-<!-- BREADCRUMB DINÁMICO -->
-<div class="partner-breadcrumb bg_image">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="title-area-left center">
-                    <h1 class="title">
-                        {% if categoria %}
-                            <a href="{{ baseUrl }}{{ categoria.slug }}">{{ categoria.nombre }}</a>
-                        {% endif %}
+	<!-- BREADCRUMB DINÁMICO -->
+	<div class="partner-breadcrumb bg_image">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="title-area-left center">
+						<h1 class="title">
+							{% if categoria %}
+								<a href="{{ baseUrl }}{{ categoria.slug }}">{{ categoria.nombre }}</a>
+							{% endif %}
 
-                        {% if subcategoria %}
-                            <span class="mx-2">/</span>
-                            <span class="active">{{ subcategoria.Subcategoria }}</span>
-                        {% endif %}
-                    </h1>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- SECCIÓN PRINCIPAL -->
-<section class="rts-service-area rts-section-gap">
-    <div class="container">
-        <div class="row g-4">
-
-            {# OPCIÓN A: MOSTRAR SUBCATEGORÍAS #}
-            {% if tipo_catalogo == 'lista_subcategorias' %}
-                {% for sub in subcategorias %}
-                    {% set imgSub = sub.imagen ? 'uploads/subcategorias/' ~ sub.imagen : 'assets/images/default-category.webp' %}
-                    {% set slugSub = sub.slug %}
-
-                    <div class="col-lg-4 col-md-6 col-sm-12" data-animation="fadeInUp" data-delay="0.2">
-                        <div class="single-project-style-three">
-                            <a href="{{ baseUrl }}{{ categoria.slug }}/{{ slugSub }}" class="thumbnail">
-                                <img src="{{ baseUrl }}{{ imgSub }}" alt="{{ sub.nombre }}">
-                            </a>
-                            <div class="inner-content">
-                                <a href="{{ baseUrl }}{{ categoria.slug }}/{{ slugSub }}">
-                                    <h3 class="title">{{ sub.nombre }}</h3>
-                                </a>
-                              
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col-12">
-                        <p class="disc text-center">No hay subcategorías disponibles en esta sección.</p>
-                    </div>
-                {% endfor %}
-
-            {# OPCIÓN B: MOSTRAR PRODUCTOS #}
-            {% else %}
-
-                {% for producto in productos %}
-                    {% set descripcion = producto.descripcion|default('')|striptags %}
-                    {% set imagen = producto.imagen ? 'uploads/productos/' ~ producto.imagen : 'assets/images/default-product.webp' %}
-
-                    <div class="col-lg-4 col-md-6 col-sm-12" data-animation="fadeInUp" data-delay="0.2">
-                        <div class="rts-single-shop-area">
-                            <a href="{{ baseUrl }}productos/{{ producto.slug }}" class="thumbnail">
-                                <img src="{{ baseUrl }}{{ imagen }}" alt="{{ producto.nombre }}">
-                            </a>
-                            <div class="inner-content">
-                                <p class="mb-0">SKU: {{ producto.sku }}</p>
-                                <a href="{{ baseUrl }}productos/{{ producto.slug }}">
-                                    <h4 class="title">{{ producto.nombre }}</h4>
-                                </a>
-                                <div class="pricing-area-wrapper mt-3">
-                                    <button class="rts-btn btn-primary">
-                                        <i class="fa-regular fa-cart-shopping me-1"></i> Agregar al Carrito
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col-12 text-center">
-                        <p class="disc">Por el momento no hay productos disponibles en esta sección.</p>
-                    </div>
-                {% endfor %}
-
-            {% endif %}
-
-        </div>
-    </div>
-</section>
-
-<div class="rts-cta-area-one rts-section-gapBottom">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="cta-main-area-wrapper-one bg_image bg-primary">
-					<div class="left-areas">
-
-						<h3 class="title">¿Buscas algo diferente?</h3>
-						<span class="pre text-none">Solicita una propuesta personalizada.</span>
+							{% if subcategoria %}
+								<span class="mx-2">/</span>
+								<span class="active">{{ subcategoria.Subcategoria }}</span>
+							{% endif %}
+						</h1>
 					</div>
-					<div class="right-area">
-						<div class="inpur-area-main">
-							<a href="{{config.whatsapp}}" target="_blank" class="rts-btn btn-primary">Contacta ahora</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- SECCIÓN PRINCIPAL -->
+	<section class="rts-service-area rts-section-gap">
+		<div class="container">
+			<div
+				class="row g-4">
+
+				{# OPCIÓN A: MOSTRAR SUBCATEGORÍAS #}
+				{% if tipo_catalogo == 'lista_subcategorias' %}
+					{% for sub in subcategorias %}
+						{% set imgSub = sub.imagen ? 'uploads/subcategorias/' ~ sub.imagen : 'assets/images/default-category.webp' %}
+						{% set slugSub = sub.slug %}
+
+						<div class="col-lg-4 col-md-6 col-sm-12" data-animation="fadeInUp" data-delay="0.2">
+							<div class="single-project-style-three">
+								<a href="{{ baseUrl }}{{ categoria.slug }}/{{ slugSub }}" class="thumbnail">
+									<img src="{{ baseUrl }}{{ imgSub }}" alt="{{ sub.nombre }}">
+								</a>
+								<div class="inner-content">
+									<a href="{{ baseUrl }}{{ categoria.slug }}/{{ slugSub }}">
+										<h3 class="title">{{ sub.nombre }}</h3>
+									</a>
+
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-12">
+							<p class="disc text-center">No hay subcategorías disponibles en esta sección.</p>
+						</div>
+					{% endfor %}
+
+					{# OPCIÓN B: MOSTRAR PRODUCTOS #}
+				{% else %}
+
+					{% for producto in productos %}
+						{% set descripcion = producto.descripcion|default('')|striptags %}
+						{% set imagen = producto.imagen ? 'uploads/productos/' ~ producto.imagen : 'assets/images/default-product.webp' %}
+
+						<div class="col-lg-4 col-md-6 col-sm-12" data-animation="fadeInUp" data-delay="0.2">
+							<div class="single-team-area-one-start">
+								<a href="{{ baseUrl }}productos/{{ producto.slug }}" class="thumbnail">
+									<img src="{{ baseUrl }}{{ imagen }}" alt="{{ producto.nombre }}">
+								</a>
+								<div class="inner-content">
+									<div class="inner">
+										<div class="text-top">
+											<a href="{{ baseUrl }}productos/{{ producto.slug }}">
+												<h5 class="title">{{ producto.nombre }}</h5>
+											</a>
+											<span>SKU:
+												{{ producto.sku }}</span>
+										</div>
+										<div class="social-one-wrapper fa fa-regular fa-en">
+											<ul>
+											<li><a href="{{ baseUrl }}productos/{{ producto.slug }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver detalles"><i class="fa-solid fa-eye"></i></a></li>
+                                            <li><a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a></li>
+											<li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar al carrito" id="addcart" data-sku="{{ producto.sku }}" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen }}"><i class="fa-regular fa-cart-shopping me-1"></i></a></li>
+                                            </ul>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% else %}
+						<div class="col-12 text-center">
+							<p class="disc">Por el momento no hay productos disponibles en esta sección.</p>
+						</div>
+					{% endfor %}
+
+				{% endif %}
+
+			</div>
+		</div>
+	</section>
+
+	<div class="rts-cta-area-one rts-section-gapBottom">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="cta-main-area-wrapper-one bg_image bg-primary">
+						<div class="left-areas">
+
+							<h3 class="title">¿Buscas algo diferente?</h3>
+							<span class="pre text-none">Solicita una propuesta personalizada.</span>
+						</div>
+						<div class="right-area">
+							<div class="inpur-area-main">
+								<a href="{{config.whatsapp}}" target="_blank" class="rts-btn btn-primary">Contacta ahora</a>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-	{% endblock %}
+{% endblock %}

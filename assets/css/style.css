@@ -5621,10 +5621,10 @@ Copyright (c) 2015 Daniel Eden
   }
 }
 
-.header-one .nav-area {
+/*.header-one .nav-area {
   margin-right: 80px;
 }
-
+*/
 #menu-btn {
   background: #f2f2f2;
   height: 55px;
@@ -11505,6 +11505,16 @@ header.header--sticky.sticky .nav-area ul li.main-nav {
   transition: 800ms;
   font-weight: 600;
 }
+
+.btn-whats-product {
+border-radius: 50% !important;
+    font-size: 33px;
+    padding: 0 12px;
+    text-align: center;
+    margin-left: 12px;
+    height: 55px !important;
+}
+
 @media only screen and (max-width: 575px) {
   .rts-btn {
     height: 47px;
@@ -11521,6 +11531,7 @@ header.header--sticky.sticky .nav-area ul li.main-nav {
   justify-content: center;
   position: relative;
   z-index: 1;
+  color: var(--color-white);
 }
 .rts-btn.btn-primary::before {
   content: "";
@@ -16008,7 +16019,7 @@ section.main-wrapper-sticky .sticky-statement.narrow .left-side img {
 
 .swiper-pagination {
   width: 100% !important;
-  bottom: 8px !important;
+
 }
 
 .page-wrapper-business-coach {
@@ -16586,9 +16597,9 @@ section.main-wrapper-sticky .sticky-statement.narrow .left-side img {
   justify-content: center;
   height: 40px;
   width: 40px;
-  background: #f6f6f6;
+  background: var(--color-sky);
   border-radius: 50%;
-  color: #1c2539;
+  color: var(--color-white);
   transition: 0.4s;
 }
 .single-team-area-one-start .inner-content .social-one-wrapper ul li a:hover {
@@ -16701,7 +16712,7 @@ section.main-wrapper-sticky .sticky-statement.narrow .left-side img {
 .rts-team-area-start-four .single-team-area-one-start {
   position: relative;
 }
-.rts-team-area-start-four .single-team-area-one-start::after {
+.single-team-area-one-start::after {
   position: absolute;
   left: 50%;
   bottom: -82px;
@@ -18849,11 +18860,12 @@ body.with-sticky-item {
   margin-right: 10px;
 }
 .footer-two-single-wized .wized-2-body ul li a:hover {
-  color: var(--color-primary-2);
+  color: var(--color-secondary);
 }
 .footer-two-single-wized .wized-2-body ul li a:hover {
-  color: var(--color-primary-2);
+  color: var(--color-secondary);
   margin-left: 10px;
+  font-family:var(--font-primary);
 }
 .footer-two-single-wized .contact-info-1 {
   display: flex;
@@ -18897,7 +18909,7 @@ body.with-sticky-item {
   transition: 0.3s;
 }
 .footer-two-single-wized .contact-info-1 .disc a:hover {
-  color: var(--color-primary-2);
+  color: var(--color-secondary);
   margin-left: 10px;
 }
 
@@ -27216,9 +27228,11 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   margin-bottom: 2rem;
 }
 .ms-single-product__content .stock.in-stock {
-  color: #2eb740;
-  margin-top: 10px;
-  font-size: 18px;
+     color: var(--color-body);
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
 }
 .ms-single-product__content .quantity-area {
   display: flex;
@@ -38413,4 +38427,28 @@ header.header-transparent.in-full-screen .action-area .menu-btn {
 }
 .slider-inner img {
     border-radius: 16px;
+}
+
+#cart, #menu-btn {
+    background: #F2F2F2;
+    height: 55px;
+    min-width: 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 15px;
+    border: none;
+}
+.cantProd {
+    position: relative;
+    top: -15px;
+    background: var(--color-sky);
+    border-radius: 50%;
+    right: 0;
+    left: 60px;
+    text-align: center;
+    line-height: 17px;
+    color: #fff;
+    font-weight: 700;
+    padding: 4px 8px;
 }

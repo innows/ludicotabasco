@@ -1,5 +1,16 @@
 (function ($) {
   "use strict";
+
+  document.addEventListener("DOMContentLoaded", function () {
+            if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+              console.log("Bootstrap is loaded, initializing tooltips...");
+              "use strict";
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+            }
+        });
   let device_width = window.innerWidth;
   var rtsJs = {
     m: function (e) {

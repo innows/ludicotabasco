@@ -9,7 +9,7 @@
 		{% set rutaImg = img.Img_Galeria is defined ? img.Img_Galeria : img %}
 		{% set urlsArray = urlsArray|merge(["https://ludicodemexico.com.mx/uploads/productos/" ~ rutaImg]) %}
 	{% endfor %}
-	<div class="rts-sop-details-area rts-section-gapTop">
+	<div class="rts-sop-details-area rts-section-gapTop rts-section-gapBottom">
 		<div class="container">
 			<nav aria-label="Migas de pan" class="mb--30">
 				<a href="{{ baseUrl }}">Inicio</a>
@@ -24,7 +24,7 @@
 				<span class="mx-2">/</span>
 				<span aria-current="page">{{ producto.nombre }}</span>
 			</nav>
-			<div class="row align-items-center">
+			<div class="row">
 				<div class="col-lg-6">
 					<div class="banner-horizental" id="galeria-container" data-imagenes='{{ urlsArray|json_encode|raw }}'>
 						<div class="swiper swiper-container-h1">
@@ -47,14 +47,15 @@
 
 					</div>
 				</div>
-				<div class="col-lg-6 mt_md--180 mt_sm--180">
+				<div class="col-lg-6 mt_md--180 mt_sm--180 ">
 					<div class="ms-single-product__content">
-						<h1 class="ms-single-product_title">{{ producto.nombre }}</h1>
-						<p class="sku_wrapper">
+						<h1 class="ms-single-product_title mb-0">{{ producto.nombre }}</h1>
+						<p class="sku_wrapper mb-0">
 							{{producto.sku ? 'SKU: ' ~ producto.sku : ''}}
 						</p>
-						<div class="woocommerce-product-details__short-description">
-							<p class="mb-5">{{ producto.descripcion|default('')|slice(0, 150) ~ (producto.descripcion|length > 150 ? '...' : '') | nl2br }}</p>
+						<div class="woocommerce-product-details__short-description mt-5">
+						<p class="stock in-stock mt-5">DESCRIPCIÓN</p>
+							<p class="mb-5">{{ (producto.descripcion) | nl2br }}</p>
 						</div>
 						<div class="quantity-area">
 							<div class="cart-edit">
@@ -62,73 +63,23 @@
 									<button class="button">
 										<i class="fal fa-minus minus"></i>
 									</button>
-									<input type="text" class="input" value="3">
+									<input type="text" class="input" value="1">
 									<button class="button plus">+<i class="fal fa-plus plus"></i>
 									</button>
 								</div>
 							</div>
-							<a href="cart.html" class="rts-btn btn-primary">Agregar al carrito</a>
+							<a href="#" id="addcart" class="rts-btn btn-primary" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen_principal }}">Agregar a cotización</a>
+							<a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp" class="rts-btn btn-primary btn-whats-product"><i class="fa-brands fa-whatsapp"></i></a>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-12 tab-area-shop rts-section-gap">
-				<ul class="nav nav-tabs pt--100 pt_md--50 pt_sm--50" id="myTab" role="tablist">
-					<li class="nav-item" role="presentation">
-						<button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Descripción</button>
-					</li>
-
-					<li class="nav-item" role="presentation">
-						<button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">
-							Información adicional</button>
-					</li>
-				</ul>
-
-				<div class="tab-content">
-					<div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-
-						<p>{{ producto.descripcion|default('')|nl2br }}</p>
-
-					</div>
-
-					<div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-						<div class="ms-section-title">
-							<h3 class="ms-heading-title">
-								Información adicional</h3>
-							<table class="woocommerce-product-attributes shop_attributes">
-								<tbody>
-									<tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_size">
-										<th class="woocommerce-product-attributes-item__label">Size</th>
-										<td class="woocommerce-product-attributes-item__value">
-											<p>39, 40, 41, 42, 43, 44</p>
-										</td>
-									</tr>
-									<tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_collection">
-										<th class="woocommerce-product-attributes-item__label">
-											Collection</th>
-										<td class="woocommerce-product-attributes-item__value">
-											<p>Most Sport Pro</p>
-										</td>
-									</tr>
-									<tr class="woocommerce-product-attributes-item woocommerce-product-attributes-item--attribute_upper-material">
-										<th class="woocommerce-product-attributes-item__label">Upper Material</th>
-										<td class="woocommerce-product-attributes-item__value">
-											<p>Leather</p>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-
-
-				</div>
-			</div>
+		
 		</div>
 	</div>
 </div>
 
-<!-- SECCIÓN DE PRODUCTOS RELACIONADOS Si hay productos relacionados -->
+
 <div class="rts-related-shop-area rts-section-gapBottom" dir="ltr">
 	<div class="container">
 		<div class="row">
@@ -239,7 +190,7 @@
 					<div class="left-areas">
 
 						<h3 class="title">¿Buscas algo diferente?</h3>
-						<span class="pre text-none">Solicita una propuesta personalizada.Te ayudamos a encontrar el equipamiento ideal de acuerdo con las necesidades y características de tu proyecto.</span>
+						<span class="pre text-none">Solicita una propuesta personalizada.</span>
 					</div>
 					<div class="right-area">
 						<div class="inpur-area-main">
