@@ -31,6 +31,7 @@ final class PageController
         'configuracion',
         'usuarios',
         'roles',
+        'logosclientes',
     ];
 
     /**
@@ -53,6 +54,12 @@ final class PageController
             ],
             'subcategorias' => [
                 SubCategoriaController::class => [
+                    'GET'  => ['list', 'obtener'],
+                    'POST' => ['guardar', 'eliminar'],
+                ],
+            ],
+            'logosclientes' => [
+                \Admin\Controllers\LogosController::class => [
                     'GET'  => ['list', 'obtener'],
                     'POST' => ['guardar', 'eliminar'],
                 ],

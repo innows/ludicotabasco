@@ -23,6 +23,21 @@
     }
   }
 
+  function quantityFor(value) {
+    var quantity = parseInt(value, 10);
+    return Number.isFinite(quantity) && quantity > 0 ? quantity : 1;
+  }
+
+  function cartQuantity(cart) {
+    return cart.reduce(function (total, product) {
+      return total + quantityFor(product.quantity);
+    }, 0);
+  }
+
+  function emitCartUpdate() {
+    $(document).trigger("quoteCartUpdated");
+  }
+
   function openCart() {
     $(".sidebar-cart").addClass("cart-open");
     $(".offcanvas-overlay").addClass("overlay-open");
@@ -63,10 +78,44 @@
       $list.append($item);
     });
 
-    $(".cart-count").text(cart.length);
+    $(".cart-count").text(cartQuantity(cart));
     $("#cartEmptyMsg").toggle(cart.length === 0);
     $("#cartActionBtn").toggle(cart.length > 0);
   }
+
+  function updateItemQuantity(index, quantity) {
+    var cart = getCart();
+
+    if (!Number.isInteger(index) || index < 0 || index >= cart.length) {
+      return false;
+    }
+
+    cart[index].quantity = quantityFor(quantity);
+    saveCart(cart);
+    renderCart();
+    emitCartUpdate();
+    return true;
+  }
+
+  function removeItem(index) {
+    var cart = getCart();
+
+    if (!Number.isInteger(index) || index < 0 || index >= cart.length) {
+      return false;
+    }
+
+    cart.splice(index, 1);
+    saveCart(cart);
+    renderCart();
+    emitCartUpdate();
+    return true;
+  }
+
+  window.quoteCart = {
+    getCart: getCart,
+    removeItem: removeItem,
+    updateItemQuantity: updateItemQuantity
+  };
 
   $(document).ready(function () {
     //mostrar el div de los productos del carrito
@@ -88,7 +137,6 @@
       var productSku = $(this).data("sku");
     });
 
-    // Sustituye el manejador heredado anterior por el delegado de abajo.
     $("#addcart").off("click");
 
     $(document).on("click", "#addcart", function (event) {
@@ -96,33 +144,60 @@
 
       var $button = $(this);
       var name = String($button.data("product-name") || "").trim();
+      var productId = String($button.data("product-id") || "");
+      var $quantityInput = $button.closest(".quantity-area").find(".input").first();
+      var quantity = quantityFor($quantityInput.val());
       if (!name) {
         return;
       }
 
       var cart = getCart();
-      cart.push({
-        id: String($button.data("product-id") || ""),
-        name: name,
-        image: String($button.data("product-image") || FALLBACK_IMAGE)
+      var itemIndex = cart.findIndex(function (product) {
+        return productId !== "" && String(product.id || "") === productId;
       });
+
+      if (itemIndex >= 0) {
+        cart[itemIndex].quantity = quantityFor(cart[itemIndex].quantity) + quantity;
+      } else {
+        cart.push({
+          id: productId,
+          name: name,
+          image: String($button.data("product-image") || FALLBACK_IMAGE),
+          quantity: quantity
+        });
+      }
 
       saveCart(cart);
       renderCart();
+      emitCartUpdate();
       openCart();
     });
 
-    $(document).on("click", ".remove-cart-item", function () {
-      var index = Number($(this).data("index"));
-      var cart = getCart();
+    // Control genérico para los selectores de cantidad del detalle y la cotización.
+    $(document).on("click", ".btn-minus, .btn-plus", function () {
+      var $button = $(this);
+      var $quantityInput = $button.closest(".quantity-edit").find(".input").first();
+      var quantity = quantityFor($quantityInput.val());
+      var newQuantity = $button.hasClass("btn-plus") ? quantity + 1 : Math.max(1, quantity - 1);
+      var $row = $button.closest("tr[data-index]");
 
-      if (!Number.isInteger(index) || index < 0 || index >= cart.length) {
-        return;
+      $quantityInput.val(newQuantity);
+
+      if ($row.length) {
+        updateItemQuantity(Number($row.data("index")), newQuantity);
       }
+    });
 
-      cart.splice(index, 1);
-      saveCart(cart);
-      renderCart();
+    $(document).on("change", "#itemsCotizacion .item-quantity", function () {
+      var $row = $(this).closest("tr[data-index]");
+      var quantity = quantityFor($(this).val());
+
+      $(this).val(quantity);
+      updateItemQuantity(Number($row.data("index")), quantity);
+    });
+
+    $(document).on("click", ".remove-cart-item", function () {
+      removeItem(Number($(this).data("index")));
     });
   });
 })(jQuery);

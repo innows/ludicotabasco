@@ -1,10 +1,11 @@
 (function ($) {
   "use strict";
-
+$(function () {
+  $('[data-bs-toggle="tooltip"]').tooltip()
+})
   document.addEventListener("DOMContentLoaded", function () {
             if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-              console.log("Bootstrap is loaded, initializing tooltips...");
-              "use strict";
+                         "use strict";
                 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
                 tooltipTriggerList.map(function (tooltipTriggerEl) {
                     return new bootstrap.Tooltip(tooltipTriggerEl);

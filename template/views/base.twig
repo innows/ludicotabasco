@@ -71,41 +71,31 @@
 		</header>
 
 		{% block body %}{% endblock %}
-		<div class="rts-trusted-client rts-section-gapBottom">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-						<div class="title-area-client-client text-center">
-							<p class="client-title">Clientes que nos respaldan</p>
-						</div>
-					</div>
-				</div>
-				<div class="row mt--65">
-					<div class="col-lg-12">
-						<div class="client-three-wrapper">
-							<div class="single">
-								<img src="assets/images/brand/01.webp" alt="Business_client">
-							</div>
-							<div class="single">
-								<img src="assets/images/brand/02.webp" alt="Business_client">
-							</div>
-							<div class="single">
-								<img src="assets/images/brand/03.webp" alt="Business_client">
-							</div>
-							<div class="single">
-								<img src="assets/images/brand/04.webp" alt="Business_client">
-							</div>
-							<div class="single">
-								<img src="assets/images/brand/05.webp" alt="Business_client">
-							</div>
-							<div class="single">
-								<img src="assets/images/brand/06.webp" alt="Business_client">
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
+		{% if logos %}
+<div class="rts-trusted-client rts-section-gapBottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="title-area-client-client text-center">
+                    <p class="client-title">Clientes que nos respaldan</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt--65">
+            <div class="col-lg-12">
+                <div class="client-three-wrapper">
+                    {% for item in logos %}
+                        <div class="single">
+                            {# Ajusta 'item.imagen' por el nombre real de tu columna en la base de datos #}
+                            <img src="uploads/logos/{{ item.Logo_url }}" alt="{{ item.Nombre ?? 'Business_client' }}">
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 		<div class="rts-footer-area in-green-demo with-hr-demo footer-three rts-section-gapTop footer-bg-2">
 			<div class="container pb--100 pb_sm--40">
@@ -306,28 +296,11 @@
 				</button>
 				<h4 class="sidebar-action-title">Detalles de Cotización</h4>
 				<div class="sidebar-action-list" aria-live="polite">
-					{# Los productos se insertan desde assets/js/cart.js. #}
-					{# <div class="sidebar-list-item"><!-- Example of a product in the cart -->
-						<div class="product-image pos-rel">
-							<img src="https://sysprosancristobal.com/administrador/uploads/productos/productos_6a124b77e07226.82717589.jpg" alt="DAHUA FULLCOLORKIT-A - Kit de 4 Canales Full Color de 2 Megapixeles con Audio/ DVR Cooper-I WizSense/ Con IA/ 4 Cámaras Full color de 2 Megapixeles con Microfono Integrado">
-						</div>
-						<div class="product-desc">
-							<div class="product-name">
-								<a href="">DAHUA FULLCOLORKIT-A </a>
-							</div>
-							<div class="product-pricing">
-								<span class="item-number">1 x
-								</span>
-							</div>
-						</div>
-						<button class="remove-cart-item remove-item" data-index="0">
-							<i class="fa fa-times"></i>
-						</button>
-					</div><!--terminar ejemplo de producto en el carrito --> #}
+
 				</div>
 
 				<div class="sidebar-action-btn" id="cartActionBtn" style="display: none;">
-					<a href="#" class="border-btn text-center" id="goToCart">Enviar cotización</a>
+					<a href="{{ baseUrl }}cart" class="border-btn text-center" id="goToCart">Enviar cotización</a>
 				</div>
 				<p class="text-center" id="cartEmptyMsg">Tu cotización está vacía</p>
 

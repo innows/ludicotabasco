@@ -11,7 +11,7 @@
  Target Server Version : 110809 (11.8.9-MariaDB-log)
  File Encoding         : 65001
 
- Date: 16/10/2026 15:29:16
+ Date: 27/10/2026 16:32:48
 */
 
 SET NAMES utf8mb4;
@@ -188,7 +188,7 @@ CREATE TABLE `configuracion`  (
 -- ----------------------------
 -- Records of configuracion
 -- ----------------------------
-INSERT INTO `configuracion` VALUES (1, 'Ludico', 'Nos dedicamos a la venta e instalación de cámaras de seguridad, así como en la comercialización e implementación de software', 'ludicoficial@gmail.com', '993 400 8804', '993 400 8804', 'https://wa.link/e9bs6p', '961 134 9000', '', '', 'https://www.facebook.com/profile.php?id=61581634570933', '', 'https://www.instagram.com/ludicoficial2025', 'https://www.tiktok.com/@ludico.tabasco.mo', '', 'public/img/logo.png', '', '2026-05-10 12:57:37', '2026-10-13 13:50:37');
+INSERT INTO `configuracion` VALUES (1, 'Ludico', 'Nos dedicamos a la venta e instalación de cámaras de seguridad, así como en la comercialización e implementación de software', 'ludicoficial@gmail.com', '993 400 8804', '993 400 8804', 'https://wa.link/e9bs6p', '9611349000', '', '', 'https://www.facebook.com/profile.php?id=61581634570933', '', 'https://www.instagram.com/ludicoficial2025', 'https://www.tiktok.com/@ludico.tabasco.mo', '', 'public/img/logo.png', '', '2026-05-10 12:57:37', '2026-10-13 13:50:37');
 
 -- ----------------------------
 -- Table structure for cotizacion_partidas
@@ -742,7 +742,7 @@ CREATE TABLE `subcategorias`  (
 -- ----------------------------
 -- Records of subcategorias
 -- ----------------------------
-INSERT INTO `subcategorias` VALUES (1, 'es', 'es', 'subcategoria_6acb080a8dd843.75572567.png', 1);
+INSERT INTO `subcategorias` VALUES (1, 'Kioskos', 'kioskos', 'subcategoria_6acb080a8dd843.75572567.png', 1);
 INSERT INTO `subcategorias` VALUES (2, 'Circuitos', 'circuitos', 'subcategoria_6ad24fc30708a5.52192556.jpg', 1);
 
 -- ----------------------------
@@ -765,5 +765,21 @@ CREATE TABLE `tbl_banner`  (
 -- ----------------------------
 INSERT INTO `tbl_banner` VALUES (1, 'Soluciones inteligentes', '', '', '', 'banner_6a134ba073f2f6.37152967.png', 1);
 INSERT INTO `tbl_banner` VALUES (2, 'Conectividad, rendimiento y soporte', NULL, 'Busco un punto de venta', 'whatsapp://send?phone=9932369500', 'banner-2.webp', 1);
+
+-- ----------------------------
+-- Table structure for tbl_logosBussines
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_logosBussines`;
+CREATE TABLE `tbl_logosBussines`  (
+  `Cliente_ID` int NOT NULL AUTO_INCREMENT,
+  `Nombre` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `Logo_url` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `Estado` tinyint(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`Cliente_ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of tbl_logosBussines
+-- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -34,11 +34,16 @@ class HomeController
             'ORDER' => ['Banner_ID' => 'ASC'],
         ]);
 
+        $logos = $this->db->select('tbl_logosBussines', '*', [
+        'ORDER' => ['Cliente_ID' => 'DESC']
+    ]);
+
         return [
             'title' => 'Inicio',
             'productos' => $productos,
             'categorias' => $categorias,
             'banners' => $banners,
+            'logos' => $logos
         ];
     }
 

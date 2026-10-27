@@ -771,6 +771,10 @@ textarea {
   vertical-align: baseline;
 }
 
+select {
+  color:var(--color-body) !important;
+   font-size: 100% !important;
+}
 button,
 input {
   line-height: normal;
@@ -23668,7 +23672,7 @@ body.with-sticky-item {
 }
 
 .working-process-bg {
-  background-image: url(../images/wokring-process/bg-01.jpg);
+  background-image: url(../images/bg-01.jpg);
   max-width: 1680px;
   margin: 0 auto;
   background-repeat: no-repeat;
@@ -27234,14 +27238,14 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
     font-weight: 800;
     letter-spacing: 1px;
 }
-.ms-single-product__content .quantity-area {
+.quantity-area {
   display: flex;
   margin-bottom: 30px;
 }
-.ms-single-product__content .quantity-area .cart-edit {
+ .quantity-area .cart-edit {
   margin-right: 20px;
 }
-.ms-single-product__content .quantity-area .cart-edit button {
+.quantity-area .cart-edit button {
   background: none;
   font-size: 0;
   width: 45px;
@@ -27249,7 +27253,7 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   border-radius: 5px;
   border: 1px solid var(--color-primary);
 }
-.ms-single-product__content .quantity-area .cart-edit .quantity-edit {
+ .cart-edit .quantity-edit {
   background: #f7f7f7;
   padding: 11px 15px;
   border-radius: 0;
@@ -27258,7 +27262,7 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   border-radius: 5px;
   gap: 12px;
 }
-.ms-single-product__content .quantity-area .cart-edit .quantity-edit input {
+.quantity-area .cart-edit .quantity-edit input {
   text-align: center;
   max-width: 55px;
   font-size: 16px;
@@ -27267,7 +27271,7 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   border-radius: 5px;
   border: 1px solid var(--color-primary);
 }
-.ms-single-product__content .quantity-area .cart-edit .quantity-edit i {
+ .quantity-area .cart-edit .quantity-edit i {
   font-size: 16px;
   color: var(--color-primary);
 }
@@ -27758,7 +27762,6 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   font-weight: 800;
   color: #000000;
   padding-left: 0;
-  text-align: center;
 }
 @media (max-width: 767px) {
   .ms-single-product__content .shop_table thead,
@@ -27769,7 +27772,6 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
 .ms-single-product__content .shop_table td,
 .ms-woocommerce-cart-form-wrapper .shop_table td {
   padding: 2rem 0;
-  text-align: center;
   border-left: none;
   border-right: none;
   border: 1px solid #e2e2e2;
@@ -38452,3 +38454,5 @@ header.header-transparent.in-full-screen .action-area .menu-btn {
     font-weight: 700;
     padding: 4px 8px;
 }
+
+/**/

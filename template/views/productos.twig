@@ -60,15 +60,15 @@
 						<div class="quantity-area">
 							<div class="cart-edit">
 								<div class="quantity-edit">
-									<button class="button">
-										<i class="fal fa-minus minus"></i>
+									<button type="button" class="button btn-minus" aria-label="Reducir cantidad">
+										<i class="fal fa-minus" aria-hidden="true"></i>
 									</button>
-									<input type="text" class="input" value="1">
-									<button class="button plus">+<i class="fal fa-plus plus"></i>
+									<input type="text" class="input item-quantity" value="1" aria-label="Cantidad de {{ producto.nombre }}">
+									<button type="button" class="button plus btn-plus" aria-label="Aumentar cantidad"><i class="fal fa-plus" aria-hidden="true"></i>
 									</button>
 								</div>
 							</div>
-							<a href="#" id="addcart" class="rts-btn btn-primary" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen_principal }}">Agregar a cotización</a>
+							<a href="#" id="addcart" class="rts-btn btn-three" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen_principal }}" >Agregar a cotización</a>
 							<a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp" class="rts-btn btn-primary btn-whats-product"><i class="fa-brands fa-whatsapp"></i></a>
 						</div>
 					</div>
