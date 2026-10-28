@@ -658,14 +658,40 @@ class ProductoController
             'ORDER' => ['Galeria_ID' => 'ASC'],
         ]) ?: [];
 
-        $productosRelacionados = $this->db->select('productos', '*', [
-            'categoria_id'    => $producto['categoria_id'],
-            'subcategoria_id' => $producto['subcategoria_id'],
-            'estado'          => '1',
-            'id[!]'           => $producto['id'],
-            'ORDER'           => ['fecha_creacion' => 'DESC'],
-            'LIMIT'           => 8,
-        ]) ?: [];
+        // Prioriza productos de la misma subcategoría y completa con los de
+        // la categoría cuando no hay suficientes coincidencias.
+        $categoriaId = (int) ($producto['categoria_id'] ?? 0);
+        $subcategoriaId = (int) ($producto['subcategoria_id'] ?? 0);
+        $condiciones = [];
+        $parametros = [':productoId' => (int) $producto['id']];
+
+        if ($categoriaId > 0) {
+            $condiciones[] = 'p.categoria_id = :categoriaId';
+            $parametros[':categoriaId'] = $categoriaId;
+        }
+        if ($subcategoriaId > 0) {
+            $condiciones[] = 'p.subcategoria_id = :subcategoriaId';
+            $parametros[':subcategoriaId'] = $subcategoriaId;
+        }
+
+        $productosRelacionados = [];
+        if ($condiciones) {
+            $prioridadSubcategoria = $subcategoriaId > 0
+                ? 'CASE WHEN p.subcategoria_id = :subcategoriaOrden THEN 0 ELSE 1 END,'
+                : '';
+            if ($subcategoriaId > 0) {
+                $parametros[':subcategoriaOrden'] = $subcategoriaId;
+            }
+
+            $sql = 'SELECT p.id, p.slug, p.nombre, p.sku, p.imagen
+                    FROM productos p
+                    WHERE p.estado = 1
+                      AND p.id <> :productoId
+                      AND (' . implode(' OR ', $condiciones) . ')
+                    ORDER BY ' . $prioridadSubcategoria . ' p.fecha_creacion DESC
+                    LIMIT 8';
+            $productosRelacionados = $this->db->query($sql, $parametros)->fetchAll(\PDO::FETCH_ASSOC) ?: [];
+        }
     
         return [
             'producto' => $producto,

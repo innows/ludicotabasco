@@ -132,7 +132,7 @@ final class PageController
                 $subcategoriasPorCategoria[$sub['categoria_id']][] = [
                     'id'     => $sub['Subcategoria_ID'],
                     'nombre' => $sub['Subcategoria'],
-                    'slugcat' => $sub['slug'],
+                    //  'slugcat' => $sub['slug'],
                     'slugSubcategoria'   => $sub['slug_subcategoria'] ?? $sub['Subcategoria_ID']
                 ];
             }
@@ -375,7 +375,7 @@ final class PageController
             try {
                 $homeController = new $class(DbSingleton::getInstance()->getDatabase());
 
-               $catalogo = $homeController->catalogoPorSlugJerarquico($slugCategoria, $slugSubcategoria);
+                $catalogo = $homeController->catalogoPorSlugJerarquico($slugCategoria, $slugSubcategoria);
             } catch (\Throwable $e) {
                 error_log('Error al resolver el catálogo: ' . $e->getMessage());
                 $this->abort('public', 500, 'Error interno del servidor.');

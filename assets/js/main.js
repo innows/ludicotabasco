@@ -598,14 +598,17 @@ $(function () {
         });
       });
       $(document).ready(function () {
-        var swiper = new Swiper(".mySwiper-related-shop", {
+        var relatedShop = document.querySelector(".mySwiper-related-shop");
+        if (!relatedShop) return;
+
+        var relatedSlidesCount = relatedShop.querySelectorAll(".swiper-slide").length;
+        var swiper = new Swiper(relatedShop, {
           slidesPerView: 3,
           spaceBetween: 30,
-          loop: true,
+          loop: relatedSlidesCount > 3,
+          watchOverflow: true,
           speed: 1000,
-          autoplay: {
-            delay: 1500,
-          },
+          autoplay: relatedSlidesCount > 3 ? { delay: 3000, disableOnInteraction: true } : false,
           breakpoints: {
             1500: {
               slidesPerView: 3,
@@ -693,36 +696,28 @@ $(function () {
       });
       $(document).ready(function () {
         const contenedorGaleria = document.getElementById("galeria-container");
+        if (!contenedorGaleria) return;
+
         let imagenesUrls = [];
-        if (contenedorGaleria && contenedorGaleria.dataset.imagenes) {
+        if (contenedorGaleria.dataset.imagenes) {
           try {
             imagenesUrls = JSON.parse(contenedorGaleria.dataset.imagenes);
           } catch (e) {
             console.error("Error al parsear las imágenes de la galería", e);
           }
         }
-        const palabrasNumeros = [
-          "one",
-          "two",
-          "three",
-          "four",
-          "five",
-          "six",
-          "seven",
-          "eight",
-          "nine",
-          "ten",
-        ];
+        const sliderGaleria = contenedorGaleria.querySelector(".swiper-container-h1");
+        const paginacionGaleria = contenedorGaleria.querySelector(".swiper-pagination");
+        if (!sliderGaleria || !paginacionGaleria) return;
 
-        var swiper = new Swiper(".swiper-container-h1", {
+        var swiper = new Swiper(sliderGaleria, {
           direction: "horizontal",
           effect: "slide",
           autoplay: false,
           parallax: true,
-          speed: 1600,
-          rtl: true,
-          loop: true,
-          loopFillGroupWithBlank: !0,
+          speed: 500,
+          loop: imagenesUrls.length > 1,
+          watchOverflow: true,
           keyboard: {
             enabled: true,
             onlyInViewport: true,
@@ -737,15 +732,12 @@ $(function () {
             prevEl: ".swiper-button-prev",
           },
           pagination: {
-           el: ".swiper-pagination",
-        type: "bullets",
-        clickable: true,
-        renderBullet: function (index, className) {
-            const claseTexto = palabrasNumeros[index] || 'bullet-extra';
-            const urlImg = imagenesUrls[index] || '';
-            
-            return '<span role="button" class="' + className + ' " style="background-image: url(\'' + urlImg + '\') !important;" aria-label="Go to slide ' + (index + 1) + '"></span>';
-             
+            el: paginacionGaleria,
+            type: "bullets",
+            clickable: true,
+            renderBullet: function (index, className) {
+              const urlImg = imagenesUrls[index] || "";
+              return '<span role="button" class="' + className + '" style="background-image: url(\'' + urlImg + '\') !important;" aria-label="Ver imagen ' + (index + 1) + '"></span>';
             },
           },
         });

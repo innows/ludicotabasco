@@ -32,7 +32,7 @@
 				{# OPCIÓN A: MOSTRAR SUBCATEGORÍAS #}
 				{% if tipo_catalogo == 'lista_subcategorias' %}
 					{% for sub in subcategorias %}
-						{% set imgSub = sub.imagen ? 'uploads/subcategorias/' ~ sub.imagen : 'assets/images/default-category.webp' %}
+						{% set imgSub = sub.imagen ? 'uploads/subcategorias/' ~ sub.imagen : 'assets/images/default-product.webp' %}
 						{% set slugSub = sub.slug %}
 
 						<div class="col-lg-4 col-md-6 col-sm-12" data-animation="fadeInUp" data-delay="0.2">
@@ -77,10 +77,11 @@
 										</div>
 										<div class="social-one-wrapper fa fa-regular fa-en">
 											<ul>
-											<li><a href="{{ baseUrl }}productos/{{ producto.slug }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Ver detalles"><i class="fa-solid fa-eye"></i></a></li>
-                                            <li><a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a></li>
-											<li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar al carrito" id="addcart" data-sku="{{ producto.sku }}" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen }}"><i class="fa-regular fa-cart-shopping me-1"></i></a></li>
-                                            </ul>
+												<li><ahref="{{baseUrl}}productos/{{producto.slug}}"><i class="fa-solid fa-eye"></i></a></li>
+												<li><a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a></li>
+												<li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar al carrito" id="addcart"data-sku="{{ producto.sku }}"data-product-id="{{ producto.id }}"data-product-name="{{ producto.nombre }}"data-product-image="{{ baseUrl }}{{ imagen }}"><i class="fa-regular fa-cart-shopping me-1"></i></a></li>
+											</ul>
+
 
 										</div>
 									</div>

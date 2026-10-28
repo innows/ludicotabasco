@@ -7,9 +7,9 @@
 	{% set urlsArray = [] %}
 	{% for img in imagenesGaleria %}
 		{% set rutaImg = img.Img_Galeria is defined ? img.Img_Galeria : img %}
-		{% set urlsArray = urlsArray|merge(["https://ludicodemexico.com.mx/uploads/productos/" ~ rutaImg]) %}
+		{% set urlsArray = urlsArray|merge([baseUrl ~ 'uploads/productos/' ~ rutaImg]) %}
 	{% endfor %}
-	<div class="rts-sop-details-area rts-section-gapTop rts-section-gapBottom">
+	<div class="rts-sop-details-area ">
 		<div class="container">
 			<nav aria-label="Migas de pan" class="mb--30">
 				<a href="{{ baseUrl }}">Inicio</a>
@@ -54,9 +54,10 @@
 							{{producto.sku ? 'SKU: ' ~ producto.sku : ''}}
 						</p>
 						<div class="woocommerce-product-details__short-description mt-5">
-						<p class="stock in-stock mt-5">DESCRIPCIÓN</p>
+							<p class="stock in-stock mt-5">DESCRIPCIÓN</p>
 							<p class="mb-5">{{ (producto.descripcion) | nl2br }}</p>
 						</div>
+
 						<div class="quantity-area">
 							<div class="cart-edit">
 								<div class="quantity-edit">
@@ -64,116 +65,79 @@
 										<i class="fal fa-minus" aria-hidden="true"></i>
 									</button>
 									<input type="text" class="input item-quantity" value="1" aria-label="Cantidad de {{ producto.nombre }}">
-									<button type="button" class="button plus btn-plus" aria-label="Aumentar cantidad"><i class="fal fa-plus" aria-hidden="true"></i>
+									<button type="button" class="button plus btn-plus" aria-label="Aumentar cantidad">
+										<i class="fal fa-plus" aria-hidden="true"></i>
 									</button>
 								</div>
 							</div>
-							<a href="#" id="addcart" class="rts-btn btn-three" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen_principal }}" >Agregar a cotización</a>
-							<a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp" class="rts-btn btn-primary btn-whats-product"><i class="fa-brands fa-whatsapp"></i></a>
+						</div>
+						<div class="product_meta">
+							<div class="row">
+								<div class="col-md-4">
+									<a href="#" id="addcart" class="rts-btn btn-three" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen_principal }}">Agregar a cotización</a>
+								</div>
+								<div class="col-md-4">
+									<a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp" class="rts-btn btn-primary btn-whats-product">
+										<i class="fa-brands fa-whatsapp"></i>
+									</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		
+
 		</div>
 	</div>
 </div>
 
+{% if productosRelacionados is not empty %}
+	<div class="rts-related-shop-area" dir="ltr" id="productosrelacionados">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="title-style-five center mb--40">
 
-<div class="rts-related-shop-area rts-section-gapBottom" dir="ltr">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="title-style-five center mb--40">
-
-					<h2 class="title">Productos relacionados</h2>
+						<h2 class="title">Productos relacionados</h2>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="swiper-related-shop-area">
-					<div class="swiper mySwiper-related-shop">
-						<div class="swiper-wrapper">
-							<div class="swiper-slide">
-								<div class="rts-single-shop-area">
-									<a href="#" class="thumbnail">
-										<img src="assets/images/shop/01.webp" alt="shop">
-									</a>
-									<div class="inner-content">
-
-										<a href="#">
-											<h4 class="title">Music Headphones</h4>
-										</a>
-										<div class="pricing-area-wrapper">
-											<p class="price"></p>
-											<button class="rts-btn btn-primary">
-												<i class="fa-regular fa-cart-shopping"></i>
-												Add To
-																																																                                                    Cart</button>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="swiper-related-shop-area">
+						<div class="swiper mySwiper-related-shop">
+							<div class="swiper-wrapper">
+								{% for relacionado in productosRelacionados %}
+									{% set imagenRelacionado = relacionado.imagen ? 'uploads/productos/' ~ relacionado.imagen : 'assets/images/default-product.webp' %}
+									<div class="swiper-slide">
+										<div class="rts-single-shop-area">
+											<a href="{{ baseUrl }}productos/{{ relacionado.slug }}" class="thumbnail">
+												<img src="{{ baseUrl }}{{ imagenRelacionado }}" alt="{{ relacionado.nombre }}" loading="lazy">
+											</a>
+											<div class="inner-content">
+												<a href="{{ baseUrl }}productos/{{ relacionado.slug }}">
+													<h4 class="title">{{ relacionado.nombre }}</h4>
+													{% if relacionado.sku %}
+														<span>SKU:
+															{{ relacionado.sku }}</span>
+													{% endif %}
+												</a>
+												<div class="pricing-area-wrapper">
+													<a href="{{ baseUrl }}productos/{{ relacionado.slug }}" class="rts-btn btn-primary" aria-label="Ver {{ relacionado.nombre }}" title="Ver producto">
+														<i class="fa-solid fa-eye" aria-hidden="true"></i>
+													</a>
+													<a href="https://wa.me/{{ config.no_whatsapp }}?text={{ ('Hola, me interesa este producto: ' ~ relacionado.nombre ~ ' SKU: ' ~ relacionado.sku)|url_encode }}" target="_blank" rel="noopener noreferrer" class="rts-btn btn-primary" aria-label="Consultar {{ relacionado.nombre }} por WhatsApp" title="Contactar por WhatsApp">
+														<i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+													</a>
+													<a href="#" class="rts-btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar a cotización" aria-label="Agregar {{ relacionado.nombre }} a cotización" id="addcart" data-sku="{{ relacionado.sku }}" data-product-id="{{ relacionado.id }}" data-product-name="{{ relacionado.nombre }}" data-product-image="{{ baseUrl }}{{ imagenRelacionado }}">
+														<i class="fa-regular fa-cart-shopping me-1" aria-hidden="true"></i>
+													</a>
+												</div>
+											</div>
 										</div>
 									</div>
-								</div>
-							</div>
-							<div class="swiper-slide">
-								<div class="rts-single-shop-area">
-									<a href="#" class="thumbnail">
-										<img src="assets/images/shop/02.webp" alt="shop">
-									</a>
-									<div class="inner-content">
+								{% endfor %}
 
-										<a href="#">
-											<h4 class="title">Hand holding photo camera</h4>
-										</a>
-										<div class="pricing-area-wrapper">
-											<p class="price"></p>
-											<button class="rts-btn btn-primary">
-												<i class="fa-regular fa-cart-shopping"></i>
-												Add To
-																																																                                                    Cart</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="swiper-slide">
-								<div class="rts-single-shop-area">
-									<a href="#" class="thumbnail">
-										<img src="assets/images/shop/03.webp" alt="shop">
-									</a>
-									<div class="inner-content">
-
-										<a href="#">
-											<h4 class="title">Levitating cosmetic cream</h4>
-										</a>
-										<div class="pricing-area-wrapper">
-											<p class="price"></p>
-											<button class="rts-btn btn-primary">
-												<i class="fa-regular fa-cart-shopping"></i>
-												Add To
-																																																                                                    Cart</button>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div class="swiper-slide">
-								<div class="rts-single-shop-area">
-									<a href="#" class="thumbnail">
-										<img src="assets/images/shop/04.webp" alt="shop">
-									</a>
-									<div class="inner-content">
-
-										<a href="#">
-											<h4 class="title">Music Headphones</h4>
-										</a>
-										<div class="pricing-area-wrapper">
-											<p class="price"></p>
-											<button class="rts-btn btn-primary">
-												<i class="fa-regular fa-cart-shopping"></i>
-												Add To
-																																																                                                    Cart</button>
-										</div>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -181,7 +145,7 @@
 			</div>
 		</div>
 	</div>
-</div>
+{% endif %}
 <div class="rts-cta-area-one rts-section-gapBottom">
 	<div class="container">
 		<div class="row">

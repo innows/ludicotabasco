@@ -11602,7 +11602,7 @@ border-radius: 50% !important;
     z-index: 1;
     border-radius: 5px !important;
     padding: 7px 24px !important;
-    
+
 }
 .rts-btn.btn-secondary:hover {
     border: 1px solid var(--color-sky);
@@ -18200,7 +18200,7 @@ body.with-sticky-item {
  display: flex;
   align-items: center;
   justify-content: space-between;
- 
+
 }
 @media only screen and (max-width: 1199px) {
   .rts-call-to-action-area-three .cta-main-wrapper-inner {
@@ -23397,7 +23397,7 @@ body.with-sticky-item {
 .faq-one-thumbnail-wrapper-right .thumbnail {
   max-width: 520px;
   clip-path:circle(50% at 50% 50%);
-  
+
 }
 
 .faq-main-wrapper-content-inner-four .title-style-four {
@@ -27146,6 +27146,7 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  gap: 10px;
 }
 .rts-single-shop-area .inner-content .pricing-area-wrapper p {
   margin: 0;
@@ -27254,7 +27255,6 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   border: 1px solid var(--color-primary);
 }
  .cart-edit .quantity-edit {
-  background: #f7f7f7;
   padding: 11px 15px;
   border-radius: 0;
   display: flex;
