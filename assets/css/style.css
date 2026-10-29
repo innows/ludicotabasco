@@ -6329,7 +6329,7 @@ Copyright (c) 2015 Daniel Eden
 }
 
 .header-seven {
-  padding: 0 !important;
+  padding: 0;
 }
 .header-seven .header-top-area-wrapper {
   background: var(--color-secondary);
@@ -11516,13 +11516,13 @@ border-radius: 50% !important;
     padding: 0 12px;
     text-align: center;
     margin-left: 12px;
-    height: 55px !important;
+    height: 55px ;
 }
 
 @media only screen and (max-width: 575px) {
   .rts-btn {
     height: 47px;
-    padding: 13px 20px;
+    padding: 13px 10px;
     display: flex !important;
     align-items: center !important;
   }
@@ -13577,7 +13577,7 @@ section.main-wrapper-sticky .sticky-statement .right .arrow i {
   opacity: 1;
 }
 .swiper-pagination .swiper-pagination-bullet-active {
-  background-image: url(../images/service/icons/bullet-active.svg);
+  background-image: url(../images/icons/bullet-active.svg);
   background-image: cover;
   height: 20px;
   width: 20px;
@@ -18081,7 +18081,8 @@ body.with-sticky-item {
 }
 @media only screen and (max-width: 575px) {
   .cta-main-area-wrapper-one .right-area {
-    width: 100%;
+    /*width: 100%;*/
+    padding-top: 30px;
   }
 }
 .cta-main-area-wrapper-one .right-area .inpur-area-main {
@@ -27194,7 +27195,7 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   width: 120px;
   height: 120px;
   border-radius: 0;
-  background-image: url(../images/shop/shop-03.jpg);
+  /*background-image: url(../images/shop/shop-03.jpg);*/
   border-width: 2px;
   border-style: solid;
   border-color: #f9f9f9;
@@ -27203,7 +27204,7 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   background-position: center;
   margin-right: 5px;
 }
-.slider-pagination-area-shop-details
+/*.slider-pagination-area-shop-details
   .swiper-pagination
   .swiper-pagination-bullet:first-child {
   background-image: url(../images/shop/shop-01.jpg);
@@ -27212,8 +27213,12 @@ body.contact-page .rts-breadcrumb-area .title-area-left {
   .swiper-pagination
   .swiper-pagination-bullet:last-child {
   background-image: url(../images/shop/shop-02.jpg);
+}*/
+.product_meta {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
 }
-
 .ms-single-product__content {
   padding-left: 3rem;
   position: relative;
@@ -31605,7 +31610,7 @@ header.header-transparent.in-full-screen .action-area .menu-btn {
 }
 @media only screen and (max-width: 767px) {
   .rts-section-gapBottom {
-    padding: 60px;
+    padding: 50px 0;
   }
 }
 
@@ -36376,6 +36381,9 @@ header.header-transparent.in-full-screen .action-area .menu-btn {
   }
 }
 @media only screen and (max-width: 767px) {
+  .galeria-producto-container .swiper-main{
+height: 250px !important
+  }
   .ptb_sm--250 {
     padding: 250px 0;
   }
@@ -38456,3 +38464,67 @@ header.header-transparent.in-full-screen .action-area .menu-btn {
 }
 
 /**/
+/* Galería Principal */
+/* Forzar que el contenedor principal tenga altura visible */
+
+.galeria-producto-container .swiper-main .swiper-wrapper{
+  overflow: initial !important;
+}
+.galeria-producto-container .swiper-main {
+    width: 100% !important;
+    height: 450px; /* Ajusta esta altura a lo que necesites (ej. 400px o 500px) */
+    position: relative;
+    display: block;
+}
+
+/* Asegurar que cada slide ocupe el espacio completo */
+.galeria-producto-container .swiper-main .swiper-slide {
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Forzar que la imagen interna se adapte correctamente sin colapsar a 0 */
+.galeria-producto-container .swiper-main .slider-inner {
+    width: 100%;
+    height: 100%;
+}
+
+.galeria-producto-container .swiper-main .slider-inner img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important; /* O usa 'cover' si prefieres que llene todo el espacio recortándose */
+    display: block !important;
+}
+
+/* CSS básico para las miniaturas abajo */
+.galeria-producto-container .swiper-thumbs {
+    width: 100%;
+    height: 90px;
+    margin-top: 10px;
+}
+
+.galeria-producto-container .swiper-thumbs .thumb-slide {
+    width: 25% !important;
+    height: 100% !important;
+    cursor: pointer;
+    opacity: 0.5;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-left: 10px;
+}
+
+.galeria-producto-container .swiper-thumbs .swiper-slide-thumb-active {
+    opacity: 1 !important;
+    border-color: var(--color-sky);
+}
+
+.galeria-producto-container .swiper-thumbs .thumb-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

@@ -1,6 +1,15 @@
 {
     "require": {
         "twig/twig": "^3.30",
-        "catfan/medoo": "^2.6"
+        "catfan/medoo": "^2.6",
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "PHPMailer\\PHPMailer\\": [
+                "vendor/PHPMailer/src/",
+                "vendor/phpmailer/phpmailer/src/"
+            ]
+        }
     }
 }

@@ -1,17 +1,19 @@
 (function ($) {
   "use strict";
-$(function () {
-  $('[data-bs-toggle="tooltip"]').tooltip()
-})
+  $(function () {
+    $('[data-bs-toggle="tooltip"]').tooltip();
+  });
   document.addEventListener("DOMContentLoaded", function () {
-            if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
-                         "use strict";
-                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-                tooltipTriggerList.map(function (tooltipTriggerEl) {
-                    return new bootstrap.Tooltip(tooltipTriggerEl);
-                });
-            }
-        });
+    if (typeof bootstrap !== "undefined" && bootstrap.Tooltip) {
+      ("use strict");
+      var tooltipTriggerList = [].slice.call(
+        document.querySelectorAll('[data-bs-toggle="tooltip"]'),
+      );
+      tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+      });
+    }
+  });
   let device_width = window.innerWidth;
   var rtsJs = {
     m: function (e) {
@@ -601,14 +603,18 @@ $(function () {
         var relatedShop = document.querySelector(".mySwiper-related-shop");
         if (!relatedShop) return;
 
-        var relatedSlidesCount = relatedShop.querySelectorAll(".swiper-slide").length;
+        var relatedSlidesCount =
+          relatedShop.querySelectorAll(".swiper-slide").length;
         var swiper = new Swiper(relatedShop, {
           slidesPerView: 3,
           spaceBetween: 30,
           loop: relatedSlidesCount > 3,
           watchOverflow: true,
           speed: 1000,
-          autoplay: relatedSlidesCount > 3 ? { delay: 3000, disableOnInteraction: true } : false,
+          autoplay:
+            relatedSlidesCount > 3
+              ? { delay: 3000, disableOnInteraction: true }
+              : false,
           breakpoints: {
             1500: {
               slidesPerView: 3,
@@ -694,54 +700,45 @@ $(function () {
           },
         });
       });
-      $(document).ready(function () {
-        const contenedorGaleria = document.getElementById("galeria-container");
-        if (!contenedorGaleria) return;
+      $(document).ready(() => {
+    const contenedorGaleria = document.getElementById("galeria-container");
+    if (!contenedorGaleria || typeof Swiper === "undefined") return;
 
-        let imagenesUrls = [];
-        if (contenedorGaleria.dataset.imagenes) {
-          try {
-            imagenesUrls = JSON.parse(contenedorGaleria.dataset.imagenes);
-          } catch (e) {
-            console.error("Error al parsear las imágenes de la galería", e);
-          }
-        }
-        const sliderGaleria = contenedorGaleria.querySelector(".swiper-container-h1");
-        const paginacionGaleria = contenedorGaleria.querySelector(".swiper-pagination");
-        if (!sliderGaleria || !paginacionGaleria) return;
+    const elThumbs = contenedorGaleria.querySelector(".swiper-thumbs");
+    const elMain = contenedorGaleria.querySelector(".swiper-main");
+    if (!elThumbs || !elMain) return;
 
-        var swiper = new Swiper(sliderGaleria, {
-          direction: "horizontal",
-          effect: "slide",
-          autoplay: false,
-          parallax: true,
-          speed: 500,
-          loop: imagenesUrls.length > 1,
-          watchOverflow: true,
-          keyboard: {
+    // 1. Inicializamos el Swiper de Miniaturas
+    const galleryThumbs = new Swiper(elThumbs, {
+        spaceBetween: 10,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesProgress: true,
+        slideToClickedSlide: true,
+    });
+
+    // 2. Inicializamos el Swiper Principal conectando los Thumbs
+    const galleryMain = new Swiper(elMain, {
+        spaceBetween: 10,
+        speed: 500,
+        navigation:false,
+        keyboard: {
             enabled: true,
             onlyInViewport: true,
-          },
-          scrollbar: {
-            el: ".swiper-scrollbar",
-            hide: false,
-            draggable: true,
-          },
-          navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-          },
-          pagination: {
-            el: paginacionGaleria,
-            type: "bullets",
-            clickable: true,
-            renderBullet: function (index, className) {
-              const urlImg = imagenesUrls[index] || "";
-              return '<span role="button" class="' + className + '" style="background-image: url(\'' + urlImg + '\') !important;" aria-label="Ver imagen ' + (index + 1) + '"></span>';
-            },
-          },
-        });
-      });
+        },
+        thumbs: {
+            swiper: galleryThumbs, // Vinculación nativa
+        },
+    });
+
+    // Garantiza que cada miniatura muestre su imagen correspondiente.
+    galleryThumbs.on("click", (thumbsSwiper) => {
+        const index = thumbsSwiper.clickedIndex;
+        if (typeof index === "number" && index >= 0) {
+            galleryMain.slideTo(index);
+        }
+    });
+});
       $(document).ready(function () {
         var swiper = new Swiper(".mySwiper-case-studies-5", {
           slidesPerView: 3,

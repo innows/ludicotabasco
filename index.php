@@ -47,7 +47,7 @@ try {
         }
         
         // Inyección de variables globales a Twig
-        $twig->addGlobal('baseUrl', $baseUrlRelative); // O usa $baseUrl si necesitas URL absoluta (https://tudominio.com/)
+        $twig->addGlobal('baseUrl', $baseUrl); // O usa $baseUrl si necesitas URL absoluta (https://tudominio.com/)
         $twig->addGlobal('adminUrl', rtrim($baseUrlRelative, '/') . '/admin');
         $twig->addGlobal('adminAssetsUrl', rtrim($baseUrlRelative, '/') . '/assets/admin');
     

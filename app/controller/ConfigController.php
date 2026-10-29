@@ -74,6 +74,7 @@ class ConfigController
             'email' => $_POST['email'] ?? '',
             'telefono' => $_POST['telefono'] ?? '',
             'telefono_ventas' => $_POST['telefono_ventas'] ?? '',
+            'no_whatsapp' => $_POST['no-whatsapp'] ?? '',
             'whatsapp' => $_POST['whatsapp'] ?? '',
             'direccion' => $_POST['direccion'] ?? '',
             'horario' => $_POST['horario'] ?? '',

@@ -4,6 +4,14 @@
   var STORAGE_KEY = "ludico_quote_cart";
   var FALLBACK_IMAGE = "assets/images/default-product.webp";
 
+  function imageFor(value) {
+    var image = String(value || FALLBACK_IMAGE).trim().replace(/\\(?=[:/])/g, "");
+    var duplicatedUrl = image.match(/^https?:\/\/[^/]+\/(https?:\/\/.+)$/i);
+
+    // Corrige artículos añadidos antes de arreglar la URL de la ficha de producto.
+    return duplicatedUrl ? duplicatedUrl[1] : (image || FALLBACK_IMAGE);
+  }
+
   function getCart() {
     try {
       var cart = JSON.parse(window.localStorage.getItem(STORAGE_KEY));
@@ -78,7 +86,7 @@
         "data-product-id": product.id
       });
       var $image = $("<img>", {
-        src: product.image || FALLBACK_IMAGE,
+        src: imageFor(product.image),
         class: "attachment-woocommerce_thumbnail size-woocommerce_thumbnail",
         alt: name,
         loading: "lazy",

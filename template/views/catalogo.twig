@@ -77,9 +77,9 @@
 										</div>
 										<div class="social-one-wrapper fa fa-regular fa-en">
 											<ul>
-												<li><ahref="{{baseUrl}}productos/{{producto.slug}}"><i class="fa-solid fa-eye"></i></a></li>
+												<li><a href="{{baseUrl}}productos/{{producto.slug}}"><i class="fa-solid fa-eye"></i></a></li>
 												<li><a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp"><i class="fa-brands fa-whatsapp"></i></a></li>
-												<li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar al carrito" id="addcart"data-sku="{{ producto.sku }}"data-product-id="{{ producto.id }}"data-product-name="{{ producto.nombre }}"data-product-image="{{ baseUrl }}{{ imagen }}"><i class="fa-regular fa-cart-shopping me-1"></i></a></li>
+												<li><a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar al carrito" id="addcart"data-sku="{{ producto.sku }}"data-product-id="{{ producto.id }}"data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen }}"><i class="fa-regular fa-cart-shopping me-1"></i></a></li>
 											</ul>
 
 
@@ -108,12 +108,16 @@
 						<div class="left-areas">
 
 							<h3 class="title">¿Buscas algo diferente?</h3>
-							<span class="pre text-none">Solicita una propuesta personalizada.</span>
+								<span class="pre text-none">Solicita una propuesta personalizada. <span class="d-none d-xl-block">Escanea el código QR para WhatsApp</span></span>
+				
 						</div>
 						<div class="right-area">
-							<div class="inpur-area-main">
+							<div class="inpur-area-main d-block d-xl-none">
 								<a href="{{config.whatsapp}}" target="_blank" class="rts-btn btn-primary">Contacta ahora</a>
 							</div>
+								<div class="inpur-area-main d-none d-xl-block">
+							<img src="assets/images/qr-code.png" width="150" alt="qr">
+						</div>
 						</div>
 					</div>
 				</div>

@@ -1,22 +1,27 @@
-<html lang="es" translate="no">
-
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<base href="{{ baseUrl }}">
-		<meta name="description" content="Conoce nuestras soluciones en acción y descubre cómo el equipamiento recreativo, deportivo y urbano contribuye a crear espacios funcionales, atractivos y diseñados para las personas.">
-		<link rel="shortcut icon" type="image/x-icon" href="assets/images/fav.png">
-		<title>Ludico | Suministro e instalación de mobiliario y equipamiento recreativo deportivo y urbano</title>
-		<meta name="keywords" content="ludico, consultoría, negocios, finanzas, corporativo, agencia, sitio web, SEO, rápido, personalizable">
-		<meta name="author" content="Ludico">
-		<meta name="robots" content="index, follow">
-		<meta name="theme-color" content="#ffffff">
-		<link rel="icon" type="image/png" href="assets/images/favicon/favicon-96x96.png" sizes="96x96"/>
-		<link rel="icon" type="image/svg+xml" href="assets/images/favicon/favicon.svg"/>
-		<link rel="shortcut icon" href="assets/images/favicon/favicon.ico"/>
-		<link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png"/>
-		<link rel="manifest" href="assets/images/favicon/site.webmanifest"/>
-		{% include "modules/globalStyles.twig" %}
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
+<meta name="googlebot" content="index, follow">
+<meta name="author" content="Lúdico de México">
+<title>Ludico | Suministro e instalación de mobiliario y equipamiento recreativo deportivo y urbano</title>
+<meta name="description" content="Conoce nuestras soluciones en acción y descubre cómo el equipamiento recreativo, deportivo y urbano contribuye a crear espacios funcionales, atractivos en el Sureste. Cotiza en línea.">
+<meta name="keywords" content="equipamiento para parques, juegos infantiles para parques, mobiliario urbano villahermosa, ejercitadores al aire libre, juegos modulares infantiles, piso de caucho amortiguante, pasto sintetico, bancas para parques">
+<link rel="canonical" href="https://www.ludicodemexico.com.mx/">
+<link rel="icon" type="image/png" href="assets/images/favicon/favicon-96x96.png" sizes="96x96">
+<link rel="icon" type="image/svg+xml" href="assets/images/favicon/favicon.svg">
+<link rel="shortcut icon" href="assets/images/favicon/favicon.ico">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
+<link rel="manifest" href="assets/images/favicon/site.webmanifest">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_MX">
+<meta property="og:url" content="https://www.ludicodemexico.com.mx/">
+<meta property="og:title" content="Lúdico | Suministro e instalación de mobiliario y equipamiento recreativo deportivo y urbano">
+<meta property="og:description" content="Suministro e instalación de juegos infantiles, ejercitadores al aire libre y mobiliario urbano con cobertura en el Sureste.">
+<meta property="og:image" content="{% block og_image %}https://www.ludicodemexico.com.mx/assets/images/og-image.jpg{% endblock %}">
+<base href="{{ baseUrl }}">
+{% include "modules/globalStyles.twig" %}
 	</head>
 	<body class="color-ludico">
 		<div class="loader-wrapper">
@@ -100,9 +105,9 @@
 		<div class="rts-footer-area in-green-demo with-hr-demo footer-three rts-section-gapTop footer-bg-2">
 			<div class="container pb--100 pb_sm--40">
 				<div class="row g-5">
-					<div class="col-xl-5 col-lg-6">
-						<div class="footer-three-single-wized left">
-							<a href="index" class="logo_footer">
+					<div class="col-xl-3 col-lg-3">
+						<div class="footer-three-single-wized">
+							<a href="index" class="logo_footer text-center">
 								<img src="assets/images/icon-logo.png" alt="Logo-image" width="150px">
 							</a>
 							<p class="disc text-justify">Suministro e instalación de mobiliario y equipamiento recreativo deportivo y urbano
@@ -140,10 +145,9 @@
 							</ul>
 						</div>
 					</div>
-					<!-- footer three mid area -->
-					<div class="col-xl-7 col-lg-6">
+					<div class="col-xl-9 col-lg-9">
 						<div class="row">
-							<div class="col-lg-7">
+							<div class="col-lg-5">
 								<div class="footer-three-single-wized footer-two-single-wized mid-left">
 									<div class="wized-title-area mb--15">
 										<h5 class="wized-title">Contáctanos</h5>
@@ -193,8 +197,18 @@
 									</div>
 								</div>
 							</div>
-							<div class="col-lg-5 d-flex flex-end-footer">
+							<div class="col-lg-4 d-none d-xl-block">
 								<div class="footer-two-single-wized two">
+									<div class="wized-title-area">
+										<h5 class="wized-title">Atencion WhatsApp</h5>
+									</div>
+									<div class="wized-2-body text-center">
+										<img src="assets/images/qr-code.png" width="150" alt="qr">
+									</div>
+								</div>
+							</div>
+							<div class="col-lg-3">
+								<div class="footer-two-single-wized two mt-xl-5">
 									<div class="wized-title-area">
 										<h5 class="wized-title">¡Conócenos!</h5>
 									</div>

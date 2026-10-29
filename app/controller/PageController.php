@@ -90,7 +90,12 @@ final class PageController
             'home' => [
                 \Admin\Controllers\HomeController::class => ['GET' => ['index']],
             ],
-            //'contacto' => [ContactoController::class => ['POST' => ['enviar']]],
+            'cotizacion' => [
+                \Admin\Controllers\HomeController::class => ['POST' => ['enviar']],
+            ],
+            'contacto' => [
+                \Admin\Controllers\HomeController::class => ['POST' => ['enviarContacto']],
+            ],
         ],
     ];
 

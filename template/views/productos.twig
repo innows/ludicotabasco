@@ -1,17 +1,19 @@
 {% extends 'base.twig' %}
-
+{% block og_image %}https://www.ludicodemexico.com.mx/uploads/products/{{ product.producto.imagen }}{% endblock %}
 {% block body %}
+	{% set baseUrlLimpio = baseUrl|trim('/') %}
 	{% set imagen_principal = producto.imagen ? 'uploads/productos/' ~ producto.imagen : 'assets/images/default-product.webp' %}
 	{% set imagenesGaleria = galeria is not empty ? galeria : [{'Img_Galeria': imagen_principal}] %}
 
 	{% set urlsArray = [] %}
 	{% for img in imagenesGaleria %}
 		{% set rutaImg = img.Img_Galeria is defined ? img.Img_Galeria : img %}
-		{% set urlsArray = urlsArray|merge([baseUrl ~ 'uploads/productos/' ~ rutaImg]) %}
+		{% set urlFinal = rutaImg starts with 'http' or rutaImg starts with '/' ? rutaImg : ( baseUrlLimpio ~ '/uploads/productos/' ~ rutaImg) %}
+		{% set urlsArray = urlsArray|merge([urlFinal]) %}
 	{% endfor %}
 	<div class="rts-sop-details-area ">
 		<div class="container">
-			<nav aria-label="Migas de pan" class="mb--30">
+			<nav aria-label="Migas de pan" class="mb--30 mt_sm--40 mt--30">
 				<a href="{{ baseUrl }}">Inicio</a>
 				{% if categoria %}
 					<span class="mx-2">/</span>
@@ -26,28 +28,36 @@
 			</nav>
 			<div class="row">
 				<div class="col-lg-6">
-					<div class="banner-horizental" id="galeria-container" data-imagenes='{{ urlsArray|json_encode|raw }}'>
-						<div class="swiper swiper-container-h1">
+					<div class="galeria-producto-container" id="galeria-container" data-imagenes='{{ urlsArray|json_encode|raw }}'>
+						<div class="swiper swiper-main">
 							<div class="swiper-wrapper">
-
-								{% for img in imagenesGaleria %}
+								{% for url in urlsArray %}
 									<div class="swiper-slide">
 										<div class="slider-inner">
-											{% set rutaImg = img.Img_Galeria is defined ? img.Img_Galeria : img %}
-											<img src="https://ludicodemexico.com.mx/uploads/productos/{{ rutaImg }}" alt="{{ producto.nombre }}">
+											<img src="{{ url }}" alt="{{ producto.nombre ?? 'Imagen de producto' }}">
 										</div>
 									</div>
 								{% endfor %}
 							</div>
-						</div>
-						<div class="slider-pagination-area-shop-details">
-							<div class="swiper-pagination swiper-pagination-horizontal"></div>
+						
 						</div>
 
+						<!-- 2. Swiper de Miniaturas (Thumbs) -->
+						<div class="slider-pagination-area-shop-details">
+							<div class="swiper swiper-thumbs">
+								<div class="swiper-wrapper">
+									{% for url in urlsArray %}
+										<div class="swiper-slide thumb-slide">
+											<img src="{{ url }}" alt="{{ producto.nombre}}">
+										</div>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
 
 					</div>
 				</div>
-				<div class="col-lg-6 mt_md--180 mt_sm--180 ">
+				<div class="col-lg-6 mt_md--180 mt_sm--40">
 					<div class="ms-single-product__content">
 						<h1 class="ms-single-product_title mb-0">{{ producto.nombre }}</h1>
 						<p class="sku_wrapper mb-0">
@@ -72,16 +82,11 @@
 							</div>
 						</div>
 						<div class="product_meta">
-							<div class="row">
-								<div class="col-md-4">
-									<a href="#" id="addcart" class="rts-btn btn-three" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen_principal }}">Agregar a cotización</a>
-								</div>
-								<div class="col-md-4">
-									<a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp" class="rts-btn btn-primary btn-whats-product">
-										<i class="fa-brands fa-whatsapp"></i>
-									</a>
-								</div>
-							</div>
+							<a href="#" id="addcart" class="rts-btn btn-three" data-product-id="{{ producto.id }}" data-product-name="{{ producto.nombre }}" data-product-image="{{ baseUrl }}{{ imagen_principal }}">Agregar a cotización</a>
+							<a href="https://wa.me/{{ config.no_whatsapp }}?text=Hola,%20me%20interesa%20este%20producto:%0A*{{ producto.nombre | url_encode }}*%0ASKU:%20{{ producto.sku }}" target="_blank" data-bs-toggle="tooltip" data-bs-placement="top" title="Contactar por WhatsApp" class="rts-btn btn-primary btn-whats-product d-block d-xl-none">
+								<i class="fa-brands fa-whatsapp"></i>
+							</a>
+
 						</div>
 					</div>
 				</div>
@@ -96,7 +101,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-12">
-					<div class="title-style-five center mb--40">
+					<div class="title-style-five center mb--40 mt--40">
 
 						<h2 class="title">Productos relacionados</h2>
 					</div>
@@ -126,7 +131,7 @@
 													<a href="{{ baseUrl }}productos/{{ relacionado.slug }}" class="rts-btn btn-primary" aria-label="Ver {{ relacionado.nombre }}" title="Ver producto">
 														<i class="fa-solid fa-eye" aria-hidden="true"></i>
 													</a>
-													<a href="https://wa.me/{{ config.no_whatsapp }}?text={{ ('Hola, me interesa este producto: ' ~ relacionado.nombre ~ ' SKU: ' ~ relacionado.sku)|url_encode }}" target="_blank" rel="noopener noreferrer" class="rts-btn btn-primary" aria-label="Consultar {{ relacionado.nombre }} por WhatsApp" title="Contactar por WhatsApp">
+													<a href="https://wa.me/{{ config.no_whatsapp }}?text={{ ('Hola, me interesa este producto: ' ~ relacionado.nombre ~ ' SKU: ' ~ relacionado.sku)|url_encode }}" target="_blank" rel="noopener noreferrer" class="rts-btn btn-primary d-block d-xl-none" aria-label="Consultar {{ relacionado.nombre }} por WhatsApp" title="Contactar por WhatsApp">
 														<i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
 													</a>
 													<a href="#" class="rts-btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar a cotización" aria-label="Agregar {{ relacionado.nombre }} a cotización" id="addcart" data-sku="{{ relacionado.sku }}" data-product-id="{{ relacionado.id }}" data-product-name="{{ relacionado.nombre }}" data-product-image="{{ baseUrl }}{{ imagenRelacionado }}">
@@ -154,11 +159,14 @@
 					<div class="left-areas">
 
 						<h3 class="title">¿Buscas algo diferente?</h3>
-						<span class="pre text-none">Solicita una propuesta personalizada.</span>
+						<span class="pre text-none">Solicita una propuesta personalizada. <span class="d-none d-xl-block">Escanea el código QR para WhatsApp</span></span>
 					</div>
 					<div class="right-area">
-						<div class="inpur-area-main">
+						<div class="inpur-area-main d-block d-xl-none">
 							<a href="{{config.whatsapp}}" target="_blank" class="rts-btn btn-primary">Contacta ahora</a>
+						</div>
+						<div class="inpur-area-main d-none d-xl-block">
+							<img src="assets/images/qr-code.png" width="150" alt="qr">
 						</div>
 					</div>
 				</div>
@@ -167,10 +175,5 @@
 	</div>
 </div>{% endblock %}{% block extraScripts %}
  <script type="text/javascript">
-    window.galeriaUrls = [
-        {% for imgs in imagenesGaleria %}
-            {% set rutaImg = imgs.Img_Galeria is defined ? imgs.Img_Galeria : imgs %}
-            "https://ludicodemexico.com.mx/uploads/productos/{{ rutaImg }}",
-        {% endfor %}
-    ];
+
 </script>{% endblock %}
